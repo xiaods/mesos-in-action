@@ -1,4 +1,4 @@
-My Awesome Book
+Mesos实战
 =======
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+Apache Mesos是Apache软件基金会下属的顶级开源项目，它是目前
