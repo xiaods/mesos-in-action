@@ -10,6 +10,7 @@ Apache Mesos是Apache软件基金会下属的顶级开源项目，它是目前�
 陈显鹭 - 灵雀云开发工程师(xianlubird@gmail.com)
 徐磊 - 去哪儿系统开发工程师(49068995@qq.com)
 赵英俊 - 城云科技（杭州）有限公司(zyj@citycloud.com.cn)
+周伟涛 - 数人科技
 
 
 
