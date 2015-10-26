@@ -98,3 +98,65 @@
 ###总结
 
   利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
+
+
+###在内部的代码库或者 github 上创建一个 git repo
+
+  我们需要在内部的代码库或者公共代码库创建一个名为 **jenkins-on-mesos** 的 gitrepo ， 譬如：**git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 。 这个 repo 是 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 用来同步jenkins数据的。
+
+  另外，对于SCM-Sync-Configuration来说，非常关键的一步是保证其有权限 pull/push 上面我们所创建的gitrepo。 以我们公司的内部环境为例， 在mesos集群搭建时，我们首先使用ansible为所有的mesos slave节点添加了用户**core**并生成了相同的**ssh keypair**，同时在内部的gitlab上注册了用户**core**并上传其在slave节点上的公钥，然后添加该用户**core**为repo **git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git**的*developer*或者*owner*，这样每个mesos slave节点都可以以用户**core**来 pull/push 这个gitrepo了。
+
+###使用 marathon 部署可持久化的 Jenkins Master
+
+  我们首先需要wget两个文件:
+
+  ```bash
+  wget -O start-jenkins.app.sh https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/start-jenkins.app.sh.template
+  wget https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/marathon.json
+  ```
+
+  其中``start-jenkins.app.sh``是需要配置的，
+
+  ```bash
+  #! /bin/bash
+
+  # Sync the config with SCM_SYNC_GIT
+  # SCM_SYNC_GIT format: git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git
+  SCM_SYNC_GIT=
+
+  # deploy jenkins on marathon as user APP_USER, who has been granted to pull/push repo SCM_SYNC_GIT
+  APP_USER=
+
+  # Marathon PORTAL, for example: http://192.168.3.4:8080/v2/apps
+  MARATHON_PORTAL=
+  ......
+  ......
+  ......
+  ```
+
+  编辑如下3个变量：
+
+  1. **SCM_SYNC_GIT**: 上面所配置的 gitrepo 地址, 格式例子： git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git
+  2. **APP_USER**: marathon 会以用户 **APP_USER** 来部署 jenkins ，从而插件**SCM-Sync-Configuration**会以用户**APP_USER**来跟gitrepo进行同步。 所以在我们的这个例子里，我们让``APP_USER=core``。
+  3. **MARATHON_PORTAL**: marathon 的 RESTapi 入口，例如： http://marathon.dataman.io:8080/v2/apps
+
+  接下来就可以执行命令:
+
+  ```bash
+  bash start-jenkins.app.sh
+  ```
+
+  来让 marathon 部署我们的 Jenkins Master 了。这样， 我们在 Jenkins Master 上所保存的任何配置，创建的任何job都会被**SCM-Sync-Configuration**同步到repo里，并在 Jenkins Master 被重新发布后 download 到本地。
+
+###关于SCM-Sync-Configuration的更多信息
+
+  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， ![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.png?version=1&modificationDate=1374219411000)
+
+  当前，所支持的配置文件如下：
+
+  1. 构建作业的配置文件 (/jobs/*/config.xml)
+  2. 全局的 Jenkins/Hudson 系统配置文件 (/config.xml)
+  3. 基本的插件的配置文件 (/hudson*.xml, /scm-sync-configuration.xml)
+  4. 用户手动指定的配置文件
+
+  另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图是同步出错时的截图，你可以去**System Log**查看具体的出错信息。![scm sync status](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-config+-+Display+Status.png?version=1&modificationDate=1374219622000)
