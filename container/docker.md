@@ -20,5 +20,18 @@ docker就是一个这样的工具。它可以帮助开发者很方便的去开�
 
 以前安装wordpress,你可能需要去了解PHP，mysql，然后还有你的服务器的系统，最后才是去安装wordpress。非常的麻烦，但是如果我们换一个角度，使用docker来安装呢。
 
+    docker run -d -p 80:80 index.alauda.cn/alauda/wordpress
+    
+运行以上命令，docker就会自动从灵雀云平台拉取wordpress镜像，这个镜像是已经被build好的，包含了PHP，mysql和wordpress，你所做的工作就是等待docker帮你启动起来以后，在浏览器上访问你服务器的IP就可以看到wordpress的安装页面，然后一步步的点击页面安装即可。对于你的mysql的密码
+
+    echo $(docker logs wordpress | grep password)
+这个命令就可以获得mysql的密码，填写到网页中，这样你就得到了一个可以运行的wordpress，然后开始愉快的使用他吧。
+
+是不是感受到了docker的威力。其实这只是docker强大功能的冰山一角。快速部署是docker其中一个特性。你不需要去登录到服务器，将运行环境一个一个的安装好，最后再部署你自己的代码。docker像集装箱一样，帮助你打包好了一切，你只需要开箱使用即可。就像我们刚才的例子，我们还可以非常简单的再次运行刚才的命令，只需要换一下映射的端口，就可以再启动一个wordpress，这是装载原生应用所不感想象的。
+
+docker基本上由client，daemon，registry组成。下面图就列出了docker的基本结构。![docker架构图](https://docs.docker.com/article-img/architecture.svg)
+
+更加细节的docker介绍和讲解请参考docker文档。
+
 
 
