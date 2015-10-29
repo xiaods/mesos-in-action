@@ -42,3 +42,33 @@ slave的参数也不少，前面两个MESOS_HOSTNAME和 MESOS_IP是指你部署�
 
 这样一个mesos环境就搭建好了，可以访问一下IP:5050看一下效果。mesos默认开启5050端口提供浏览器访问。![](mesos搭建.png)
 你的页面应该和这个类似，左侧是mesos集群的一些信息，右侧为目前正在运行的任务和已经运行完毕的任务，如果你没有运行过，那么就不会有记录。
+
+
+#Marathon环境搭建
+
+通过前面的步骤，我们已经有了一个可用的Mesos集群环境，那么下面我们就可以在这个环境下运行Marathon framework了。
+
+    docker run -d -e MARATHON_HOSTNAME=172.31.35.175 -e MARATHON_HTTPS_ADDRESS=172.31.35.175 -e MARATHON_HTTP_ADDRESS=172.31.35.175 -e MARATHON_MASTER=zk://172.31.35.175:2181/mesos -e MARATHON_ZK=zk://172.31.35.175:2181/marathon --name marathonv0.11.1 --net host --restart always mesosphere/marathon:v0.11.1
+
+Marathon的参数也是比较多的。`MARATHON_HOSTNAME`是部署Marathon本机的IP。`MARATHON_HTTPS_ADDRESS`是部署Marathon的机器IP。`MARATHON_MASTER`为mesos所在zookeeper的节点，因为Marathon作为一个framework需要注册到mesos上。`MARATHON_ZK`为Marathon所在zookeeper的节点。
+
+这样我们就安装好了Marathon环境，使用浏览器请求一下Marathon所在IP：8080看一下效果。![marathon](Marathon搭建.png)
+
+这样Marathon的环境就搭建好了。我们可以使用右上角的New App来创建一个简单的应用。
+
+    {
+        "id": "basic-0", 
+        "cmd": "while [ true ] ; do echo 'Hello Marathon' ; sleep 5 ; done",
+        "cpus": 0.1,
+        "mem": 10.0,
+        "instances": 1
+    }
+    
+只需要在弹出框里面填写上对应的信息即可。
+![Marathon填写信息](Marathon填写信息.png)
+
+![](Marathon运行信息.png)
+在这里你就可以看到运行的效果，这样就代表运行成功，Marathon给这个实例分配了机器资源，他就成功的运行在了mesos集群中。
+
+我们也可以访问5050端口，在mesos控制台信息里面，也可以看到正在运行的任务。
+![](mesos正在运行信息.png)
