@@ -5,12 +5,8 @@
 
 * [Marathon Framework 介绍](container/marathon.md)
 
-* 基础环境搭建
+* 容器云平台基础概述
 
-* Mesos 集群容器化部署
-
-* Marathon 在 Mesos 集群上部署
-
-* Marathon 管理 docker 容器
+* 容器云平台搭建
 
 * 企业级容器云的一些坑
