@@ -17,6 +17,23 @@
 
 
 
+##  一、准备部署环境
+
+* 在Ubuntu 14.04的虚拟机上安装所有用到软件，并保证虚拟机可以上互联网。
+
+* 安装Python依赖
+* ```apt-get install curl python-setuptools python-pip python-dev python-protobuf```
+* 安装配置zookeeper
+* ```apt-get install ZooKeeperd &
+echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
+* 安装配置Mesos－master和Mesos-slave
+* ```curl-fL http://downloads.Mesosphere.io/master/ubuntu/14.04/Mesos_0.19.0~ubuntu14.04%2B1_amd64.deb -o /tmp/Mesos.deb ```
+* ```dpkg -i /tmp/Mesos.deb```
+* ```mkdir -p /etc/Mesos-master```
+* 
+
+
+
 
 
 
