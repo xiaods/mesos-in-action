@@ -13,8 +13,8 @@
 
  下面两张图形象的说明了Marathon将Jenkins Master部署到Mesos资源池，以及Jenkins Master使用Mesos资源池进行作业构建的整个过程。 
 
-  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
-  ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
+  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](chapter7/how-marathon-run-jenkins-on-mesos.png)
+  ![Jenkins Master 在Mesos上运行 Jenkins Slave](chapter7/how-jenkins-master-run-on-mesos.png)
 
 ###环境设置
 
@@ -46,51 +46,51 @@
   *这里我在github上fork了[mesosphere的jenkins-on-mesos的repo](https://github.com/mesosphere/jenkins-on-mesos)到[DataMan-Cloud/jenkins-on-mesos](https://github.com/Dataman-Cloud/jenkins-on-mesos)，并进行了一些[改进](https://github.com/Dataman-Cloud/jenkins-on-mesos/commits?author=vitan)。*
   
   如果Jenkins master实例被成功部署，通过浏览器访问``http://192.168.3.4:8080``(**请确定你的浏览器能够访问内网，譬如可以利用设置浏览器代理等方式来搞定**)可以在running tasks列表中找到jenkins，点击进入详细信息页面，我们会看到下图：
-  ![Jenkins Master实例信息](jenkins-master-on-marathon.png)
+  ![Jenkins Master实例信息](chapter7/jenkins-master-on-marathon.png)
 
  访问``http://192.168.3.4:5050/#/frameworks``并在**Active Frameworks**中找到Marathon，点击进入详细信息页面，可以在该页面找到Jenkins Master具体运行到Mesos哪一台Slave上，如下图所示：
- ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave.png)
+ ![Jenkins Master运行在mesos slave上](chapter7/jenkins-master-on-mesos-slave.png)
 
   点击sandbox
   
-  ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave-2.png)
+  ![Jenkins Master运行在mesos slave上](chapter7/jenkins-master-on-mesos-slave-2.png)
 
 
 ###配置Jenkins Master实现弹性伸缩
 
   接下来是配置Jenkins注册成为Mesos的Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到Jenkins Master的UI页面。下面的截图是我逐步配置的全过程。
 
-![Jenkins Master配置页面](jenkins-configure.png)
-![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
+![Jenkins Master配置页面](chapter7/jenkins-configure.png)
+![Jenkins Master配置Mesos](chapter7/jenkins-mesos-configure.png)
 
   如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
 
-![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
+![Jenkins Framework on Mesos](chapter7/jenkins-framework-on-mesos.png)
 
   现在我们可以同时启动多个构建作业来看一下Jenkins在Mesos上的弹性伸缩，在``http://192.168.3.25:31052/``上新建一个名为``test``的工程，配置其构建过程为运行一个shell命令``top``，如下图所示：
 
-![配置构建作业](test-job-config.png)
+![配置构建作业](chapter7/test-job-config.png)
 
   把该工程复制3份``test2``、``test3``和``test4``，并同时启动这4个工程的构建作业，Jenkins Master会向Mesos申请资源，如果资源分配成功，Jenkins Master就在获得的slave节点上进行作业构建，如下图所示：
 
-![构建作业列表](building-jobs.png)
+![构建作业列表](chapter7/building-jobs.png)
 
 因为在前面的系统配置里我们设置了*执行者数量*为2（即最多有两个作业同时进行构建），所以在上图中我们看到两个正在进行构建的作业，而另外两个作业在排队等待。
 
   下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
 
-![Jenkins资源使用](jenkins-utilization.png)
+![Jenkins资源使用](chapter7/jenkins-utilization.png)
 
   正在使用的slave节点的详细信息
 
-![Jenkins Slave 详情](jenkins-slave-detail.png)
+![Jenkins Slave 详情](chapter7/jenkins-slave-detail.png)
 ![Jenkins slave详细信息](chapter7/jenkins-slave.png)
   
 ####配置Jenkins Slave参数(可选)
 
   在使用Jenkins进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的slave机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置Jenkins Mesos Cloud插件的slave info，我们可以很容易的满足上述要求。 具体的配置如下图所示：
 
-![Jenkins 配置 slave](jenkins-config-slave.png)
+![Jenkins 配置 slave](chapter7/jenkins-config-slave.png)
 
 
 ###总结
@@ -148,7 +148,7 @@
 
 ###关于SCM-Sync-Configuration的更多信息
 
-  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， ![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.png?version=1&modificationDate=1374219411000)
+  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， ![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.?version=1&modificationDate=1374219411000)
 
   当前，所支持的配置文件如下：
 
