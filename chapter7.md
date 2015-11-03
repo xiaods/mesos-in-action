@@ -1,4 +1,4 @@
-* [Mesos 搭建持续集成系统目概述](container/summary.md)
+* [Mesos 搭建持续集成系统概述](chapter7/summary.md)
 
 * [Docker 基础知识介绍](container/docker.md)
 
