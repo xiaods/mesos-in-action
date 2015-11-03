@@ -60,20 +60,20 @@
 
   接下来是配置Jenkins注册成为Mesos的Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到Jenkins Master的UI页面。下面的截图是我逐步配置的全过程。
 
-  <img src="/assets/jenkins-configure.png" style="width: 750px; height: 400px;" alt="Jenkins Master配置页面"/>
-  <img src="/assets/jenkins-mesos-configure.png" style="width: 750px; height: 400px;" alt="Jenkins Master配置Mesos"/>
+![Jenkins Master配置页面](jenkins-configure.png)
+![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
 
   如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
 
-  <img src="/assets/jenkins-framework-on-mesos.png" style="width: 750px; height: 300px;" alt="Jenkins Framework on Mesos"/>
+![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
 
   现在我们可以同时启动多个构建作业来看一下Jenkins在Mesos上的弹性伸缩，在``http://192.168.3.25:31052/``上新建一个名为``test``的工程，配置其构建过程为运行一个shell命令``top``，如下图所示：
 
-  <img src="/assets/test-job-config.png" style="width: 750px; height: 450px;" alt="配置构建作业"/>
+![配置构建作业](test-job-config.png)
 
   把该工程复制3份``test2``、``test3``和``test4``，并同时启动这4个工程的构建作业，Jenkins Master会向Mesos申请资源，如果资源分配成功，Jenkins Master就在获得的slave节点上进行作业构建，如下图所示：
 
-  <img src="/assets/building-jobs.png" style="width: 750px; height: 340px;" alt="构建作业列表"/>
+![构建作业列表](building-jobs.png)
 
 因为在前面的系统配置里我们设置了*执行者数量*为2（即最多有两个作业同时进行构建），所以在上图中我们看到两个正在进行构建的作业，而另外两个作业在排队等待。
 
