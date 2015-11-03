@@ -3,4 +3,4 @@
 * [Jenkins 开源软件介绍](chapter7/jenkins.md)
 * [持续集成系统搭建](chapter7/jenkins-on-mesos.md)
 * [Mesos + Jenkins 持续集成系统的维护心得](chapter7/challenges.md)
-* [参考](chapter7/refers.md) https://codeship.com/continuous-integration-essentials https://blog.risingstack.com/continuous-deployment-of-node-js-applications/
+* [参考](chapter7/refers.md)
