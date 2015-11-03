@@ -1,4 +1,4 @@
-* [Mesos 搭建企业级容器云项目概述](container/summary.md)
+* [Mesos 搭建持续集成系统目概述](container/summary.md)
 
 * [Docker 基础知识介绍](container/docker.md)
 
