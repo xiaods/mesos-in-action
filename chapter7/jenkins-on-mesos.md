@@ -1,4 +1,3 @@
- 强调 弹性 HA
 # Mesos搭建持续集成系统实战
 
 ###为什么要把Jenkins运行到Apache Mesos上
