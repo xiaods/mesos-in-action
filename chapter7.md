@@ -148,7 +148,9 @@
 
 ###关于SCM-Sync-Configuration的更多信息
 
-  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， ![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.?version=1&modificationDate=1374219411000)
+  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， 
+
+![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.?version=1&modificationDate=1374219411000)
 
   当前，所支持的配置文件如下：
 
