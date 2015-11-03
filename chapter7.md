@@ -1,6 +1,6 @@
 * [Mesos 搭建持续集成系统概述](chapter7/summary.md)
 
-* [Docker 基础知识介绍](container/docker.md)
+* [Jenkins 开源软件介绍](container/docker.md)
 
 * [Marathon Framework 介绍](container/marathon.md)
 
