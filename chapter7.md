@@ -79,12 +79,12 @@
 
   下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
 
-  <img src="/assets/jenkins-utilization.png" style="width: 750px; height: 450px;" alt="Jenkins资源使用"/>
+![Jenkins资源使用](jenkins-utilization.png)
 
   正在使用的slave节点的详细信息
 
-  <img src="/assets/jenkins-slave-detail.png" style="width: 750px; height: 400px;" alt="Jenkins slave on mesos"/>
-  <img src="/assets/jenkins-slave.png" style="width: 750px; height: 300px;" alt="Jenkins slave详细信息"/>
+![Jenkins Slave 详情](jenkins-slave-detail.png)
+![Jenkins slave详细信息](jenkins-slave.png)
   
 ####配置Jenkins Slave参数(可选)
 
