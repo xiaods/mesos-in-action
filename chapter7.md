@@ -13,8 +13,8 @@
 
  下面两张图形象的说明了Marathon将Jenkins Master部署到Mesos资源池，以及Jenkins Master使用Mesos资源池进行作业构建的整个过程。 
 
-  <img src="/assets/how-marathon-run-jenkins-on-mesos.png" style="width: 630px; height: 200px;" alt="Jenkins Master实例信息"/>
-  <img src="/assets/how-jenkins-master-run-on-mesos.png" style="width: 600px; height: 210px;" alt="Jenkins Master运行在Mesos上"/>
+  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
+  ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
 
 ###环境设置
 
@@ -46,16 +46,14 @@
   *这里我在github上fork了[mesosphere的jenkins-on-mesos的repo](https://github.com/mesosphere/jenkins-on-mesos)到[DataMan-Cloud/jenkins-on-mesos](https://github.com/Dataman-Cloud/jenkins-on-mesos)，并进行了一些[改进](https://github.com/Dataman-Cloud/jenkins-on-mesos/commits?author=vitan)。*
   
   如果Jenkins master实例被成功部署，通过浏览器访问``http://192.168.3.4:8080``(**请确定你的浏览器能够访问内网，譬如可以利用设置浏览器代理等方式来搞定**)可以在running tasks列表中找到jenkins，点击进入详细信息页面，我们会看到下图：
-
-  <img src="/assets/jenkins-master-on-marathon.png" style="width: 750px; height: 450px;" alt="Jenkins Master实例信息"/>
+  ![Jenkins Master实例信息](jenkins-master-on-marathon.png)
 
  访问``http://192.168.3.4:5050/#/frameworks``并在**Active Frameworks**中找到Marathon，点击进入详细信息页面，可以在该页面找到Jenkins Master具体运行到Mesos哪一台Slave上，如下图所示：
-
-  <img src="/assets/jenkins-master-on-mesos-slave.png" style="width: 750px; height: 450px;" alt="Jenkins Master运行在mesos slave上"/>
+ ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave.png)
 
   点击sandbox
-
-  <img src="/assets/jenkins-master-on-mesos-slave-2.png" style="width: 750px; height: 300px;" alt="Jenkins Master运行在mesos slave上"/>
+  
+  ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave-2.png)
 
 
 ###配置Jenkins Master实现弹性伸缩
