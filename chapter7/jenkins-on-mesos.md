@@ -8,7 +8,7 @@
 
  下面两张图形象的说明了Marathon将Jenkins Master部署到Mesos资源池，以及Jenkins Master使用Mesos资源池进行作业构建的整个过程。 
 
-  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](chapter7/how-marathon-run-jenkins-on-mesos.png)
+  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
   ![Jenkins Master 在Mesos上运行 Jenkins Slave](chapter7/how-jenkins-master-run-on-mesos.png)
 
 ###环境设置
