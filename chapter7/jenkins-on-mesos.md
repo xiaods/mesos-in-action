@@ -44,7 +44,7 @@
   ![Jenkins Master实例信息](jenkins-master-on-marathon.png)
 
  访问``http://192.168.3.4:5050/#/frameworks``并在**Active Frameworks**中找到Marathon，点击进入详细信息页面，可以在该页面找到Jenkins Master具体运行到Mesos哪一台Slave上，如下图所示：
- ![Jenkins Master运行在mesos slave上](chapter7/jenkins-master-on-mesos-slave.png)
+ ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave.png)
 
   点击sandbox
   
