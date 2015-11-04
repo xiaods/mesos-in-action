@@ -78,8 +78,8 @@
 
   正在使用的slave节点的详细信息
 
-![Jenkins Slave 详情](chapter7/jenkins-slave-detail.png)
-![Jenkins slave详细信息](chapter7/jenkins-slave.png)
+![Jenkins Slave 详情](jenkins-slave-detail.png)
+![Jenkins slave详细信息](jenkins-slave.png)
   
 ####配置Jenkins Slave参数(可选)
 
