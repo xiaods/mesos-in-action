@@ -60,7 +60,7 @@
 
   如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
 
-![Jenkins Framework on Mesos](chapter7/jenkins-framework-on-mesos.png)
+![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
 
   现在我们可以同时启动多个构建作业来看一下Jenkins在Mesos上的弹性伸缩，在``http://192.168.3.25:31052/``上新建一个名为``test``的工程，配置其构建过程为运行一个shell命令``top``，如下图所示：
 
