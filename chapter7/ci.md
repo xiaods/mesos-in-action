@@ -4,6 +4,6 @@
 
 本章主要结合实践经验讨论下持续集成的下一步－－**持续交付**(Continuous delivery)。持续交付指的是，频繁地将软件的新版本，交付给质量团队或者用户，以供评审。如果评审通过，代码就进入生产阶段。
 
-下面的图片是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的 持续交付成熟度矩阵
+下面的图片是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的持续交付成熟度矩阵
 
 ![持续交付成熟度矩阵](ContinuousDeliveryMatrix.png)
