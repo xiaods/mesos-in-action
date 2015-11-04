@@ -48,7 +48,7 @@
 
   点击sandbox
   
-  ![Jenkins Master运行在mesos slave上](chapter7/jenkins-master-on-mesos-slave-2.png)
+  ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave-2.png)
 
 
 ###配置Jenkins Master实现弹性伸缩
