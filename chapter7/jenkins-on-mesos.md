@@ -55,8 +55,8 @@
 
   接下来是配置Jenkins注册成为Mesos的Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到Jenkins Master的UI页面。下面的截图是我逐步配置的全过程。
 
-![Jenkins Master配置页面](chapter7/jenkins-configure.png)
-![Jenkins Master配置Mesos](chapter7/jenkins-mesos-configure.png)
+![Jenkins Master配置页面](jenkins-configure.png)
+![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
 
   如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
 
