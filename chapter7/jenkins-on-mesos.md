@@ -74,7 +74,7 @@
 
   下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
 
-![Jenkins资源使用](chapter7/jenkins-utilization.png)
+![Jenkins资源使用](jenkins-utilization.png)
 
   正在使用的slave节点的详细信息
 
