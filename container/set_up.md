@@ -88,3 +88,44 @@ Node3:
 ![mesos-cluser_master](mesos_cluster_master.png)
 
 可以看到，salve已经注册成功，这样我们就搭建了一个具有三个master节点的mesos集群。
+
+#Marathon 搭建
+有了Mesos集群，搭建Marathon 就变得非常的简单。Marathon默认支持高可用模式。只要多个运行的Marathon 实例使用同一个zookeeper集群即可，zookeeper来保证Marathon的leader失效时的选举等问题。
+
+    docker run -d -e MARATHON_HOSTNAME=172.31.35.175 -e MARATHON_HTTPS_ADDRESS=172.31.35.175 -e MARATHON_HTTP_ADDRESS=172.31.35.175 -e MARATHON_MASTER=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/mesos -e MARATHON_ZK=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/marathon -e MARATHON_EVENT_SUBSCRIBER=http_callback --name marathonv0.11.1 --net host --restart always mesosphere/marathon:v0.11.1
+    
+首先我们在Node1上起了一个Marathon实例。这里面的参数前面都讲过，主要的改变就是由原来的一个zookeeper节点变成了一个zookeeper集群。`MARATHON_EVENT_SUBSCRIBER=http_callback`这里多了一个参数。这个参数是开启Marathon的事件订阅模式，我们使用了`http_callback`，这样我们可以通过注册一个http回调事件，当Marathon启动，关闭，或者扩容某个实例的时候，我们都可以接收到通知，这为我们下一步做服务发现提供了数据源。
+
+为了防止单点问题，我们启动三个Marathon实例，下面我们分别在Node2和Node3上面再启动两个Marathon实例。
+
+    docker run -d -e MARATHON_HOSTNAME=172.31.23.17 -e MARATHON_HTTPS_ADDRESS=172.31.23.17 -e MARATHON_HTTP_ADDRESS=172.31.23.17 -e MARATHON_MASTER=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/mesos -e MARATHON_ZK=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/marathon -e MARATHON_EVENT_SUBSCRIBER=http_callback --name marathonv0.11.1 --net host --restart always mesosphere/marathon:v0.11.1
+    
+    docker run -d -e MARATHON_HOSTNAME=172.31.40.200 -e MARATHON_HTTPS_ADDRESS=172.31.40.200 -e MARATHON_HTTP_ADDRESS=172.31.40.200 -e MARATHON_MASTER=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/mesos -e MARATHON_ZK=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/marathon -e MARATHON_EVENT_SUBSCRIBER=http_callback --name marathonv0.11.1 --net host --restart always mesosphere/marathon:v0.11.1
+    
+这样我们就启动了含有三个实例的Marathon集群。由于这三个Marathon实例都是共享一个zookeeper集群，因此他们的数据也是同步的。你在其中任何一个节点创建的应用在其他两个Marathon实例上也可以看到。
+
+![marathon-cluser-01](marathon_salve_01.png)
+可以看到，三个tab页面分别打开的的三个服务器上的Marathon页面。我们在请求第一台机器的Marathon创建一个简单的服务。
+![marathon-cluser_02](marathon_slave-03.png)
+在第一个tab上我们已经可以看到了这个被创建的服务，现在我们切换到第三个tab看一下。
+![marathon-cluser-03](marathon_salve-02.png)
+可以看到，在第三个tab页面上，看到了和第一个tab一样的效果。这就说明了，目前的Marathon集群，他们之间的数据是共享的，在其中任何一个实例上创建服务，其他的实例都可以看到。我们进入zookeeper里面看一下Marathon集群的状态信息。
+      
+    [zk: 127.0.0.1:2181(CONNECTED) 3] ls /marathon/leader
+    [member_0000000001, member_0000000002, member_0000000000]
+可以看到leader节点下有三个member，对应着我们启动的三个实例。每个member节点里面记录的信息就是当前这个实例额一些具体的状态。
+
+    [zk: 127.0.0.1:2181(CONNECTED) 6] get /marathon/leader/member_0000000000
+    172.31.35.175:8080
+    cZxid = 0x100000020
+    ctime = Wed Nov 04 07:11:13 UTC 2015
+    mZxid = 0x100000020
+    mtime = Wed Nov 04 07:11:13 UTC 2015
+    pZxid = 0x100000020
+    cversion = 0
+    dataVersion = 0
+    aclVersion = 0
+    ephemeralOwner = 0x350cb21c20f0006
+    dataLength = 18
+    numChildren = 0
+这样我们就搭建起来了一个高可用模式的Marathon集群。
