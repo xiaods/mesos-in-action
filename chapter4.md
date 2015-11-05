@@ -105,6 +105,9 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
+
+
+
 # Spark计算框架的部署和应用
 
 
