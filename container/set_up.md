@@ -7,7 +7,7 @@
     Node1 : 172.31.35.175
     Node2 : 172.31.23.17
     Node3 : 172.31.40.200
-    Node4 : 172.31.55.55
+    Node4 : 52.26.130.46
 
 #zookeeper 集群
 前面章节我们搭建的zookeeper是单点的，这里我们需要搭建一个zookeeper集群，这里我们先搭建一个拥有三个节点的zookeeper集群。
@@ -129,3 +129,14 @@ Node3:
     dataLength = 18
     numChildren = 0
 这样我们就搭建起来了一个高可用模式的Marathon集群。
+
+#Bamboo 搭建
+经过前面的步骤，我们已经有了一个可以运行和管理docker容器的集群环境。我们现在可以通过Marathon启动一个或多个容器，他会被分配到我们集群salve上运行。在运行过程中，Marathon可以保证我们容器运行状态的监控，宕掉重启等活动。但是一般来说，mesos和marathon集群都是搭建在内网或者一个不可以被外部直接访问的网络环境里面，我们需要一个出口，通过这个出口外部可以访问我们容器内提供的服务。而且一般来说，Marathon管理的容器，被分配的salve机器不一定是同一台，在scale和update的时候，会出现IP的变换，这就需要我们有一套服务发现的机制。
+
+Marathon其实提供了服务发现的功能。通过在运行Marathon的机器上跑一个haproxy，Marathon在服务有变动的时候，自动生成haproxy配置文件，然后重启。这种方式对于简单的应用来说应该足够，但是对于需要多租户，自定义ACL规则等功能，这个就显得不太足够。还好Marathon提供了Event_Callback功能，我们可以通过注册事件回调，获取Marathon上运行容器的信息，然后根据某些haproxy模板来自动生成haproxy配置文件，reload后就可以访问。
+
+上面说的这些功能已经被一个名为bamboo的开源项目实现。[地址](https://github.com/QubitProducts/bamboo)。他不仅提供了上面提到的服务发现等功能，还可以自定义ACL规则，这样就给我们做服务发现提供了很大的空间。bamboo提供了rest api，我们可以很方便的把它集成到我们自己的项目中。
+
+![bamboo](https://cloud.githubusercontent.com/assets/37033/4110199/a6226b8e-31ee-11e4-9734-68e0da00767c.png)
+
+这是bamboo的部署图。在每个slave上部署一个haproxy加bamboo，然后他们之间可以负载均衡，通过zookeeper同步数据。当Marathon运行的容器有变化的时候，会通过http_call_back通知bamboo，然后bamboo就可以感知变化，我们就可以通过api或者bamboo的页面设置这个容器的acl访问规则，这样就完成了外部访问容器提供的服务的功能。下面我们来搭建Haproxy。
