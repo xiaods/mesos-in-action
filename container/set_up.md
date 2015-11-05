@@ -141,3 +141,20 @@ Marathon其实提供了服务发现的功能。通过在运行Marathon的机器�
 
 这是bamboo的部署图。在每个slave上部署一个haproxy加bamboo，然后他们之间可以负载均衡，通过zookeeper同步数据。当Marathon运行的容器有变化的时候，会通过http_call_back通知bamboo，然后bamboo就可以感知变化，我们就可以通过api或者bamboo的页面设置这个容器的acl访问规则，这样就完成了外部访问容器提供的服务的功能。下面我们来搭建Haproxy和bamboo。
 
+首先我们在Node3,Node4上分别启动一个mesos_slave。
+
+    docker run -d -e MESOS_HOSTNAME=172.31.40.200 -e MESOS_IP=172.31.40.200 -e MESOS_MASTER=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/mesos -v /sys/fs/cgroup:/sys/fs/cgroup -v /var/run/docker.sock:/var/run/docker.sock --name mesos-slave --net host --privileged --restart always mesoscloud/mesos-slave:0.23.0-ubuntu-14.04
+    
+    docker run -d -e MESOS_HOSTNAME=172.31.37.173 -e MESOS_IP=172.31.37.173 -e MESOS_MASTER=zk://172.31.35.175:2181,172.31.23.17:2181,172.31.40.200:2181/mesos -v /sys/fs/cgroup:/sys/fs/cgroup -v /var/run/docker.sock:/var/run/docker.sock --name mesos-slave --net host --privileged --restart always mesoscloud/mesos-slave:0.23.0-ubuntu-14.04
+    
+如果你有更多机器，可以按照上面的命令，更改一下MESOS_HOSTNAME和 MESOS_IP就可以非常简单的继续向我们现在的集群增加节点。
+
+![mesos_bamboo](mesos_bamboo_1.png)
+
+通过查看mesos页面，我们可以看到目前我们有两个slave提供服务。现在我们向这两个slave部署bamboo。
+
+首先向Node4部署一个bamboo。
+
+    docker run -d -p 8000:8000 -p 80:80 -e MARATHON_ENDPOINT=http://172.31.35.175:8080,http://172.31.23.17:8080,http://172.31.40.200:8080 -e BAMBOO_ENDPOINT=http://公网IP:8000 -e BAMBOO_ZK_HOST=172.31.23.17:2181,172.31.40.200:2181,172.31.35.175:2181 -e BAMBOO_ZK_PATH=/bamboo -e BIND=":8000" -e CONFIG_PATH="config/production.example.json" -e BAMBOO_DOCKER_AUTO_HOST=true xianlubird/bamboo
+    
+这里面的参数，其中8000是bamboo公开的端口，我们可以通过这个端口访问他的控制页面，或者通过这个端口请求他的rest api。80端口是公开给haproxy使用，这个镜像里面内置了haproxy，你不需要自己再安装haproxy。`MARATHON_ENDPOINT`是Marathon集群的地址，bamboo通过这个地址向Marathon注册回调事件通知函数。`BAMBOO_ENDPOINT`为bamboo的公开访问的地址，你应该填充你自己的可以被外访问的公网IP地址。`BAMBOO_ZK_HOST`为zookeeper集群的地址，bamboo通过这个同步各个节点的数据。`BAMBOO_ZK_PATH`为bamboo使用的znode名称。
