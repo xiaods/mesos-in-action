@@ -2,3 +2,4 @@
 * 如何维护配置更新 or 配置更新自动化
 * js 的配置更新问题
 * html页面加commitid or tag
+* irc notification
