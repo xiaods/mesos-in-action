@@ -173,11 +173,12 @@ Marathon其实提供了服务发现的功能。通过在运行Marathon的机器�
         }
       },
     
-          "HAProxy": {
-            "TemplatePath": "config/haproxy_template.cfg",
-            "OutputPath": "/etc/haproxy/haproxy.cfg",
-            "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)",
-            "ReloadValidationCommand": "haproxy -c -f {{}}"
+      "HAProxy": {
+        "TemplatePath": "config/haproxy_template.cfg",
+        "OutputPath": "/etc/haproxy/haproxy.cfg",
+        "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)",
+        "ReloadValidationCommand": 
+        "haproxy -c -f {{.}}"
       },
     
       "StatsD": {
