@@ -100,25 +100,10 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Hadoop在Mesos集群上部署
+
+
+
 
 # Spark计算框架的部署和应用
 
