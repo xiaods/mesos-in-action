@@ -157,4 +157,136 @@ Marathon其实提供了服务发现的功能。通过在运行Marathon的机器�
 
     docker run -d -p 8000:8000 -p 80:80 -e MARATHON_ENDPOINT=http://172.31.35.175:8080,http://172.31.23.17:8080,http://172.31.40.200:8080 -e BAMBOO_ENDPOINT=http://公网IP:8000 -e BAMBOO_ZK_HOST=172.31.23.17:2181,172.31.40.200:2181,172.31.35.175:2181 -e BAMBOO_ZK_PATH=/bamboo -e BIND=":8000" -e CONFIG_PATH="config/production.example.json" -e BAMBOO_DOCKER_AUTO_HOST=true xianlubird/bamboo
     
-这里面的参数，其中8000是bamboo公开的端口，我们可以通过这个端口访问他的控制页面，或者通过这个端口请求他的rest api。80端口是公开给haproxy使用，这个镜像里面内置了haproxy，你不需要自己再安装haproxy。`MARATHON_ENDPOINT`是Marathon集群的地址，bamboo通过这个地址向Marathon注册回调事件通知函数。`BAMBOO_ENDPOINT`为bamboo的公开访问的地址，你应该填充你自己的可以被外访问的公网IP地址。`BAMBOO_ZK_HOST`为zookeeper集群的地址，bamboo通过这个同步各个节点的数据。`BAMBOO_ZK_PATH`为bamboo使用的znode名称。
+这里面的参数，其中8000是bamboo公开的端口，我们可以通过这个端口访问他的控制页面，或者通过这个端口请求他的rest api。80端口是公开给haproxy使用，这个镜像里面内置了haproxy，你不需要自己再安装haproxy。`MARATHON_ENDPOINT`是Marathon集群的地址，bamboo通过这个地址向Marathon注册回调事件通知函数。`BAMBOO_ENDPOINT`为bamboo的公开访问的地址，你应该填充你自己的可以被外访问的公网IP地址。`BAMBOO_ZK_HOST`为zookeeper集群的地址，bamboo通过这个同步各个节点的数据。`BAMBOO_ZK_PATH`为bamboo使用的znode名称.`CONFIG_PATH`为bamboo使用的配置文件，虽然已经有一些配置通过环境变量的方式传进去了，但是像haproxy的模板格式，重启haproxy的命令等还是需要配置文件导入的。这里直接使用的官方默认的部署配置文件，你也可以针对这个配置文件按做自己的定制。
+
+    {
+      "Marathon": {
+        "Endpoint": "http://marathon1:8080,http://marathon2:8080,http://marathon3:8080"
+      },
+    
+      "Bamboo": {
+        "Endpoint": "http://haproxy-ip-address:8000",
+        "Zookeeper": {
+          "Host": "zk01.example.com:2181,zk02.example.com:2181",
+          "Path": "/marathon-haproxy/state",
+          "ReportingDelay": 5
+        }
+      },
+    
+      "HAProxy": {
+        "TemplatePath": "config/haproxy_template.cfg",
+        "OutputPath": "/etc/haproxy/haproxy.cfg",
+        "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)",
+        "ReloadValidationCommand": "haproxy -c -f {{.}}"
+      },
+    
+      "StatsD": {
+        "Enabled": false,
+        "Host": "localhost:8125",
+        "Prefix": "bamboo-server.development."
+      }
+    }
+
+部署完毕后，我们可以访问bamboo所在的机器的8000端口。
+![bamboo_1](bamboo_1.png)
+这里就可以看到bamboo的界面，说明我们部署成功。下面我们向Maraton提交一个容器，我们使用`tutum/hello-world`这个image，来测试一下bamboo的效果。
+
+向Marathon提交运行容器，你可以使用Marathon的网页，但是更通用的方式是通过Marathon的restapi来提交，这样更加容易的集成到开发环境中，我们使用Marathon的python 库来提交请求。
+
+    def create_docker_app():
+        url = 'http://172.31.23.17:8080'
+        c = MarathonClient(url)
+        app = MarathonApp(
+            id='docker-01',
+            cmd='',
+            cpus=0.3,
+            mem=30,
+            container={
+                'type': 'DOCKER',
+                'docker': {
+                    'image': 'tutum/hello-world',
+                    'network': 'BRIDGE',
+                    'portMappings': [{
+                        'containerPort': 80,
+                        'hostPort': 0,
+                    }]
+                }
+            }
+        )
+        c.create_app('hello-001', app)
+
+你可以向你Marathon集群的任何一个节点发起部署请求。
+![bamboo_v2](bamboo_v2.png)
+可以看到Marathon已经运行起来了这个容器，他被部署到Node4机器上，被分配了一个31162端口。由于这些都是内网IP，我们无法通过外网访问，现在我们再来看一下bamboo的页面.
+![bamboo_v3](bamboo_v3.png)
+可以看到bamboo已经检测到了新启动的容器，现在我们通过bamboo给他设置ACL规则。
+![bamboo_v4](bamboo_v4.png)
+现在我们访问一下bamboo所在机器的http://IP/hello
+![bamboo_v5](bamboo_v5.png)
+可以看到，我们部署的容器已经可通过haproxy解析访问到了。
+
+#Bamboo Ha Mode
+下面我们在Node3上面再部署一个Bamboo实例。
+
+    docker run -d -p 8000:8000 -p 80:80 -e MARATHON_ENDPOINT=http://172.31.35.175:8080,http://172.31.23.17:8080,http://172.31.40.200:8080 -e BAMBOO_ENDPOINT=http://52.32.37.21:8000 -e BAMBOO_ZK_HOST=172.31.23.17:2181,172.31.40.200:2181,172.31.35.175:2181 -e BAMBOO_ZK_PATH=/bamboo -e BIND=":8000" -e CONFIG_PATH="config/production.example.json" -e BAMBOO_DOCKER_AUTO_HOST=true xianlubird/bamboo
+    
+下面我们分别访问Node3的bamboo和Node4的bamboo，并且同时访问Node3/hello和Node4/hello，看一下效果。
+![bamboo_v6](bamboo_v6.png)
+可以看到，无论通过哪一个bamboo实例，我们都可以访问到刚才创建的容器。我们进入bamboo容器内部可以看到他生成的haproxy.cfg 
+
+    # Template Customization
+    frontend http-in
+            bind *:80
+    
+    
+            acl ::hello-001-aclrule path_beg -i /hello
+            use_backend ::hello-001-cluster if ::hello-001-aclrule
+    
+    
+            stats enable
+            # CHANGE: Your stats credentials
+            stats auth admin:admin
+            stats uri /haproxy_stats
+    
+    
+    backend ::hello-001-cluster
+            balance leastconn
+            option httpclose
+            option forwardfor
+    
+            server ::hello-001-172.31.37.173-31162 172.31.37.173:31162
+            
+下面我们将当前的一个实例scale到三个。
+![bamboo_v7](bamboo_v7.png)
+可以看到，他们中，有一个实例被分配到了Node3，另外两个实例在Node4。我们现在什么都不需要操作，继续访问我们刚才访问容器的路径，Node4 IP/hello。可以发现容器是可以正常访问的，而且打开bamboo的控制页面可以看到。
+![bamboo_v8](bamboo_v8.png)
+
+bamboo自动检测到了目前实例已经变成了3个，而且帮助我们使用haproxy做了负载均衡。当我们的容器扩容缩容，或者迁移的时候，IP地址发生了变化，我们不需要去关心，我们只需要继续访问我们刚才 设置好的路径，bamboo会帮我们做好这些。我们再来看一下现在haproxy的配置文件。
+
+    #Template Customization
+    frontend http-in
+            bind *:80
+    
+    
+            acl ::hello-001-aclrule path_beg -i /hello
+            use_backend ::hello-001-cluster if ::hello-001-aclrule
+    
+    
+            stats enable
+            # CHANGE: Your stats credentials
+            stats auth admin:admin
+            stats uri /haproxy_stats
+    
+    
+    backend ::hello-001-cluster
+            balance leastconn
+            option httpclose
+            option forwardfor
+    
+            server ::hello-001-172.31.37.173-31162 172.31.37.173:31162
+            server ::hello-001-172.31.40.200-31770 172.31.40.200:31770
+            server ::hello-001-172.31.37.173-31195 172.31.37.173:31195
+            
+可以看到，bamboo已经帮我们发现了新创建的服务的Ip和端口，并且生成了haproxy的配置文件，并在这三台服务器中做了负载，以后我们不管是scale到0还是scale到10个，bamboo都可以帮助我们自动生成haproxy的配置文件并生效，我们需要做的就是继续访问以前的域名就可以继续使用我们的服务。这样就做到了服务发现和自动的负载均衡。
+
+这样我们就完成了一个基本的高可用的容器云平台的搭建。当然，如果要想把这个流程自动化起来，可能还需要再这个基础上增加一些功能，必须使用他们的restapi 提交请求，而不是使用网页等等。对于数据的持久化，volumn的挂载，我们没有做过多的讨论。后面我们会提及一下实现的思路。
