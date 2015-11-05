@@ -8,4 +8,4 @@
 
 ![持续交付成熟度矩阵](ContinuousDeliveryMatrix.png)
 
-从初期的 nightly build 到最终的 镜像交付； 从 merges are rare 到自动生成 ReleaseNote；从简单的将构建结果通知committer
+从初期的 nightly build 到最终的 镜像交付； 从 merges are rare 到自动生成 ReleaseNote；从简单的将构建结果通知committer到向客户分享构建报告与统计结果。
