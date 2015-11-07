@@ -107,6 +107,9 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 ## 一、部署前准备
 * 在部署和HDFS初始化过程中都需要跨节点的操作和SSH，因此首先在Mesos集群的所有节点上关闭防火墙。如下：
 * ```chkconfig iptables off ```（在root用户下操作）
+* 关闭selinux
+* ```setenforce 0```(在root用户下操作）
+* 
 
 
 
