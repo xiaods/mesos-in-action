@@ -109,7 +109,23 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```chkconfig iptables off ```（在root用户下操作）
 * 关闭selinux
 * ```setenforce 0```(在root用户下操作）
-* 
+* 在HDFS部署中，或者说在分布式架构的部署过程中节点之间的通信都是以主机名为地址标识，因此要保证每个节点主机名的唯一。
+* 在Master1节点上配置hostname:
+* ```vi /etc/hostname```
+* ```master1```
+* 在Masrer1节点上配置hosts
+* ```vi /etc/hosts```
+* ```127.0.0.1 localhost```
+* ```10.162.2.91 master1```
+* ```10.162.2.92 master2```
+* ```10.162.2.93 master3```
+* ```10.162.2.94 slave1```
+* ```10.162.2.95 slave2```
+* ```10.162.2.96 slave3```
+* 在其他节点上都参照上述配置进行修改hostname和hosts
+
+
+
 
 
 
