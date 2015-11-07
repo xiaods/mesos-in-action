@@ -123,6 +123,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```10.162.2.95 slave2```
 * ```10.162.2.96 slave3```
 * 在其他节点上都参照上述配置进行修改hostname和hosts.
+* 在部署HDFS和Hadoop时，需要使用非root用户来进行操作，
 
 
 
