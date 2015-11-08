@@ -91,7 +91,7 @@
 
 ## 如何达到 Jenkins 数据持久化
 
-由于我们通过 Marathon 来启动 Jenkins Master ， 在 Jenkins Master 异常导致重新部署时，我们需要考虑 Jenkins Master 的数据持久化问题。 一种显而易见的方式是限制 Marathon 将 Jenkins Master 部署到同一个数据节点，但这会导致分布式的单点问题。 这里我们介绍另一种方法。
+由于我们通过 Marathon 来启动 Jenkins Master ， 在 Jenkins Master 异常导致重新部署时，我们需要考虑 Jenkins Master 的数据持久化问题。 一种显而易见的方式是限制 Marathon 将 Jenkins Master 部署到同一个数据节点，但这会导致分布式的单点问题。 这里我们介绍另一种方法,即：使用 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 来将数据同步到 git repo 上。把锅扔出去，扔到 github 上 :-)。
 
 ###在内部的代码库或者 github 上创建一个 git repo
 
