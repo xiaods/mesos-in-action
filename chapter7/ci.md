@@ -36,9 +36,7 @@
 * 通过构建工具与版本控制工具的配合，实现产品版本控制与管理
 * 建立、管理项目开发的工作网站
 
-## 持续交付
-
-下面的图片是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的持续交付成熟度矩阵
+另外下面的图片是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的持续交付成熟度矩阵。这里我们不需要要考虑持续集成与持续交付的差别，或者说，在本文中，持续集成与持续交付是一样的。
 
 ![持续交付成熟度矩阵](ContinuousDeliveryMatrix.png)
 
