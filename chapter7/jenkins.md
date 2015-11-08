@@ -12,4 +12,4 @@ Jenkins 以其
 * 可扩展性
 * 分布式构建
 
-等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)
+等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
