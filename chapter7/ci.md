@@ -8,4 +8,4 @@
 
 ![持续交付成熟度矩阵](ContinuousDeliveryMatrix.png)
 
-通过这张图片我们可以看出，持续交付本身也是一个逐步迭代，逐步完善的过程。从初期的 nightly build 到最终的 镜像交付； 从 merges are rare 到自动生成 ReleaseNote；从简单的将构建结果通知committer到向客户分享构建报告与统计结果，等等。我们可以发现，一个成熟的继续交付系统可以极大的提高生产率。
+通过这张图片我们可以看出，持续交付本身也是一个逐步迭代，逐步完善的过程。从初期的 nightly build 到最终的 镜像交付； 从 merges are rare 到自动生成 ReleaseNote；从简单的将构建结果通知 committer 到向客户分享构建报告与统计结果，等等。我们可以发现，一个成熟的继续交付系统可以极大的提高生产率。
