@@ -145,7 +145,7 @@
 
   SCM-Sync-Configuration 初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， 
 
-![commit comment]()
+![commit comment](Jenkins - scm-sync-configuration - Comment prompt2.png)
 
   当前，所支持的配置文件如下：
 
