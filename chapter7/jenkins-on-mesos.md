@@ -57,11 +57,11 @@
 
 ![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
 
-  现在我们可以同时启动多个构建作业来看一下Jenkins在Mesos上的弹性伸缩，在``http://192.168.3.25:31052/``上新建一个名为``test``的工程，配置其构建过程为运行一个shell命令``top``，如下图所示：
+  现在我们可以同时启动多个构建作业来看一下 Jenkins 在 Mesos 上的弹性伸缩，在 ``http://192.168.3.25:31052/`` 上新建一个名为 ``test`` 的工程，配置其构建过程为运行一个 shell 命令 ``top`` ，如下图所示：
 
 ![配置构建作业](test-job-config.png)
 
-  把该工程复制3份``test2``、``test3``和``test4``，并同时启动这4个工程的构建作业，Jenkins Master会向Mesos申请资源，如果资源分配成功，Jenkins Master就在获得的slave节点上进行作业构建，如下图所示：
+  把该工程复制3份 ``test2``、``test3`` 和 ``test4``，并同时启动这4个工程的构建作业，Jenkins Master 会向 Mesos 申请资源，如果资源分配成功，Jenkins Master 就在获得的 slave 节点上进行作业构建，如下图所示：
 
 ![构建作业列表](building-jobs.png)
 
