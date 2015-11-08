@@ -101,14 +101,14 @@
 
 ###使用 marathon 部署可持久化的 Jenkins Master
 
-  我们首先需要wget两个文件:
+  我们首先需要 wget 两个文件:
 
   ```bash
   wget -O start-jenkins.app.sh https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/start-jenkins.app.sh.template
   wget https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/marathon.json
   ```
 
-  其中``start-jenkins.app.sh``是需要配置的，
+  其中 ``start-jenkins.app.sh`` 是需要配置的，
 
   ```bash
   #! /bin/bash
@@ -139,11 +139,11 @@
   bash start-jenkins.app.sh
   ```
 
-  来让 marathon 部署我们的 Jenkins Master 了。这样， 我们在 Jenkins Master 上所保存的任何配置，创建的任何job都会被**SCM-Sync-Configuration**同步到repo里，并在 Jenkins Master 被重新发布后 download 到本地。
+  来让 marathon 部署我们的 Jenkins Master 了。这样， 我们在 Jenkins Master 上所保存的任何配置，创建的任何job都会被 **SCM-Sync-Configuration** 同步到 repo 里，并在 Jenkins Master 被重新发布后 download 到本地。
 
 ###关于SCM-Sync-Configuration的更多信息
 
-  SCM-Sync-Configuration初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， 
+  SCM-Sync-Configuration 初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， 
 
 ![commit comment](https://wiki.jenkins-ci.org/download/attachments/46336078/Jenkins+-+scm-sync-configuration+-+Comment+prompt2.?version=1&modificationDate=1374219411000)
 
