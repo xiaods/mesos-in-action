@@ -20,7 +20,7 @@
 
 >> * [jenkins](http://jenkins-ci.org/)
 >> * [travis](https://travis-ci.com/)
->> * [
+>> * [codeship](https://codeship.com/)
 
 ## 持续集成的流程
 
