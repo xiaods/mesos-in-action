@@ -14,7 +14,6 @@ Jenkins 以其
 
 等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
 
-
 ###为什么要把Jenkins运行到Apache Mesos上
 
   把Jenkins运行到Apache Mesos上，或者说利用Apache Mesos向Jenkins提供slave资源，最主要的目的是利用Mesos的弹性资源分配来提高资源利用率。通过配置**Jenkins-on-Mesos**插件，Jenkins Master可以在作业构建时根据实际需要动态的向Mesos申请slave节点，并在构建完成的一段时间后将节点归还给mesos。
