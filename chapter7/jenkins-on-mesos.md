@@ -154,4 +154,4 @@
   3. 基本的插件的配置文件 (/hudson*.xml, /scm-sync-configuration.xml)
   4. 用户手动指定的配置文件
 
-  另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图是同步出错时的截图，你可以去**System Log**查看具体的出错信息。![scm sync status](Jenkins - scm-sync-config - Display Status.png)
+另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图是同步出错时的截图，你可以去**System Log**查看具体的出错信息。![scm sync status](Jenkins - scm-sync-config - Display Status.png)
