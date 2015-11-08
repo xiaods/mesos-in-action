@@ -15,7 +15,7 @@
 参照[http://get.dataman.io](http://get.dataman.io)的文档配置启动 Marathon，Mesos-Master 和 Mesos-Slave，下面的整个操作都将在这个集群上完成。
   
 
-###在Marathon上部署Jenkins的master实例
+###在 Marathon 上部署 Jenkins 的 master 实例
 
   Marathon 支持 web 页面或者 RESTapi 两种方式发布应用，在``192.168.3.＊``内网执行下面的 bash 命令，就会通过 Marathon 的 RESTapi 在 mesos slave 上启动一个 Jenkins master 实例。
   
@@ -41,6 +41,7 @@
   
   ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave-2.png)
 
+至此，我们的 Jenkins Master 已经在 marathon 上被成功启动了。
 
 ###配置Jenkins Master实现弹性伸缩
 
