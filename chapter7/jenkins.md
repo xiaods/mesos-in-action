@@ -20,7 +20,7 @@ Jenkins 以其
 
   同时，Marathon 会对发布到它之上的应用程序进行健康检查，从而在应用程序由于某些原因意外崩溃后自动重启该应用。这样，选择利用 Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。
 
- 下面两张图形象的说明了 Marathon 将 Jenkins Master 部署到 Mesos 资源池，以及 Jenkins Master使用Mesos资源池进行作业构建的整个过程。 
+ 下面两张图形象的说明了 Marathon 将 Jenkins Master 部署到 Mesos 资源池，以及 Jenkins Master 使用 Mesos 资源池进行作业构建的整个过程。 
 
   ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
   ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
