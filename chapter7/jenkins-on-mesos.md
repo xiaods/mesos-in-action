@@ -12,7 +12,7 @@
     ......
     192.168.3.43  mesos-slave
 
-参照[http://get.dataman.io](http://get.dataman.io)的文档配置启动Marathon，Mesos-Master和Mesos-Slave，下面的整个操作都将在这个集群上完成。
+参照[http://get.dataman.io](http://get.dataman.io)的文档配置启动 Marathon，Mesos-Master 和 Mesos-Slave，下面的整个操作都将在这个集群上完成。
   
 
 ###在Marathon上部署Jenkins的master实例
