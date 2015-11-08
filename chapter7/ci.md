@@ -18,8 +18,9 @@
 
 > CI 服务器主要负责将版本控制仓库和构建工具有机整合起来，并通过设置一种或多种构建触发条件来触发构建。常见的CI工具有
 
->> * [Jekins](http://jenkins-ci.org/)
+>> * [jenkins](http://jenkins-ci.org/)
 >> * [travis](https://travis-ci.com/)
+>> * [
 
 ## 持续集成的流程
 
