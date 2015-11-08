@@ -21,6 +21,7 @@
 >> * [jenkins](http://jenkins-ci.org/)
 >> * [travis](https://travis-ci.com/)
 >> * [codeship](https://codeship.com/)
+>> * [stridercd]( http://stridercd.com)
 
 ## 持续集成的流程
 
