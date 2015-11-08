@@ -2,9 +2,9 @@
 
 ###环境设置
 
-  为了便于理解，这里我简化了Mesos/Marathon集群的架构，不再考虑集群本身的高可用性。至于如何利用zookeeper配置高可用的mesos/marathon集群，可以参考[Mesosphere的官方文档](https://mesos.apache.org/documentation/latest/mesos-architecture/)，这里不再展开。
+  为了便于理解，这里我简化了 Mesos/Marathon 集群的架构，不再考虑集群本身的高可用性。至于如何利用 zookeeper 配置高可用的 mesos/marathon 集群，可以参考[Mesosphere的官方文档](https://mesos.apache.org/documentation/latest/mesos-architecture/)，这里不再展开。
 
-  我搭建了一个包含40个节点 ``192.168.3.4-192.168.3.43`` 的Mesos集群，其中一个节点用作运行Marthon及Mesos-master，其它39个节点作为mesos的slave，如下所示。
+  我搭建了一个包含40个节点 ``192.168.3.4-192.168.3.43`` 的 Mesos 集群，其中一个节点用作运行 Marthon 及 Mesos-master，其它39个节点作为 mesos 的 slave，如下所示。
 
     192.168.3.4  marathon/mesos-master
     192.168.3.5  mesos-slave
