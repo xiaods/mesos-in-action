@@ -91,7 +91,7 @@
 
 ## 如何达到 Jenkins 数据持久化
 
-由于我们通过 Marathon 来启动 Jenkins Master ， 
+由于我们通过 Marathon 来启动 Jenkins Master ， 在因 Jenkins Master 异常
 
 ###在内部的代码库或者 github 上创建一个 git repo
 
