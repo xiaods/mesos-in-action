@@ -18,14 +18,16 @@
 ###在Marathon上部署Jenkins的master实例
 
   Marathon 支持 web 页面或者 RESTapi 两种方式发布应用，在``192.168.3.＊``内网执行下面的 bash 命令，就会通过 Marathon 的 RESTapi 在 mesos slave 上启动一个 Jenkins master 实例。
-
-    git clone git@github.com:Dataman-Cloud/jenkins-on-mesos.git && cd jenkins-on-mesos && curl -v -X POST \
-    -H 'Accept: application/json' \
-    -H 'Accept-Encoding: gzip, deflate' \
-    -H 'Content-Type: application/json; charset=utf-8' \
-    -H 'User-Agent: HTTPie/0.8.0' \
-    -d@marathon.json \
-    http://192.168.3.4:8080/v2/apps
+  
+  ```bash
+  git clone git@github.com:Dataman-Cloud/jenkins-on-mesos.git && cd jenkins-on-mesos && curl -v -X POST \
+  -H 'Accept: application/json' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Content-Type: application/json; charset=utf-8' \
+  -H 'User-Agent: HTTPie/0.8.0' \
+  -d@marathon.json \
+  http://192.168.3.4:8080/v2/apps
+```
 
   *这里我在github上fork了[mesosphere的jenkins-on-mesos的repo](https://github.com/mesosphere/jenkins-on-mesos)到[DataMan-Cloud/jenkins-on-mesos](https://github.com/Dataman-Cloud/jenkins-on-mesos)，并进行了一些[改进](https://github.com/Dataman-Cloud/jenkins-on-mesos/commits?author=vitan)。*
   
