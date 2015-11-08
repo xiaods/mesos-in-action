@@ -1,5 +1,6 @@
 # 持续集成系统搭建
 
+
 ###环境设置
 
   为了便于理解，这里我简化了 Mesos/Marathon 集群的架构，不再考虑集群本身的高可用性。至于如何利用 zookeeper 配置高可用的 mesos/marathon 集群，可以参考[Mesosphere的官方文档](https://mesos.apache.org/documentation/latest/mesos-architecture/)，这里不再展开。
@@ -74,11 +75,11 @@
   正在使用的slave节点的详细信息
 
 ![Jenkins Slave 详情](jenkins-slave-detail.png)
-![Jenkins slave详细信息](jenkins-slave.png)
+![Jenkins slave 详细信息](jenkins-slave.png)
   
-####配置Jenkins Slave参数(可选)
+####配置 Jenkins Slave 参数(可选)
 
-  在使用Jenkins进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的slave机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置Jenkins Mesos Cloud插件的slave info，我们可以很容易的满足上述要求。 具体的配置如下图所示：
+  在使用 Jenkins 进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的 slave 机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置 Jenkins Mesos Cloud 插件的 slave info，我们可以很容易的满足上述要求。 具体的配置如下图所示：
 
 ![Jenkins 配置 slave](jenkins-config-slave.png)
 
