@@ -1,16 +1,5 @@
 # 持续集成系统搭建
 
-###为什么要把Jenkins运行到Apache Mesos上
-
-  把Jenkins运行到Apache Mesos上，或者说利用Apache Mesos向Jenkins提供slave资源，最主要的目的是利用Mesos的弹性资源分配来提高资源利用率。通过配置**Jenkins-on-Mesos**插件，Jenkins Master可以在作业构建时根据实际需要动态的向Mesos申请slave节点，并在构建完成的一段时间后将节点归还给mesos。
-
-  同时，Marathon会对发布到它之上的应用程序进行健康检查，从而在应用程序由于某些原因意外崩溃后自动重启该应用。这样，选择利用Marathon管理Jenkins Master保证了该构建系统的全局高可用。而且，Jenkins Master本身也通过Marathon部署运行在Mesos资源池内，进一步实现了资源共享，提高了资源利用率。
-
- 下面两张图形象的说明了Marathon将Jenkins Master部署到Mesos资源池，以及Jenkins Master使用Mesos资源池进行作业构建的整个过程。 
-
-  ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
-  ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
-
 ###环境设置
 
   为了便于理解，这里我简化了Mesos/Marathon集群的架构，不再考虑集群本身的高可用性。至于如何利用zookeeper配置高可用的mesos/marathon集群，可以参考[Mesosphere的官方文档](https://mesos.apache.org/documentation/latest/mesos-architecture/)，这里不再展开。
