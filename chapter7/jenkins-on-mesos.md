@@ -50,6 +50,8 @@
 ![Jenkins Master配置页面](jenkins-configure.png)
 ![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
 
+``来到 Jenins
+ Master 配置页面``=>``点击系统设置`` => ``设置 Mesos Master 为 192.168.3.4:5050`` => ``点击测试链接``
   如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
 
 ![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
