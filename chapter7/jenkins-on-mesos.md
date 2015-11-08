@@ -91,6 +91,8 @@
 
 ## 如何达到 Jenkins 数据持久化
 
+由于我们通过 Marathon 来启动 Jenkins Master ， 
+
 ###在内部的代码库或者 github 上创建一个 git repo
 
   我们需要在内部的代码库或者公共代码库创建一个名为 **jenkins-on-mesos** 的 gitrepo ， 譬如：**git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 。 这个 repo 是 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 用来同步jenkins数据的。
