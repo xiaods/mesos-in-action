@@ -156,7 +156,12 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 *在slave节点上
 * ```update-rc.d hadoop-hdfs-datanode defaults```
 
-## 三、
+## 三、在Mesos集群中部署Hadoop
+1. 下载Hadoop安装文件
+* ```wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.3.0-cdh5.1.2.tar.gz```
+* 
+
+
 
 
 
