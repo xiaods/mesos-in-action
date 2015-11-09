@@ -35,6 +35,10 @@ js 代码不同于在服务器端运行的代码，JS 在不同环境下的配�
 
 ## 自动生成 ReleaseNote
 
+在多人协作的项目开发中，由于多人频繁的 merge 代码，ReleaseNote 的管理也会成为团队的负担。我这里推荐的做法是团队达成一个 agreement：
+>对重大 feature 或 bug-fix 的提交都需要在目录 `pending-release` 里面创建相应的 markdown 文件，并将改动添加到里面。
+
+这样，我们可以控制 CI 服务器在构建代码时扫描 `pending-release` 目录并将其中的文本 merge 到一起生成这次构建的 ReleaseNote。
 
 ## html页面加commitid or tag
 
