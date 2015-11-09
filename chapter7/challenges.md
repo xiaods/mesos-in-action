@@ -33,5 +33,8 @@ js 代码不同于在服务器端运行的代码，JS 在不同环境下的配�
 
 从而使用不同的 JS 配置文件。这是 StackOverflow 推荐的一个比较优雅的解决方案。
 
+## 自动生成 ReleaseNote
+
+
 ## html页面加commitid or tag
 ## irc notification 搭建了就需要用起来
