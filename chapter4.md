@@ -3,21 +3,21 @@
 
 
 
-#1.  Mesos 搭建大数据平台项目概述
+#一.  Mesos 搭建大数据平台项目概述
 
 
 
 
 
-# 2. 搭建环境简介
+# 二. 搭建环境简介
   本次搭建的环境以及下一节的Mesos集群的部署都是参考我之前在Dockerone上写的一篇文章，因为这个环境是现成的且结构比较全（3个maste节点和3个slave节点)，而且那篇部署教程在写完之后我自己还进行过重新部署，是写的比较全面且坑比较少的部署教程。以下是部署环境的简介：
   ![](83dadc53a396208fa96de2f448e3859e.png)
 
   如图所示其中master节点都需要运行ZooKeeper、Mesos-master、Marathon，在slave节点上只需要运行master-slave就可以了，但是需要修改ZooKeeper的内容来保证slave能够被master发现和管理。为了节约时间和搞错掉，我在公司内部云平台上开一个虚拟机把所有的软件都安装上去，做成快照进行批量的创建，这样只需要在slave节点上关闭ZooKeeper、Mesos-master服务器就可以了，在文中我是通过制定系统启动规则来实现的。希望我交代清楚了，现在开始部署。
 
-# 3. Mesos集群部署
+# 三. Mesos集群部署
 
-##  一、准备部署环境
+##  3.1、准备部署环境
 
 * 在Ubuntu 14.04的虚拟机上安装所有用到软件，并保证虚拟机可以上互联网。
 
@@ -38,7 +38,7 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
    至此在一个虚拟机上就完成了所有组件的安装部署，下面就是对虚拟机打快照，然后快速的复制出6个一样的虚拟机，按照上图的ip配置进行配置之后就可以进入下个阶段，当然为了保险你可以测试一下上处组件是否安装成功和配置正确。如果你没有使用云平台，或者不具备快照功能，那就只能在6个虚拟机上重复6遍上处过程了。
   
 
-## 二、在所有的节点上配置ZooKeeper
+## 3.2、在所有的节点上配置ZooKeeper
 
   在配置maser节点和slave节点之前，需要先在所有的6个节点上配置一下ZooKeeper，配置步骤如下：
   * 修改zk的内容
@@ -46,7 +46,8 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
   * 将zk的内容修改为如下：
   * ```zk://10.162.2.91:2181,10.162.2.92:2181,10.162.2.93:2181/Mesos```
  
-## 三、配置集群中的三个master节点
+
+## 3.3、配置集群中的三个master节点
 
 在所有的master节点上都要进行如下操作：
 * 修改ZooKeeper的myid的内容
@@ -69,7 +70,7 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
 echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
-## 四、配置集群中的的slave节点
+## 3.4、配置集群中的的slave节点
 * 配置slave节点的服务启动规则（重启不启动zookeeper和slave服务）
 * ```sudo stop ZooKeeper```
 * ```echo manual | sudo tee /etc/init/ZooKeeper.override```
@@ -79,7 +80,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```echo 192.168.2.94 | sudo tee /etc/Mesos-slave/ip```
 * ```sudo cp /etc/Mesos-slave/ip /etc/Mesos-slave/hostname```
 
-## 五、在集群的所有节点上启动相应的服务
+## 3.5、在集群的所有节点上启动相应的服务
 * 启动master节点的服务（zookeeper和mesos-master服务）
 * ```initctl reload-configuration```
 * ```service Zookeeper start```
@@ -87,14 +88,14 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 启动slave节点上的相应服务（mesos-slave服务）
 * ```sudo start mesos-slave```
 
-## 六、Troubleshooting
+## 3.6、Troubleshooting
    由于有的网络情况和设备情况不一样，所以选举的过程有的快有的慢，但刷新几次就可以完成选举。当发现slave节点有些正常有些不正常时，可以通过reboot来促使自己被master发现。
 
 
 
-# 4、Hadoop在Mesos集群上部署
+# 四、Hadoop在Mesos集群上部署
 
-## 一、部署前准备
+## 4.1、部署前准备
 * 在部署和HDFS初始化过程中都需要跨节点的操作和SSH，因此首先在Mesos集群的所有节点上关闭防火墙。如下：
 * ```chkconfig iptables off ```（在root用户下操作）
 * 关闭selinux
@@ -119,9 +120,10 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 重置hadoop用户的密码
 *```passwd hadoop```
 
-## 二、在Mesos集群中部署HDFS
+## 4.2、在Mesos集群中部署HDFS
 * 本次案例的集群中master有三个节点，slave有三个节点，在master节点中使用zookeeper进行服务选举，在部署HDFS时也会用到zookeeper进行namenode节点的选举。
-1. 在master节点上部署namenode
+
+### 4.2.1、 在master节点上部署namenode
 * 创建一个文件目录用于
 * ```mkdir -p /mnt/cloudera-hdfs/1/dfs/nn /nfsmount/dfs/nn```
 * 修改文件目录的用户权限，给上一步创建的文件目录添加用户hadoop操作权限
@@ -133,7 +135,8 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```sudo dpkg -i cdh5-repository_1.0_all.deb```
 * ```sudo apt-get update; sudo apt-get install hadoop-hdfs-namenode```
 *```cp /etc/hadoop/conf.empty/log4j.properties/etc/hadoop/conf.name/log4j.properties```
-2. 在slave节点上部署datanode
+
+### 4.2.2、在slave节点上部署datanode
 * 创建挂载目录
 * ```mkdir -p /mnt/cloudera-hdfs/1/dfs/dn /mnt/cloudera-hdfs/2/dfs/dn /mnt/cloudera-hdfs/3/dfs/dn /mnt/cloudera-hdfs/4/dfs/dn```
 * 修改挂在目录所属的用户组
@@ -144,19 +147,24 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```sudo apt-get update; sudo apt-get install hadoop-hdfs-datanode```
 * ```sudo apt-get install hadoop-client```
 
-3. 格式化并启动namenode节点
+
+### 4.2.3、 格式化并启动namenode节点
 * ```sudo -u hadoop hadoop namenode -format```
 * ```service hadoop-hdfs-namenode start```
-4. 启动slave节点
+
+### 4.2.4、启动slave节点
 * ```service hadoop-hdfs-datanode start```
-5. 配置服务自启动
+
+### 4.2.5 配置服务自启动
 * 在namenode节点上
 * ```update-rc.d hadoop-hdfs-namenode defaults```
 * ```update-rc.d zookeeper-server defaults```
 *在slave节点上
 * ```update-rc.d hadoop-hdfs-datanode defaults```
 
-## 三、在Mesos集群中部署Hadoop
+## 4.3、在Mesos集群中部署Hadoop
+
+### 4.3.1、Hadoop的基本安装
 * 下载Hadoop安装文件包
 * ```wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.3.0-cdh5.1.2.tar.gz```
 * 将安装文件包解压缩
@@ -195,6 +203,10 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```rm hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz```
 * ```tar czf hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop-2.3.0-cdh5.1.2/```
 * ```hadoop fs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
+
+### 4.3.2 Hadoop相关配置文件配置
+
+
 
 
 
