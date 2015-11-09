@@ -42,7 +42,9 @@ js 代码不同于在服务器端运行的代码，JS 在不同环境下的配�
 
 同时，为了避免团队成员忘记这个agreement， 我们还可以在本地的 `git-precommit-hook` 中添加相应的提醒。
 
-## html页面加commitid or tag
+## 频繁发布的版本确认
+
+html页面加commitid or tag
 
 
 
