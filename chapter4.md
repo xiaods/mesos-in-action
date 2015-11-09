@@ -184,7 +184,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```rm mapreduce```
 * ```ln -s mapreduce1 mapreduce```
 * ```popd```
-* 
+
 
 
 
