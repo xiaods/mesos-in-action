@@ -130,6 +130,13 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 *```passwd hadoop```
 
 
+## 二、在Mesos集群中部署HDFS
+* 本次案例的集群中master有三个节点，slave有三个节点，在master节点中使用zookeeper进行服务选举，在部署HDFS时也会用到zookeeper进行namenode节点的选举。
+* 1. 在master节点上部署namenode
+* 
+
+
+
 
 
 
