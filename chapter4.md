@@ -167,7 +167,9 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```mvn package```
 * 注意：mvn package要在下载的hadoopOnMesos文件夹中执行,编译好后可以在target文件夹中找到一个编译好的jar文件。
 
-* 将编译好的jar文件拷贝到
+* 将编译好的jar文件拷贝到hadoo-hdfs安装文件夹和下载的hadoop安装文件夹中
+* ```cp hadoopOnMesos/target/hadoop-mesos-0.1.0.jar /usr/lib/hadoop-0.20-mapreduce/lib/```
+* ```cp hadoopOnMesos/target/hadoop-mesos-0.1.0.jar hadoop-2.3.0-cdh5.1.2/share/hadoop/common/lib/```
 
 
 
