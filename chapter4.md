@@ -132,8 +132,31 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 ## 二、在Mesos集群中部署HDFS
 * 本次案例的集群中master有三个节点，slave有三个节点，在master节点中使用zookeeper进行服务选举，在部署HDFS时也会用到zookeeper进行namenode节点的选举。
-* 1. 在master节点上部署namenode
-* 
+1. 在master节点上部署namenode
+* 创建一个文件目录用于
+* ```mkdir -p /mnt/cloudera-hdfs/1/dfs/nn /nfsmount/dfs/nn```
+* 修改文件目录的用户权限，给上一步创建的文件目录添加用户hadoop操作权限
+* ```chown -R hadoop:hadoop /mnt/cloudera-hdfs/1/dfs/nn /nfsmount/dfs/nn```
+* 修改文件目录的操作权限
+* ```chmod 700 /mnt/cloudera-hdfs/1/dfs/nn /nfsmount/dfs/nn```
+* 使用apt-get 安装hadoop-hdfs-namenode,这样可以避免使用二进制文件在编译过程中遇到的坑。
+* ```wget http://archive.cloudera.com/cdh5/one-click-install/precise/amd64/cdh5-repository_1.0_all.deb```
+* ```sudo dpkg -i cdh5-repository_1.0_all.deb```
+* ```sudo apt-get update; sudo apt-get install hadoop-hdfs-namenode```
+*```cp /etc/hadoop/conf.empty/log4j.properties/etc/hadoop/conf.name/log4j.properties```
+2. 在slave节点上部署datanode
+* 创建挂载目录
+* ```mkdir -p /mnt/cloudera-hdfs/1/dfs/dn /mnt/cloudera-hdfs/2/dfs/dn /mnt/cloudera-hdfs/3/dfs/dn /mnt/cloudera-hdfs/4/dfs/dn```
+* 修改挂在目录所属的用户组
+* ```chown -R hadoop:hadoop /mnt/cloudera-hdfs/1/dfs/dn/mnt/cloudera-hdfs/2/dfs/dn /mnt/cloudera-hdfs/3/dfs/dn /mnt/cloudera-hdfs/4/dfs/dn```
+* 使用apt-get 安装hadoop-hdfs-datanode
+* ```wget http://archive.cloudera.com/cdh5/one-click-install/precise/amd64/cdh5-repository_1.0_all.deb```
+* ```dpkg -i cdh5-repository_1.0_all.deb```
+* ```sudo apt-get update; sudo apt-get install hadoop-hdfs-datanode```
+* ```sudo apt-get install hadoop-client```
+
+
+
 
 
 
