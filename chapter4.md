@@ -184,6 +184,18 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```rm mapreduce```
 * ```ln -s mapreduce1 mapreduce```
 * ```popd```
+* 配置Hadoop运行所需的环境和配置文件：
+* ```cp target/hadoop-mesos-0.1.0.jar /usr/lib/hadoop-0.20-mapreduce/lib```
+* ```cat > /etc/profile.d/hadoop.sh```
+* ```export HADOOP_MAPRED_HOME=/usr/lib/hadoop-0.20-mapreduce```
+* ```export MESOS_NATIVE_JAVA_LIBRARY=/usr/local/lib/libmesos.so```
+* ```chmod +x /etc/profile.d/hadoop.sh```
+* ```/etc/profile.d/hadoop.sh```
+* ```cd ..```
+* ```rm hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz```
+* ```tar czf hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop-2.3.0-cdh5.1.2/```
+* ```hadoop fs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
+
 
 
 
