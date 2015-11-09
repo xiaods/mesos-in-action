@@ -157,9 +157,14 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```update-rc.d hadoop-hdfs-datanode defaults```
 
 ## 三、在Mesos集群中部署Hadoop
-1. 下载Hadoop安装文件
+* 下载Hadoop安装文件包
 * ```wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.3.0-cdh5.1.2.tar.gz```
-* 
+* 将安装文件包解压缩
+* ```tar zxf hadoop-2.3.0-cdh5.1.2.tar.gz```
+* 下载hadooponmesos二进制文件
+* ```git clone https://github.com/mesos/hadoop.git hadoopOnMesos```
+* 使用mvn编译hadooponmesos文件
+* ```mvn package```
 
 
 
