@@ -92,16 +92,6 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
-
-
-
-
-
-
-
-
-
-
 # 4、Hadoop在Mesos集群上部署
 
 ## 一、部署前准备
