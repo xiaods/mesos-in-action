@@ -26,7 +26,12 @@
 js 代码不同于在服务器端运行的代码，JS 在不同环境下的配置管理需要额外的操作，目前已知有两种：
 
 * 使用初始化脚本动态的替换 JS 配置文件中的关键词，即初始化脚本获取环境变量后动态替换 配置文件中相应的值。
-* 使用 URL 匹配，为不同的环境设置不同的URL，从而使用不同的 JS 配置文件。这是 StackOverflow 推荐的一个比较优雅的解决方案。
+* 使用 URL 匹配，为不同的环境设置不同的URL，譬如测试环境与开发环境的URL分别为：
+ 
+  * 测试环境： http://www.mesos-in-action.com?env=test
+  * 开发环境： http://www.mesos-in-action.com?env=devel
+
+从而使用不同的 JS 配置文件。这是 StackOverflow 推荐的一个比较优雅的解决方案。
 
 ## html页面加commitid or tag
 ## irc notification 搭建了就需要用起来
