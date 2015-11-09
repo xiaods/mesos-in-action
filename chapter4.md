@@ -165,7 +165,8 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```git clone https://github.com/mesos/hadoop.git hadoopOnMesos```
 * 使用mvn编译hadooponmesos文件
 * ```mvn package```
-* 注意：mvn package要在下载的hadoopOnMesos文件夹中执行。
+* 注意：mvn package要在下载的hadoopOnMesos文件夹中执行,编译好后可以在target文件夹中找到一个编译好的jar文件。
+* 
 
 
 
