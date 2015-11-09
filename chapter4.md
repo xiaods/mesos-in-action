@@ -155,6 +155,24 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```sudo apt-get update; sudo apt-get install hadoop-hdfs-datanode```
 * ```sudo apt-get install hadoop-client```
 
+3. 格式化并启动namenode节点
+* ```sudo -u hadoop hadoop namenode -format```
+* ```service hadoop-hdfs-namenode start```
+4. 启动slave节点
+* ```service hadoop-hdfs-datanode start```
+5. 配置服务自启动
+* 在namenode节点上
+* ```update-rc.d hadoop-hdfs-namenode defaults```
+* ```update-rc.d zookeeper-server defaults```
+*在slave节点上
+* ```update-rc.d hadoop-hdfs-datanode defaults```
+*
+
+
+
+
+
+
 
 
 
