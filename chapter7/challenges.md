@@ -40,6 +40,8 @@ js 代码不同于在服务器端运行的代码，JS 在不同环境下的配�
 
 这样，我们可以控制 CI 服务器在构建代码时扫描 `pending-release` 目录并将其中的文本 merge 到一起生成这次构建的 ReleaseNote。
 
+同时，为了避免团队成员忘记这个agreement， 我们还可以在本地的 `git-precommit-hook` 中添加相应的提醒。
+
 ## html页面加commitid or tag
 
 ## irc notification
