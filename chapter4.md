@@ -208,14 +208,16 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 * 配置mapred-site.xml
 * ```vi /etc/hadoop/conf.cluster-name/mapred-site.xml ```
-* mapred-site.xml配置文件内容
-* ```mapred.jobtracker.taskScheduler/name```
-* ```org.apache.hadoop.mapred.MesosScheduler```
-* ```mapred.mesos.taskScheduler/name```
-* ```org.apache.hadoop.mapred.JobQueueTaskScheduler```
-* ```mapred.mesos.master/name```
-* ```zk:10.162.2.91:2181，10.162.2.92:2181，10.162.2.93:2181/mesos```
-* ```mapred.mesos.executor.uri/name```
+* mapred-site.xml需要配置文件内容
+* ```<name>mapred.jobtracker.taskScheduler</name>```
+* ```<value>org.apache.hadoop.mapred.MesosScheduler</value>```
+* */这一步是通过配置mapred的jobtrackerd.taskSchedule来告诉Hadoop使用Mesos来调度管理任务。
+* ```<name>mapred.mesos.taskScheduler</name>```
+* ```<value>org.apache.hadoop.mapred.JobQueueTaskScheduler</value>```
+* ```<name>mapred.mesos.master</name>```
+* ```<value>zk:10.162.2.91:2181，10.162.2.92:2181，10.162.2.93:2181/mesos</value>```
+* */这一步配置是利用zookeeper进行master节点的选举，保证mapred能够准确的找到mesos master节点的主节点。
+* ```<name>mapred.mesos.executor.uri</name>```
 * ```hdfs:/10.162.2.92:9000/hadoop-2.3.0-cdh5.1.2-mesos.0.20.tar.gz```
 * ```mapred.job.tracker/name```
 * ```10.162.2.92:9001```
