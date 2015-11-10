@@ -218,7 +218,8 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```<value>zk:10.162.2.91:2181，10.162.2.92:2181，10.162.2.93:2181/mesos</value>```
 * */这一步配置是利用zookeeper进行master节点的选举，保证mapred能够准确的找到mesos master节点的主节点。
 * ```<name>mapred.mesos.executor.uri</name>```
-* ```hdfs:/10.162.2.92:9000/hadoop-2.3.0-cdh5.1.2-mesos.0.20.tar.gz```
+* ```<value>hdfs:/10.162.2.92:9000/hadoop-2.3.0-cdh5.1.2-mesos.0.20.tar.gz</value>```
+* */这一步是配置hadoop的路径，这样mapred可以知道到那里调用hadoop代码执行task，这里10.162.2.92是本地主机的IP地址，在10.162.2.91主机上时就改成10.162.2.91.
 * ```mapred.job.tracker/name```
 * ```10.162.2.92:9001```
 
