@@ -178,7 +178,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 将编译好的jar文件拷贝到hadoo-hdfs安装文件夹和下载的hadoop安装文件夹中
 * ```cp hadoopOnMesos/target/hadoop-mesos-0.1.0.jar /usr/lib/hadoop-0.20-mapreduce/lib/```
 * ```cp hadoopOnMesos/target/hadoop-mesos-0.1.0.jar hadoop-2.3.0-cdh5.1.2/share/hadoop/common/lib/```
-* 配置CDH5使用MRv1
+* 配置CDH5使用MRv1，因为在MRv2中hadoop的任务调度是使用yarn的
 * ```cd hadoop-2.3.0-cdh5.1.2```
 * ```mv bin bin-mapreduce2```
 * ```mv examples examples-mapreduce2```
