@@ -214,7 +214,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```mapred.mesos.taskScheduler/name```
 * ```org.apache.hadoop.mapred.JobQueueTaskScheduler```
 * ```mapred.mesos.master/name```
-* ```zk:10.162.2.92:2181/mesos```
+* ```zk:10.162.2.91:2181，10.162.2.92:2181，10.162.2.93:2181/mesos```
 * ```mapred.mesos.executor.uri/name```
 * ```hdfs:/10.162.2.92:9000/hadoop-2.3.0-cdh5.1.2-mesos.0.20.tar.gz```
 * ```mapred.job.tracker/name```
