@@ -78,7 +78,7 @@
 ![Jenkins Slave 详情](jenkins-slave-detail.png)
 ![Jenkins slave 详细信息](jenkins-slave.png)
   
-####配置 Jenkins Slave 参数(可选)
+#### 配置 Jenkins Slave 参数(可选)
 
   在使用 Jenkins 进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的 slave 机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置 Jenkins Mesos Cloud 插件的 slave info，我们可以很容易的满足上述要求。 具体的配置如下图所示：
 
