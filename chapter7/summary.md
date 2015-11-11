@@ -1,4 +1,4 @@
-# summary
+# 7.1 summary
 
 软件的开发及部署，早已形成了一套标准流程，其中非常重要的组成部分就是持续集成（Continuous integration，简称CI）。
 
