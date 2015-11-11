@@ -89,7 +89,7 @@
 
   利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
 
-## 如何达到 Jenkins 数据持久化
+## 7.4.2 如何达到 Jenkins 数据持久化
 
 由于我们通过 Marathon 来启动 Jenkins Master ， 在 Jenkins Master 异常导致重新部署时，我们需要考虑 Jenkins Master 的数据持久化问题。 一种显而易见的方式是限制 Marathon 将 Jenkins Master 部署到同一个数据节点，但这会导致分布式的单点问题。 这里我们介绍另一种方法,即：使用 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 来将数据同步到 git repo 上。把锅扔出去，扔到 github 上 :-)。
 
