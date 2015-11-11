@@ -45,7 +45,7 @@
 
 至此，我们的 Jenkins Master 已经在 marathon 上被成功启动了。
 
-###配置 Jenkins Master 实现弹性伸缩
+### 配置 Jenkins Master 实现弹性伸缩
 
   接下来是配置 Jenkins 注册成为 Mesos 的 Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到 Jenkins Master 的 UI 页面。下面的截图是我逐步配置的全过程。
 
