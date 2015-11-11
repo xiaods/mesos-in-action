@@ -204,7 +204,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```tar czf hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop-2.3.0-cdh5.1.2/```
 * ```hadoop fs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
 
-### 4.3.2 Hadoop相关配置文件配置
+### 4.3.2 Hadoop配置文件配置
 
 * 配置mapred-site.xml
 * ```vi /etc/hadoop/conf.cluster-name/mapred-site.xml ```
