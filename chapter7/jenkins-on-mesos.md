@@ -1,8 +1,8 @@
 # 7.4 持续集成系统搭建
 
-## 如何配置保证 Jenkins 的资源弹性，以及 Jenkins Master 的高可用
+## 7.4.1 如何配置保证 Jenkins 的资源弹性，以及 Jenkins Master 的高可用
 
-###环境设置
+### 环境设置
 
   为了便于理解，这里我简化了 Mesos/Marathon 集群的架构，不再考虑集群本身的高可用性。至于如何利用 zookeeper 配置高可用的 mesos/marathon 集群，可以参考[Mesosphere的官方文档](https://mesos.apache.org/documentation/latest/mesos-architecture/)，这里不再展开。
 
@@ -17,7 +17,7 @@
 参照[http://get.dataman.io](http://get.dataman.io)的文档配置启动 Marathon，Mesos-Master 和 Mesos-Slave，下面的整个操作都将在这个集群上完成。
   
 
-###在 Marathon 上部署 Jenkins 的 master 实例
+### 在 Marathon 上部署 Jenkins 的 master 实例
 
   Marathon 支持 web 页面或者 RESTapi 两种方式发布应用，在``192.168.3.＊``内网执行下面的 bash 命令，就会通过 Marathon 的 RESTapi 在 mesos slave 上启动一个 Jenkins master 实例。
   
