@@ -223,6 +223,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```<name>mapred.job.tracker</name>```
 * ```<value>10.162.2.92:9001</value>```
 * */这一步是配置jobtracker的主机IP地址，和上一步一样这要配置本机的IP地址
+* 
 
 
 
