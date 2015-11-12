@@ -55,7 +55,7 @@ Kafka的partition lag统计跑在了Chronos上，配合我们每个机房专门�
 
 发布这块我们围绕这Jenkins做了一个串接。业务线的开发同学写filter并提交到GitLab，打tag就发布了。发布的时候会根据集群规划替换input和output，并验证配置，发布到线上。本地也提供了一个sandbox，模拟线上的环境给开发人员debug自己的filter用。
 
-[0c23bb5c3335df21eafb04c3ec3feeb9.png]
+!(测试)[0c23bb5c3335df21eafb04c3ec3feeb9.png]
 
 
 同时发布过程中我们还会做一些小动作，比如Kibana索引的自动创建，Dashboard的导入导出，尽最大可能减少业务线配置Kibana的时间。每个应用都会启动独立的Kibana实例，这样不同业务线间的ACL也省略了，简单粗暴，方便管理。没人使用的时候自动回收Kibana容器，有访问了再重新发一个。
