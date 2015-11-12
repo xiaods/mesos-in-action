@@ -1,4 +1,4 @@
-# Mesos搭建大数据平台实战
+# Mesos搭建大数据平台Hadoop和深度机器学习平台Singa实战
 
 
 
@@ -239,7 +239,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
-# 5、基于Mesos搭建深度机器学习引擎singa
+# 五、基于Mesos搭建深度机器学习引擎singa
 
 ## 5.1 singa项目简介
 
