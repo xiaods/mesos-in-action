@@ -226,7 +226,12 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 配置本地的Mesos原生库
 * ```vim /usr/lib/hadoop-0.20-mapreduce/bin/hadoop-daemon.sh```
 * ```export MESOS_NATIVE_JAVA_LIBRARY=/usr/local/lib/libmesos.so```
+*完成上述配置后尝试启动jobtracker，验证是否安装部署成功。
+* ```service hadoop-0.20-mapreduce-jobtracker start```
+* 可以通过jps查看jobtracker进程是否在运行
+* ```jps```
 * 
+
 
 
 
