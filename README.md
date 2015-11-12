@@ -15,15 +15,14 @@ Apache Mesos是Apache软件基金会下属的顶级开源项目，它是目前�
 - 徐磊 - 去哪儿系统开发工程师(49068995@qq.com)
 - 赵英俊 - 城云科技（杭州）有限公司(zyj@citycloud.com.cn)
 - 周伟涛 - 数人科技(zhouwtlord@gmail.com)
-- 张明峰 - 数人科技(zhangmingfeng1982@hotmail.com)
+- ~~张明峰 - 数人科技(zhangmingfeng1982@hotmail.com)~~ 再次写书意愿待确认
 
 
 ## 章节计划进度：
 
 前言 - 责任人：肖德时
-Mesos应用概述 - 责任人：肖德时
-
-
+第1章 Mesos应用概述 - 责任人：肖德时 
+第7章 搭建持续集成 - 责任人：周伟涛 初稿-DONE  
 
 
 ##审核组
