@@ -195,16 +195,19 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 配置Hadoop运行所需的环境和配置文件：
 * ```cp target/hadoop-mesos-0.1.0.jar /usr/lib/hadoop-0.20-mapreduce/lib```
 * */这一步是将hadoopOnmesos编译好的jar包放到hadoop调用库文件夹中，以便hadoop可以使用mesos调度资源运行job任务。
-* ```cat > /etc/profile.d/hadoop.sh```
+* ```vim /etc/profile.d/hadoop.sh```
 * ```export HADOOP_MAPRED_HOME=/usr/lib/hadoop-0.20-mapreduce```
 * ```export MESOS_NATIVE_JAVA_LIBRARY=/usr/local/lib/libmesos.so```
-* */这一步是
+* */这一步是在hadoop的运行脚本中配置HOME路径和Mesos的原生库。
 * ```chmod +x /etc/profile.d/hadoop.sh```
 * ```/etc/profile.d/hadoop.sh```
 * ```cd ..```
 * ```rm hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz```
+* */删除下载的cdh5原始文件
 * ```tar czf hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop-2.3.0-cdh5.1.2/```
+* */上一步是将配置好的hadoop安装文件重新打包
 * ```hadoop fs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
+* */
 
 ### 4.3.2 Hadoop配置文件配置
 
