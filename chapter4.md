@@ -198,7 +198,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```cat > /etc/profile.d/hadoop.sh```
 * ```export HADOOP_MAPRED_HOME=/usr/lib/hadoop-0.20-mapreduce```
 * ```export MESOS_NATIVE_JAVA_LIBRARY=/usr/local/lib/libmesos.so```
-* */这一步是将
+* */这一步是
 * ```chmod +x /etc/profile.d/hadoop.sh```
 * ```/etc/profile.d/hadoop.sh```
 * ```cd ..```
