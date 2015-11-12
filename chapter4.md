@@ -263,11 +263,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 ## 4.4 Troubleshoting
 
-
-
-
-
-
+注意：在每次重启HDFS服务的时候，需要先确保Mesos集群是正常运行的。namenode重启的时候可以先重新format一下。
 
 
 
