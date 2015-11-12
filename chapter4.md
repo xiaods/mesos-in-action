@@ -238,11 +238,15 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 
 
 
-# 五、基于Mesos搭建深度机器学习引擎singa
+# 五、基于Mesos搭建深度机器学习平台singa
 
 ## 5.1 singa项目简介
 
+
+
 ## 5.2 singa on mesos架构分析
+
+
 
 
 ## 5.3 singa on mesos部署过程
