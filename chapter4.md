@@ -8,7 +8,7 @@
 
 ## 1.1、Mesos系统简介
 
-  Mesos是一个垮应用集群的共享资源调度和隔离的分布式集群管理系统，它可以在集群应用如：Hadoop MapReduce、Hbase、MPI等之间共享资源并保证各个应用之间的隔离。
+Mesos是一个垮应用集群的共享资源调度和隔离的分布式集群管理系统，它可以在集群应用如：Hadoop MapReduce、Hbase、MPI等之间共享资源并保证各个应用之间的隔离。Mesos是Apache基金会的顶级项目，一经推出就饱受推崇和关注，twitter是最早的将其应用在自己生态系统架构中的公司。在twitter内部，Mesos被当作成了DCOS系统，几乎所有的应用服务都使用Mesos进行分布式资源调度。随后像APPLE这样的大型科技公司也将Mesos引入到自己的数据中心，
 
 ## 1.2、Mesos与其他分布式调度系统的对比
 
@@ -32,8 +32,7 @@
 # 三. Mesos集群部署
 
 ##  3.1、准备部署环境
-
-* 在Ubuntu 14.04的虚拟机上安装所有用到软件，并保证虚拟机可以上互联网。
+ * 在Ubuntu 14.04的虚拟机上安装所有用到软件，并保证虚拟机可以上互联网。
 
 * 安装Python依赖
 * ```apt-get install curl python-setuptools python-pip python-dev python-protobuf```
