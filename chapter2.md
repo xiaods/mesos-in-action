@@ -3,7 +3,7 @@
 ## 平台介绍
 我们是在今年的5月份开始调研并尝试使用Mesos，第一个试点就是我们的日志平台，我们将日志分析全部托管在Mesos平台上。日志平台面向业务线开发、测试、运营人员，方便定位、追溯线上问题和运营报表。
 
-![](0d9efd7d6113fc8ae6ead068d65f69a3.png)
+![](chapter2/0d9efd7d6113fc8ae6ead068d65f69a3.png)
 
 这个是我们平台的结构概览。
 
@@ -19,7 +19,7 @@
 
 先说Marathon，eventSubscriptions是个好功能，通过它的httpcallback可以有很多玩法，群里经常提到的bamboo就是利用这个功能做的。利用好这个功能，做容器监控就非常简单了。
 
-接着是Marathon的重启（更新），推荐设置一下minimumHealthCapacity，这样可以减少重启（更新）时的资源占用，防止同时PUT多个应用时耗光集群资源。
+接着是Marathon的重启（更新），推荐设置一下minimumHealthCapacity，这样可以减少重启（更新）时的资源占用，防止同时启动多个运行实例时消耗过多集群资源。
 
 服务发现，Marathon提供了servicerouter.py导出haproxy配置，或者是bamboo，但是我们现在没有使用这两个。而是按协议分成了两部分，HTTP协议的服务是使用OpenResty开发了一个插件，动态加载Marathon（Mesos）内的应用信息，外部访问的时候proxy_pass到Mesos集群内的一个应用，支持upstream的配置。
 
@@ -28,7 +28,7 @@
 带有UNIQUE attribute的应用，官方目前还无法做到自动扩容，从我们的使用情况来看，基于UNIQUE方式发布的应用全部是基础服务，比如statsd、heka（收集本机的Docker日志）、cAdvisor（监控容器）等，集群新加机器的时候Marathon不会自动scale UNIQUE实例的数量，这块功能社区正在考虑加进去。我们自己写了一个daemon，专门用来监控UNIQUE的服务，发现有新机器就自动scale，省的自己上去点了。
 
 
-![](5af6d65cbb1e756e48484e4dd2af99f8.png)
+![](chapter2/5af6d65cbb1e756e48484e4dd2af99f8.png)
 
 另外一个问题，资源碎片化，Marathon只是个框架，关注点也不在这里。Mesos的UI里虽然有统计，但是很难反应真实的情况，于是我们就自己写了一个Mesos的框架，专门来计算资源碎片和真实的余量，模拟发布情况，这样我们发布新应用或者扩容的时候，就知道集群内真实的资源余量能否支持本次发布，这些数据会抄送一份给我们的监控/报警系统。Chronos我们主要是跑一些定时清理和监控的脚本。
 
@@ -48,13 +48,13 @@ Docker这块，我们没有做什么改动，网络都使用host模式。Docker�
 
 Kafka的partition lag统计跑在了Chronos上，配合我们每个机房专门用来引流的Logstash，监控业务线日志的流量变得轻松多了。
 
-![](56760245043951a56bc5f202ccbc74f4.png)
+![](chapter2/56760245043951a56bc5f202ccbc74f4.png)
 
 容器监控最开始是自己开发的，从Mesos的接口里获取的数据，后来发现hostname：UNIQUE的应用Mesos经常取不到数据，就转而使用cAdvisor了，对于Mesos/Marathon发布的应用，cAdvisor需要通过libcontainer读取容器的config.json文件，获取ENV列表，拿到MESOS_TASK_ID和MARATHON_APP_ID，根据这两个值做聚合后再发到statsd里（上面提到的定制思路）。
 
 发布这块我们围绕这Jenkins做了一个串接。业务线的开发同学写filter并提交到GitLab，打tag就发布了。发布的时候会根据集群规划替换input和output，并验证配置，发布到线上。本地也提供了一个sandbox，模拟线上的环境给开发人员debug自己的filter用。
 
-![](0c23bb5c3335df21eafb04c3ec3feeb9.png)
+![](chapter2/0c23bb5c3335df21eafb04c3ec3feeb9.png)
 
 同时发布过程中我们还会做一些小动作，比如Kibana索引的自动创建，Dashboard的导入导出，尽最大可能减少业务线配置Kibana的时间。每个应用都会启动独立的Kibana实例，这样不同业务线间的ACL也省略了，简单粗暴，方便管理。没人使用的时候自动回收Kibana容器，有访问了再重新发一个。
 
