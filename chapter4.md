@@ -241,24 +241,14 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
+# 5、基于Mesos搭建深度机器学习引擎singa
+
+## 5.1 singa项目简介
+
+## 5.2 singa on mesos架构分析
 
 
-
-
-#5、Spark计算框架的部署和应用
-
-
-## 一、部署前需要具备的环境
-
-* HDFS已经部署在Mesos集群环境中
-* Mesos集群已经部署成功且正常运行
-* 在集群系统中已经具备了Spark安装部署所需的环境，具体可参考（http://spark.apache.org/docs/latest/index.html）
-
-## 二、在Mesos集群上部署Spark
-
-* 在所有集群的节点上使用wget下载Spark安装包
-* ```wget http://mirror.bit.edu.cn/apache/spark/spark-1.5.1/spark-1.5.1.tgz```
-* 注意：由于在Sparkr任务在Mesos集群的节点上运行时需要在各个节点上进行初始化，因此建议在每个节点上都下载Spark的安装包。
+## 5.3 singa on mesos部署过程
 
 
 
@@ -266,15 +256,6 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
-
-
-
-
-
-
-
-
-# 6、部署基于Azkaban的工作流管理平台
 
 
 
