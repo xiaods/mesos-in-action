@@ -250,6 +250,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```service hadoop-0.20-mapreduce-jobtracker start```
 * 可以通过jps查看jobtracker进程是否在运行
 * ```jps```
+* 在其他两个Master节点上完成相应的配置
 * 
 
 
