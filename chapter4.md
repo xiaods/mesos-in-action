@@ -206,8 +206,8 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * */删除下载的cdh5原始文件
 * ```tar czf hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop-2.3.0-cdh5.1.2/```
 * */上一步是将配置好的hadoop安装文件重新打包
-* ```hadoop fs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
-* */
+* ```hadoop dfs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
+* */上一步是将打包好的hadoop安装包上传到hdfs上
 
 ### 4.3.2 Hadoop配置文件配置
 
@@ -236,6 +236,8 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 可以通过jps查看jobtracker进程是否在运行
 * ```jps```
 * 
+
+
 
 
 
