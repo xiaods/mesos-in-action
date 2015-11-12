@@ -48,7 +48,7 @@ Docker这块，我们没有做什么改动，网络都使用host模式。Docker�
 
 Kafka的partition lag统计跑在了Chronos上，配合我们每个机房专门用来引流的Logstash，监控业务线日志的流量变得轻松多了。
 
-![](56760245043951a56bc5f202ccbc74f4.png)![](56760245043951a56bc5f202ccbc74f4.png)
+![](56760245043951a56bc5f202ccbc74f4.png)
 
 容器监控最开始是自己开发的，从Mesos的接口里获取的数据，后来发现hostname：UNIQUE的应用Mesos经常取不到数据，就转而使用cAdvisor了，对于Mesos/Marathon发布的应用，cAdvisor需要通过libcontainer读取容器的config.json文件，获取ENV列表，拿到MESOS_TASK_ID和MARATHON_APP_ID，根据这两个值做聚合后再发到statsd里（上面提到的定制思路）。
 
