@@ -18,6 +18,14 @@ Apache Mesos是Apache软件基金会下属的顶级开源项目，它是目前�
 - 张明峰 - 数人科技(zhangmingfeng1982@hotmail.com)
 
 
+## 章节计划进度：
+
+前言 - 责任人：肖德时
+Mesos应用概述 - 责任人：肖德时
+
+
+
+
 ##审核组
 
 - 李颖杰@DockOne
