@@ -12,12 +12,12 @@ Mesos是一个垮应用集群的共享资源调度和隔离的分布式集群管
 
 ## 1.2、Mesos与其他分布式调度系统的对比
 
-### 1.2.1 Mesos VS kubernetes
+### 1.2.1 Mesos VS Kubernetes
 
 
 
 
-### 1.2.2 Mesos VS yarn
+### 1.2.2 Mesos VS Yarn
 
 
 ## 1.3 Mesos目前在全球的应用情况
