@@ -250,12 +250,22 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```service hadoop-0.20-mapreduce-jobtracker start```
 * 可以通过jps查看jobtracker进程是否在运行
 * ```jps```
+
+### 4.3.3 在其他namenode和datanode上完成部署
+
 * 在其他两个Master节点上完成相应的配置
 * 将之前重新打包好的hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz发送到三个datanode节点上
 * ```scp -r hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop@10.162.2.94:/hadoop```
 * ```scp -r hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop@10.162.2.95:/hadoop```
 * ```scp -r hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz hadoop@10.162.2.96:/hadoop```
 *重启HDFS的nomenode和datanode
+
+
+## 4.4 Troubleshoting
+
+
+
+
 
 
 
