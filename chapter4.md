@@ -216,18 +216,18 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * mapred-site.xml需要配置文件内容
 * ```<name>mapred.jobtracker.taskScheduler</name>```
 * ```<value>org.apache.hadoop.mapred.MesosScheduler</value>```
-* */这一步是通过配置mapred的jobtrackerd.taskSchedule来告诉Hadoop使用Mesos来调度管理任务。
+* */上一步是通过配置mapred的jobtrackerd.taskSchedule来告诉Hadoop使用Mesos来调度管理任务。
 * ```<name>mapred.mesos.taskScheduler</name>```
 * ```<value>org.apache.hadoop.mapred.JobQueueTaskScheduler</value>```
 * ```<name>mapred.mesos.master</name>```
 * ```<value>zk:10.162.2.91:2181，10.162.2.92:2181，10.162.2.93:2181/mesos</value>```
-* */这一步配置是保证mapred能够准确的找到mesos master节点通过zookeeper选举出来的的主节点。
+* */上一步配置是保证mapred能够准确的找到mesos master节点通过zookeeper选举出来的的主节点。
 * ```<name>mapred.mesos.executor.uri</name>```
 * ```<value>hdfs:/10.162.2.92:9000/hadoop-2.3.0-cdh5.1.2-mesos.0.20.tar.gz</value>```
-* */这一步是配置hadoop的路径，这样mapred可以知道到那里调用hadoop代码执行task，这里10.162.2.92是本地主机的IP地址，在10.162.2.91主机上时就改成10.162.2.91.
+* */上一步是配置hadoop的路径，这样mapred可以知道到那里调用hadoop代码执行task，这里10.162.2.92是本地主机的IP地址，在10.162.2.91主机上时就改成10.162.2.91.
 * ```<name>mapred.job.tracker</name>```
 * ```<value>10.162.2.92:9001</value>```
-* */这一步是配置jobtracker的主机IP地址，和上一步一样这要配置本机的IP地址
+* */上一步是配置jobtracker的主机IP地址，和上一步一样这要配置本机的IP地址
 * 配置本地的Mesos原生库
 * ```vim /usr/lib/hadoop-0.20-mapreduce/bin/hadoop-daemon.sh```
 * ```export MESOS_NATIVE_JAVA_LIBRARY=/usr/local/lib/libmesos.so```
