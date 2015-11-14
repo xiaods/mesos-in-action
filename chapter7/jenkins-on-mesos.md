@@ -74,29 +74,33 @@
 把该工程复制3份 ``test2``、``test3`` 和 ``test4``，并同时启动这4个工程的构建作业，Jenkins Master 会向 Mesos 申请资源，如果资源分配成功，Jenkins Master 就在获得的 slave 节点上进行作业构建，如下图(图7-4-8)所示：
 
   ![构建作业列表](building-jobs.png)
-  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-8  构建作业</font>
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-8  构建作业列表</font>
 
 因为在前面的系统配置里我们设置了**执行者数量**为2（即最多有两个作业同时进行构建），所以在上图中我们看到两个正在进行构建的作业，而另外两个作业在排队等待。
 
-下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
+下图(图7-4-9)展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
 
-![Jenkins资源使用](jenkins-utilization.png)
+  ![Jenkins资源使用](jenkins-utilization.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-9  Jenkins 资源使用</font>
+  
+正在使用的slave节点的详细信息
 
-  正在使用的slave节点的详细信息
+  ![Jenkins Slave 详情](jenkins-slave-detail.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-10  slave 节点详细信息</font>
 
-![Jenkins Slave 详情](jenkins-slave-detail.png)
-![Jenkins slave 详细信息](jenkins-slave.png)
+  ![Jenkins slave 详细信息](jenkins-slave.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-11  slave 节点详细信息</font>
   
 #### 配置 Jenkins Slave 参数(可选)
 
-  在使用 Jenkins 进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的 slave 机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置 Jenkins Mesos Cloud 插件的 slave info，我们可以很容易的满足上述要求。 具体的配置如下图所示：
+在使用 Jenkins 进行项目构建时，我们经常会面临这样一种情形，不同的作业会有不同的资源需求，有些作业需要在配置很高的 slave 机器上运行，但是有些则不需要。为了提高资源利用率，显然，我们需要一种手段来向不同的作业分配不同的资源。通过设置 Jenkins Mesos Cloud 插件的 slave info，我们可以很容易的满足上述要求。 具体的配置如下图(图7-4-12)所示：
 
-![Jenkins 配置 slave](jenkins-config-slave.png)
-
+  ![Jenkins 配置 slave](jenkins-config-slave.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-12  Jenkins 配置 slave</font>
 
 ### 总结
 
-  利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
+利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
 
 ## 7.4.2 如何达到 Jenkins 数据持久化
 
@@ -104,20 +108,20 @@
 
 ### 在内部的代码库或者 github 上创建一个 git repo
 
-  我们需要在内部的代码库或者公共代码库创建一个名为 **jenkins-on-mesos** 的 gitrepo ， 譬如：**git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 。 这个 repo 是 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 用来同步jenkins数据的。
+我们需要在内部的代码库或者公共代码库创建一个名为 **jenkins-on-mesos** 的 gitrepo ， 譬如：**git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 。 这个 repo 是 jenkins 插件 [SCM Sync configuration plugin](https://wiki.jenkins-ci.org/display/JENKINS/SCM+Sync+configuration+plugin) 用来同步jenkins数据的。
 
-  另外，对于 SCM-Sync-Configuration 来说，非常关键的一步是保证其有权限 pull/push 上面我们所创建的 gitrepo。 以我们公司的内部环境为例， 在 mesos 集群搭建时，我们首先使用 ansible 为所有的 mesos slave 节点添加了用户 **core** 并生成了相同的 **ssh keypair**，同时在内部的gitlab上注册了用户 **core** 并上传其在slave节点上的公钥，然后添加该用户 **core** 为 repo **git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 的 **developer** 或者 **owner**，这样每个 mesos slave 节点都可以以用户 **core** 来 pull/push 这个gitrepo了。
+另外，对于 SCM-Sync-Configuration 来说，非常关键的一步是保证其有权限 pull/push 上面我们所创建的 gitrepo。 以我们公司的内部环境为例， 在 mesos 集群搭建时，我们首先使用 ansible 为所有的 mesos slave 节点添加了用户 **core** 并生成了相同的 **ssh keypair**，同时在内部的gitlab上注册了用户 **core** 并上传其在slave节点上的公钥，然后添加该用户 **core** 为 repo **git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git** 的 **developer** 或者 **owner**，这样每个 mesos slave 节点都可以以用户 **core** 来 pull/push 这个gitrepo了。
 
 ### 使用 marathon 部署可持久化的 Jenkins Master
 
-  我们首先需要 wget 两个文件:
+我们首先需要 wget 两个文件:
 
   ```bash
   wget -O start-jenkins.app.sh https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/start-jenkins.app.sh.template
   wget https://raw.githubusercontent.com/Dataman-Cloud/jenkins-on-mesos/master/marathon.json
   ```
 
-  其中 ``start-jenkins.app.sh`` 是需要配置的，
+其中 ``start-jenkins.app.sh`` 是需要配置的，
 
   ```bash
   #! /bin/bash
@@ -136,31 +140,35 @@
   ......
   ```
 
-  编辑如下3个变量：
+编辑如下3个变量：
 
   1. **SCM_SYNC_GIT**: 上面所配置的 gitrepo 地址, 格式例子： git@gitlab.dataman.io:wtzhou/jenkins-on-mesos.git
   2. **APP_USER**: marathon 会以用户 **APP_USER** 来部署 jenkins ，从而插件**SCM-Sync-Configuration**会以用户**APP_USER**来跟gitrepo进行同步。 所以在我们的这个例子里，我们让``APP_USER=core``。
   3. **MARATHON_PORTAL**: marathon 的 RESTapi 入口，例如： http://marathon.dataman.io:8080/v2/apps
 
-  接下来就可以执行命令:
+接下来就可以执行命令:
 
   ```bash
   bash start-jenkins.app.sh
   ```
 
-  来让 marathon 部署我们的 Jenkins Master 了。这样， 我们在 Jenkins Master 上所保存的任何配置，创建的任何job都会被 **SCM-Sync-Configuration** 同步到 repo 里，并在 Jenkins Master 被重新发布后 download 到本地。
+来让 marathon 部署我们的 Jenkins Master 了。这样， 我们在 Jenkins Master 上所保存的任何配置，创建的任何job都会被 **SCM-Sync-Configuration** 同步到 repo 里，并在 Jenkins Master 被重新发布后 download 到本地。
 
 ### 关于SCM-Sync-Configuration的更多信息
 
-  SCM-Sync-Configuration 初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图所示， 
+SCM-Sync-Configuration 初始化完成后（在我们环境里初始化过程会被自动触发)，每次配置更新或者添加，编辑构建作业时，我们会得到一个提示页面来为新的 commit message 添加 comment，如下图(图7-4-13)所示， 
 
-![commit comment](Jenkins - scm-sync-configuration - Comment prompt2.png)
+  ![commit comment](Jenkins - scm-sync-configuration - Comment prompt2.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-13  commit comment</font>
 
-  当前，所支持的配置文件如下：
+当前，所支持的配置文件如下：
 
   1. 构建作业的配置文件 (/jobs/*/config.xml)
   2. 全局的 Jenkins/Hudson 系统配置文件 (/config.xml)
   3. 基本的插件的配置文件 (/hudson*.xml, /scm-sync-configuration.xml)
   4. 用户手动指定的配置文件
 
-另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图是同步出错时的截图，你可以去**System Log**查看具体的出错信息。![scm sync status](Jenkins - scm-sync-config - Display Status.png)
+另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图(图7-4-14)是同步出错时的截图，你可以去**System Log**查看具体的出错信息。
+
+  ![scm sync status](Jenkins - scm-sync-config - Display Status.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-14  scm sysnc s</font>
