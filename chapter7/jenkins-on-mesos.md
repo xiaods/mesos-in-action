@@ -50,10 +50,13 @@
 
 ### 配置 Jenkins Master 实现弹性伸缩
 
-  接下来是配置 Jenkins 注册成为 Mesos 的 Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到 Jenkins Master 的 UI 页面。下面的截图是我逐步配置的全过程。
+接下来是配置 Jenkins 注册成为 Mesos 的 Framework，需要通过浏览器访问``http://192.168.3.25:31052/``来到 Jenkins Master 的 UI 页面。下面的截图是我逐步配置的全过程。
 
-![Jenkins Master配置页面](jenkins-configure.png)
-![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
+  ![Jenkins Master配置页面](jenkins-configure.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-4 Jenkins Master 配置页面</font>
+
+  ![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
+   <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-5  Jenkins Master 配置 Mesos 连接</font>
 
 ``来到 Jenins
  Master 配置页面``=>``点击系统设置`` => ``设置 Mesos Master 为 192.168.3.4:5050`` => ``点击测试链接``=>``如果链接成功，页面会弹出 连接到 Mesos 成功``=>``点击应用``
