@@ -41,9 +41,10 @@
  ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave.png)
   <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-2  Jenkins Master  运行在 Mesos slave 上</font>
 
-  点击sandbox
+  点击sandbox(图7-4-3)
   
   ![Jenkins Master运行在mesos slave上](jenkins-master-on-mesos-slave-2.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-3  Jenkins Master 运行在 Mesos slave 上</font>
 
 至此，我们的 Jenkins Master 已经在 marathon 上被成功启动了。
 
