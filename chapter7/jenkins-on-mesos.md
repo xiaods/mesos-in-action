@@ -61,21 +61,23 @@
 ``来到 Jenins
  Master 配置页面``=>``点击系统设置`` => ``设置 Mesos Master 为 192.168.3.4:5050`` => ``点击测试链接``=>``如果链接成功，页面会弹出 连接到 Mesos 成功``=>``点击应用``
 
-  如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图所示：
+如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图(图7-4-6)所示：
 
-![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
+  ![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-6  Jenkins framework on mesos</font>
 
-  现在我们可以同时启动多个构建作业来看一下 Jenkins 在 Mesos 上的弹性伸缩，在 ``http://192.168.3.25:31052/`` 上新建一个名为 ``test`` 的工程，配置其构建过程为运行一个 shell 命令 ``top`` ，如下图所示：
+现在我们可以同时启动多个构建作业来看一下 Jenkins 在 Mesos 上的弹性伸缩，在 ``http://192.168.3.25:31052/`` 上新建一个名为 ``test`` 的工程，配置其构建过程为运行一个 shell 命令 ``top`` ，如下图(图7-4-7)所示：
 
-![配置构建作业](test-job-config.png)
+  ![配置构建作业](test-job-config.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-7  配置构建作业</font>
 
-  把该工程复制3份 ``test2``、``test3`` 和 ``test4``，并同时启动这4个工程的构建作业，Jenkins Master 会向 Mesos 申请资源，如果资源分配成功，Jenkins Master 就在获得的 slave 节点上进行作业构建，如下图所示：
+把该工程复制3份 ``test2``、``test3`` 和 ``test4``，并同时启动这4个工程的构建作业，Jenkins Master 会向 Mesos 申请资源，如果资源分配成功，Jenkins Master 就在获得的 slave 节点上进行作业构建，如下图所示：
 
-![构建作业列表](building-jobs.png)
+  ![构建作业列表](building-jobs.png)
 
 因为在前面的系统配置里我们设置了**执行者数量**为2（即最多有两个作业同时进行构建），所以在上图中我们看到两个正在进行构建的作业，而另外两个作业在排队等待。
 
-  下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
+下图展示了当前的Jenkins作业构建共使用了0.6CPU和1.4G内存,
 
 ![Jenkins资源使用](jenkins-utilization.png)
 
