@@ -23,4 +23,6 @@ Jenkins 以其
  下面两张图形象的说明了 Marathon 将 Jenkins Master 部署到 Mesos 资源池，以及 Jenkins Master 使用 Mesos 资源池进行作业构建的整个过程。 
 
   ![Marathon 在 Mesos 上运行 Jenkins Master 实例](how-marathon-run-jenkins-on-mesos.png)
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-1</font>
+  
   ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
