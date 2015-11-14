@@ -171,4 +171,4 @@ SCM-Sync-Configuration 初始化完成后（在我们环境里初始化过程会
 另外，我们可以在每一页的下面看到 scm sync config 的状态， 下图(图7-4-14)是同步出错时的截图，你可以去**System Log**查看具体的出错信息。
 
   ![scm sync status](Jenkins - scm-sync-config - Display Status.png)
-  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-14  scm sysnc s</font>
+  <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-14  scm sysnc status</font>
