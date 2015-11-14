@@ -32,9 +32,9 @@
 * 通过构建工具与版本控制工具的配合，实现产品版本控制与管理
 * 建立、管理项目开发的工作网站
 
-另外下面的图片是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的持续交付成熟度矩阵。这里我们不需要要考虑持续集成与持续交付的差别，或者说，在本文中，持续集成与持续交付是一样的。
+另外下面的图片(图7-2-1)是我在[atlassian wiki](https://chrisshayan.atlassian.net/wiki/display/my/2013/07/23/Continuous+Delivery+Matrix)下载的持续交付成熟度矩阵。这里我们不需要要考虑持续集成与持续交付的差别，或者说，在本文中，持续集成与持续交付是一样的。
 
 ![持续交付成熟度矩阵](ContinuousDeliveryMatrix.png)
- <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-2-1  持续交付成熟度矩阵</font>
+ <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-2-1  持续交付成熟度矩阵</font>
  
 通过这张图片我们可以看出，CI流程的演进过程，从初期的 nightly build 到最终的 镜像交付； 从 merges are rare 到自动生成 ReleaseNote；从简单的将构建结果通知 committer 到向客户分享构建报告与统计结果，等等。我们可以发现，一个成熟的继续交付系统可以极大的提高生产率。
