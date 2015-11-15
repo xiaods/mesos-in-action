@@ -19,7 +19,13 @@ Jenkins 以其
 
 ### 7.3.1 为什么要把Jenkins运行到Apache Mesos上
 
-  把 Jenkins 运行到 Apache Mesos 上，或者说利用 Apache Mesos 向 Jenkins 提供 slave 资源，最主要的目的是利用 Mesos 的弹性资源分配来提高资源利用率。通过配置**Jenkins-on-Mesos**插件，Jenkins Master 可以在作业构建时根据实际需要动态的向 Mesos 申请 slave 节点，并在构建完成的一段时间后将节点归还给 mesos。
+使用 Jenkins 时，如果遇到项目很多，又需要同一时间进行处理，在超过单机计算能力的硬件资源时，单机版本 Jenkins 就无法胜任工作了。在这个情况下，Jenkins 提供了添加独立的 Slave 节点的方式给 Jenkins 任务更多的计算资源来解决这个问题(再进一步 Jenkins 还提供 Docker 化的 Slave 节点)。
+
+比如ebay之前的模式是使用每个开发各有一个虚拟机跑自己的jenkins来解决持续集成问题，但最后导致资源利用率极低。
+
+但现在动态资源调度分布式计算盛行的今天，再使用纯静态资源分配的分布式，未免太过时了。还好 Jenkins 提供了很强大的插件功能，对于分布式提供动态资源调度，插件提供了很两种决方案如: Kubernetes\Mesos 等。本文主要结合 Mesos 插件解决方案。
+
+把 Jenkins 运行到 Apache Mesos 上，或者说利用 Apache Mesos 向 Jenkins 提供 slave 资源，最主要的目的是利用 Mesos 的弹性资源分配来提高资源利用率。通过配置**Jenkins-on-Mesos**插件，Jenkins Master 可以在作业构建时根据实际需要动态的向 Mesos 申请 slave 节点，并在构建完成的一段时间后将节点归还给 mesos。
 
   同时，Marathon 会对发布到它之上的应用程序进行健康检查，从而在应用程序由于某些原因意外崩溃后自动重启该应用。这样，选择利用 Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。
 
