@@ -14,9 +14,10 @@ Mesos是一个垮应用集群的共享资源调度和隔离的分布式集群管
 
 ### 1.2.1 Mesos VS Kubernetes
  关于Mesos在前面一小节已经根据官方的定义进行了说明，那么关于Kubernetes官方的定义是这样的：Kubernetes is an open source orchestration system for Docker containers.(Kubernetes是一个开源的Docker容器调度编排系统。）
- 换句话说，Kubernetes是一个Docker容器的高级管理系统，可以从集群应用层面出发满足对应用进行集群化部署、管理的需求。
+ 换句话说，Kubernetes是一个Docker容器的高级管理系统，可以从集群应用层面出发满足对应用进行集群化部署、管理的需求。下图可以很形象的说明这种特性：
 
-
+![](12DF1664-8DE5-4AEE-B420-94D14F6E6543.png)
+             （图片来自Kuberbetes官网）
 
 ### 1.2.2 Mesos VS Yarn
 
