@@ -60,9 +60,10 @@
 
 1. 来到 Jenins
  Master 配置页面
-2. 点击系统设置, 设置 Mesos Master 为 192.168.3.4:5050
-3. 点击测试链接, 如果链接成功，页面会弹出连接到 Mesos 成功
-4. 点击应用，将设置保存
+2. 点击系统设置, ``Mesos native library path`` 设置 Mesos lib 库路径，一般在/usr/lib/libmesos.so，拷贝无效，必须安装 Mesos
+3. 设置 Mesos Master 为 192.168.3.4:5050
+4. 点击测试链接, 如果链接成功，页面会弹出连接到 Mesos 成功
+5. 点击应用，将设置保存
 
 如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图(图7-4-6)所示：
 
