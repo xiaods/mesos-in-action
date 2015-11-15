@@ -25,11 +25,10 @@ Jenkins 以其
 
 把 Jenkins 运行到 Apache Mesos 上，或者说利用 Apache Mesos 向 Jenkins 提供 slave 资源，最主要的目的是利用 Mesos 的弹性资源分配来提高资源利用率。通过配置**Jenkins-on-Mesos**插件，Jenkins Master 可以在作业构建时根据实际需要动态的向 Mesos 申请 slave 节点，并在构建完成的一段时间后将节点归还给 mesos。
 
-同时，Marathon 会对发布到它之上的应用程序进行健康检查，从而在应用程序由于某些原因意外崩溃后自动重启该应用。这样，选择利用 Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。
 
 ### 7.3.2 Marathon 运行 Jenkins Master
 
-它负责提供整个 Jenkin 的设置、webui、工作流控制定制等。首先，先将 Jenkins-Master 用 Marathon 发布，使用 Marathon 对其进行程序管理和健康检查，从而在应用程序由于某些原因意外崩溃后自动恢复。这样，Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master 本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。
+Jenkins Master 负责提供整个 Jenkin 的设置、webui、工作流控制定制等。 另外，Marathon 会对发布到它之上的应用程序进行健康检查，从而在应用程序由于某些原因意外崩溃后自动重启该应用。这样，选择利用 Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。首先，先将 Jenkins-Master 用 Marathon 发布，使用 Marathon 对其进行程序管理和健康检查，从而在应用程序由于某些原因意外崩溃后自动恢复。这样，Marathon 管理 Jenkins Master 保证了该构建系统的全局高可用。而且，Jenkins Master 本身也通过 Marathon 部署运行在 Mesos 资源池内，进一步实现了资源共享，提高了资源利用率。
 
 下面两张图形象的说明了 Marathon 将 Jenkins Master 部署到 Mesos 资源池(图7-3-1)，以及 Jenkins Master 使用 Mesos 资源池进行作业构建的整个过程(图7-3-2)。 
 
