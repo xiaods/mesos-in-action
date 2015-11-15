@@ -17,7 +17,7 @@ Jenkins 以其
 
 等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ，譬如 github, yahoo!, Dell, LinkedIn, eBay 等， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
 
-### 7.3.1 为什么要把Jenkins运行到Apache Mesos上
+### 7.3.1 为什么要把 Jenkins 运行到 Apache Mesos 上
 
 使用 Jenkins 时，如果遇到项目很多，又需要同一时间进行处理，在超过单机计算能力的硬件资源时，单机版本 Jenkins 就无法胜任工作了。在这个情况下，Jenkins 提供了添加独立的 Slave 节点的方式给 Jenkins 任务更多的计算资源来解决这个问题(再进一步 Jenkins 还提供 Docker 化的 Slave 节点)。
 
