@@ -1,5 +1,7 @@
 # 7.6 参考链接
 
+* http://www.ebaytechblog.com/2014/04/04/delivering-ebays-ci-solution-with-apache-mesos-part-i/#.U2cRpfldVyw
+* http://www.ebaytechblog.com/2014/05/12/delivering-ebays-ci-solution-with-apache-mesos-part-ii/
 * https://codeship.com/continuous-integration-essentials
 * https://blog.risingstack.com/continuous-deployment-of-node-js-applications/
 * http://blog.crisp.se/2013/02/05/yassalsundman/continuous-delivery-vs-continuous-deployment
