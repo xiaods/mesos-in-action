@@ -10,4 +10,4 @@
 
 **Marathon**是注册到Apache Mesos上的管理长时应用(long-running applications)的framework，如果把Mesos比作数据中心kernel的话，那么Marathon就是init或者upstart的daemon。
 
-  本章节旨在探讨如何利用Jenkins，Apache Mesos和Marathon搭建一套**弹性**的，**高可用**的持续集成环境。
+本章节旨在探讨如何利用Jenkins，Apache Mesos和Marathon搭建一套**弹性**的，**高可用**的持续集成环境。
