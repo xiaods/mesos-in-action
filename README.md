@@ -22,6 +22,7 @@ Apache Mesos是Apache软件基金会下属的顶级开源项目，它是目前�
 
 - 前言 - 责任人：肖德时  初稿-Doing
 - 第1章 Mesos应用概述 - 责任人：肖德时  初稿-Doing
+- 第4章 Mesos搭建大数据平台Hadoop和深度机器学习平台Singa   初稿－Doing
 - 第7章 搭建持续集成 - 责任人：周伟涛 初稿-DONE  
 
 
