@@ -298,6 +298,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 Singa是由NUS、浙江大学、网易联合进行开发并开源的一个深度机器学习平台，其设计目的是为多种深度学习模型（如CNN、DBN)提供一个有效的、易用的、高扩展的分布式实现平台。在Singa平台上，用户可以像在Hadoop上实现Map/Reducer一样轻易的训练他们所需要的抽象的深度学习模型。Singa的详细信息可以访问https://wiki.apache.org/incubator/SingaProposal。
 
 ## 5.2 Singa on mesos架构分析
+Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分布式集群资源调度系统，在本节中我
 
 
 
