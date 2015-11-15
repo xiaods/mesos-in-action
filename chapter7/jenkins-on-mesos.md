@@ -63,7 +63,9 @@
 2. 点击系统设置
 3. ``Mesos native library path`` 设置: Mesos lib 库路径，一般在/usr/lib/libmesos.so，拷贝无效，必须安装 Mesos
 3. Mesos Master [hostname:port] 设置: Mesos-Master 地址加端口，如果单 Mesos-Master 模式，使用 mesos-master-ip:5050格式，如果是多 Mesos-Master 使用 zk://zk1:2181,zk2:2181,zk3:2181/mesos 格式设置 Mesos Master 为 192.168.3.4:5050
-4. Framework Name 设置: Mesos Master 查看到的应用框架名称
+4. Framework Name 设置: Mesos Master
+5. Slave username 设置: Slave的名字
+6. 查看到的应用框架名称
 4. 点击测试链接, 如果链接成功，页面会弹出连接到 Mesos 成功
 5. 点击应用，将设置保存
 
