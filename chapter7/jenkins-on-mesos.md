@@ -58,8 +58,11 @@
   ![Jenkins Master配置Mesos](jenkins-mesos-configure.png)
    <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-5  Jenkins Master 连接 Mesos 集群</font>
 
-``来到 Jenins
- Master 配置页面``=>``点击系统设置`` => ``设置 Mesos Master 为 192.168.3.4:5050`` => ``点击测试链接``=>``如果链接成功，页面会弹出 连接到 Mesos 成功``=>``点击应用``
+1. 来到 Jenins
+ Master 配置页面
+2. 点击系统设置, 设置 Mesos Master 为 192.168.3.4:5050
+3. 点击测试链接, 如果链接成功，页面会弹出连接到 Mesos 成功
+4. 点击应用，将
 
 如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图(图7-4-6)所示：
 
