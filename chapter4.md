@@ -63,6 +63,7 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
 * 安装配置Mesos的Python框架
 * ```curl -fL http://downloads.Mesosphere.io/master/ubuntu/14.04/Mesos-0.19.0_rc2-py2.7-linux-x86_64.egg -o /tmp/Mesos.egg```
 * ```easy_install /tmp/Mesos.egg```
+* 
 
    至此在一个虚拟机上就完成了所有组件的安装部署，下面就是对虚拟机打快照，然后快速的复制出6个一样的虚拟机，按照上图的ip配置进行配置之后就可以进入下个阶段，当然为了保险你可以测试一下上处组件是否安装成功和配置正确。如果你没有使用云平台，或者不具备快照功能，那就只能在6个虚拟机上重复6遍上处过程了。
   
