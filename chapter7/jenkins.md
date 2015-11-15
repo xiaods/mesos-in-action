@@ -41,3 +41,5 @@ Jenkins Master 负责提供整个 Jenkin 的设置、webui、工作流控制定�
 
   ![Jenkins Master 在Mesos上运行 Jenkins Slave](how-jenkins-master-run-on-mesos.png)
   <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-3-2  Jenkins 使用 Mesos 资源池</font>
+
+### 7.3.4 Mesos 整体调度流程
