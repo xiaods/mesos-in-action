@@ -6,7 +6,7 @@
 
 ## 7.2.1 持续集成能为团队带来什么
 
-我们一致认为，持续集成至少可以为团队带来下述几点价值：
+我们一致认为，持续集成至少可以为团队带来下述几点[价值](http://baike.baidu.com/link?url=YUuGXCCgfPK9Z_Yf728mCkL7ccEAxEBGVOOrQETCTP_w7R-N3qtqS7Hd4ZV6XibkC5YxuFw1HfLW90dL8B0KKa)：
 
 - 有效的控制或降低风险
 > 软件一天中进行多次的集成，并触发了相应的测试，这样有利于检查缺陷，了解软件的健康状况，减少假定，从而有效的控制或降低了风险。
