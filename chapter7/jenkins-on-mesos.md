@@ -98,8 +98,6 @@
   ![Jenkins 配置 slave](jenkins-config-slave.png)
   <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-12  Jenkins 配置 slave</font>
 
-### 总结
-
 利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
 
 ## 7.4.2 如何达到 Jenkins 数据持久化
