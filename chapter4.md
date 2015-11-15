@@ -299,12 +299,12 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 
 
-## 5.2 singa on mesos架构分析
+## 5.2 Singa on mesos架构分析
 
 
 
 
-## 5.3 singa on mesos部署过程
+## 5.3 Singa on mesos部署过程
 
 
 
