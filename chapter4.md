@@ -295,7 +295,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 ## 5.1 Singa项目简介
 
-
+Singa是由NUS、浙江大学、网易联合进行开发并开源的一个深度机器学习
 
 
 
