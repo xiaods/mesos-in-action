@@ -6,11 +6,13 @@
 
 Jenkins 以其
 
-* 易于安装
-* 易于配置
+* 易于安装：只要把 jenkins.war 部署到 Servlet 容器，不需要数据库支持。
+* 易于配置：所有配置都是通过其提供的 Web 界面实现。
 * 丰富的插件生态
 * 可扩展性
-* 分布式构建
+* 分布式构建：Jenkins 能够让多台计算机一起构建/测试。
+* 集成 RSS/E-mail： 通过 RSS 发布构建结果或当构建完成时通过 E-mail 通知。
+* 生成 JUnit/TestNG 测试报告。
 
 等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
 
