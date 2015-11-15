@@ -1,4 +1,4 @@
-# 7.3 Jenkins
+# Jenkins
 
 在上一章提到的常用CI工具中，Jenkins 常用的CI开源工具。 其官方网站对 Jenkins 是这样定义的：
 
