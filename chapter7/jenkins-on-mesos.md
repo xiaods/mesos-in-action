@@ -108,7 +108,7 @@
 
 1. ``Label String`` 设置: Slave 标签
 2. ``Maximum number of Executors per Slave``: 每个 Slave 可以同时执行几个任务
-3. ``Mesos Offer Selection Attributes``: 选择在那些 Mesos Slave 标签资源上运行，格式{"clusterType":"标签"}
+3. ``Mesos Offer Selection Attributes``: 选择在哪些 Mesos Slave 标签资源上运行，格式{"clusterType":"标签"}
 
 利用mesos为jenkins弹性的提供资源，同时配置Jenkins Slave的参数来满足不同作业的资源需求，这些都大大提高了集群的资源利用率。另外，由于 Marathon 会自动检查运行在它之上的app的健康状态， 并重新发布崩溃掉的应用程序。
 
