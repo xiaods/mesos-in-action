@@ -69,7 +69,7 @@
 8. 点击测试链接, 如果链接成功，页面会弹出连接到 Mesos 成功
 9. 点击应用，将设置保存
 
-如果Jenkins在Mesos上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图(图7-4-6)所示：
+如果 Jenkins 在 Mesos 上注册成功，访问``http://192.168.3.4:5050/#/frameworks``，我们可以找到jenkins Framework，如下图(图7-4-6)所示：
 
   ![Jenkins Framework on Mesos](jenkins-framework-on-mesos.png)
   <font size="2">&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;&#8195;图7-4-6  Jenkins framework on mesos</font>
