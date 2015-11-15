@@ -15,7 +15,7 @@ Jenkins 以其
 * 生成 JUnit/TestNG 测试报告。
 * 文件识别: Jenkins 能够跟踪哪次构建生成哪些 jar ，哪次构建使用哪个版本的 jar 等。
 
-等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
+等特性广受开发者欢迎。 许多的公司，开源项目都在使用 Jenkins ，譬如 github, yahoo!, Dell, LinkedIn, eBay 等， 你在这里可以看到[Who is using Jenkins](https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=58001258)。
 
 ### 7.3.1 为什么要把Jenkins运行到Apache Mesos上
 
