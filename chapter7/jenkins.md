@@ -45,3 +45,5 @@ Jenkins Master 负责提供整个 Jenkin 的设置、webui、工作流控制定�
 ### 7.3.4 Mesos 整体调度流程
 
 图片来源ebay
+
+![Mesos 整体调度流程](ebay-mesos-jenkins.png)
