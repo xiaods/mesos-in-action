@@ -19,6 +19,7 @@ Mesos是一个垮应用集群的共享资源调度和隔离的分布式集群管
 ![](12DF1664-8DE5-4AEE-B420-94D14F6E6543.png)
              （图片来自Kuberbetes官网）
 
+
 ### 1.2.2 Mesos VS Yarn
 
 
