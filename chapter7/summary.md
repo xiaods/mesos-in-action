@@ -6,7 +6,7 @@
 
 **Jenkins**是基于 Java 开发的一种持续集成 (CI) 工具，它提供了一种易于使用的持续集成系统。
 
-**Mesos**是Apache下的一个开源的统一资源管理与调度平台，它被称为是分布式系统的内核。
+**Mesos**是 Apache 下的一个开源的统一资源管理与调度平台，它被称为是分布式系统的内核。
 
 **Marathon**是注册到 Apache Mesos 上的管理长时应用(long-running applications)的 Framework，如果把 Mesos 比作数据中心 kernel 的话，那么 Marathon 就是 init 或者 upstart 的 daemon。
 
