@@ -73,8 +73,7 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
 * ```echo deb http://get.Docker.io/ubuntu Docker main | sudo tee /etc/apt/sources.list.d/Docker.list```
 * ```sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9```
 * ```apt-get update && apt-get install lxc-Docker```
-
-   至此在一个虚拟机上就完成了所有组件的安装部署，下面就是对虚拟机打快照，然后快速的复制出6个一样的虚拟机，按照上图的ip配置进行配置之后就可以进入下个阶段，当然为了保险你可以测试一下上处组件是否安装成功和配置正确。如果你没有使用云平台，或者不具备快照功能，那就只能在6个虚拟机上重复6遍上处过程了。
+至此在一个虚拟机上就完成了所有组件的安装部署，下面就是对虚拟机打快照，然后快速的复制出6个一样的虚拟机，按照上图的ip配置进行配置之后就可以进入下个阶段，当然为了保险你可以测试一下上处组件是否安装成功和配置正确。如果你没有使用云平台，或者不具备快照功能，那就只能在6个虚拟机上重复6遍上处过程了。
   
 
 ## 3.2、在所有的节点上配置ZooKeeper
