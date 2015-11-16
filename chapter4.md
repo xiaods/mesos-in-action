@@ -303,6 +303,7 @@ Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分�
 
 
 
+
 ## 5.3 Singa on mesos部署过程
 
 
