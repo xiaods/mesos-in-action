@@ -300,7 +300,7 @@ Singa是由NUS、浙江大学、网易联合进行开发并开源的一个深度
 ## 5.2 Singa on mesos架构分析
 Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分布式集群资源调度系统，在本节中我
 
-
+![](singa on mesos.png)
 
 
 
