@@ -179,7 +179,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```sudo apt-get update; sudo apt-get install hadoop-hdfs-namenode```
 *```cp /etc/hadoop/conf.empty/log4j.properties/etc/hadoop/conf.name/log4j.properties```
 
-### 4.2.2、在slave节点上部署datanode
+### 1.5.3、在slave节点上部署datanode
 * 创建挂载目录
 * ```mkdir -p /mnt/cloudera-hdfs/1/dfs/dn /mnt/cloudera-hdfs/2/dfs/dn /mnt/cloudera-hdfs/3/dfs/dn /mnt/cloudera-hdfs/4/dfs/dn```
 * 修改挂在目录所属的用户组
@@ -191,23 +191,23 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```sudo apt-get install hadoop-client```
 
 
-### 4.2.3、 格式化并启动namenode节点
+### 1.5.4、 格式化并启动namenode节点
 * ```sudo -u hadoop hadoop namenode -format```
 * ```service hadoop-hdfs-namenode start```
 
-### 4.2.4、启动slave节点
+### 1.5.5、启动slave节点
 * ```service hadoop-hdfs-datanode start```
 
-### 4.2.5 配置服务自启动
+### 1.5.6 配置服务自启动
 * 在namenode节点上
 * ```update-rc.d hadoop-hdfs-namenode defaults```
 * ```update-rc.d zookeeper-server defaults```
 *在slave节点上
 * ```update-rc.d hadoop-hdfs-datanode defaults```
 
-## 4.3、在Mesos集群中部署Hadoop
+## 1.6、在Mesos集群中部署Hadoop
 
-### 4.3.1、Hadoop的基本安装
+### 1.6.1、Hadoop的基本安装
 * 下载Hadoop安装文件包
 * ```wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.3.0-cdh5.1.2.tar.gz```
 * 将安装文件包解压缩
@@ -252,7 +252,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * ```hadoop dfs -put hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz /```
 * */上一步是将打包好的hadoop安装包上传到hdfs上
 
-### 4.3.2 Hadoop配置文件配置
+### 1.6.2、 Hadoop配置文件配置
 
 * 配置mapred-site.xml
 * ```vi /etc/hadoop/conf.cluster-name/mapred-site.xml ```
@@ -279,7 +279,7 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 * 可以通过jps查看jobtracker进程是否在运行
 * ```jps```
 
-### 4.3.3 在其他namenode和datanode上完成部署
+### 1.6.3、 在其他namenode和datanode上完成部署
 
 * 在其他两个Master节点上完成相应的配置
 * 将之前重新打包好的hadoop-2.3.0-cdh5.1.2-mesos-0.20.tar.gz发送到三个datanode节点上
@@ -289,27 +289,29 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 *重启HDFS的nomenode和datanode
 
 
-## 4.4 Troubleshoting
+## 1.7 Troubleshoting
 
 注意：在每次重启HDFS服务的时候，需要先确保Mesos集群是正常运行的。namenode重启的时候可以先重新format一下。
 
 
 
-# 五、基于Mesos搭建深度机器学习平台Singa
 
-## 5.1 Singa项目简介
+## 1.8、基于Mesos搭建深度机器学习平台Singa
+
+
+### 1.8.1、 Singa项目简介
 
 Singa是由NUS、浙江大学、网易联合进行开发并开源的一个深度机器学习平台，其设计目的是为多种深度学习模型（如CNN、DBN)提供一个有效的、易用的、高扩展的分布式实现平台。在Singa平台上，用户可以像在Hadoop上实现Map/Reducer一样轻易的训练他们所需要的抽象的深度学习模型。Singa的详细信息可以访问https://wiki.apache.org/incubator/SingaProposal。
 
-## 5.2 Singa on mesos架构分析
+
+### 1.8.2、 Singa on mesos架构分析
 Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分布式集群资源调度系统，在本节中会着重的分析一下singa on mesos的部署架构。
 
 ![](singa on mesos.png)
 （图片来自https://github.com/apache/incubator-singa/tree/master/tool/mesos）
 
 
-
-## 5.3 Singa on mesos部署过程
+### 1.8.3、 Singa on mesos部署过程
 
 
 
