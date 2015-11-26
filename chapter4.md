@@ -89,10 +89,10 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
 
 在所有的master节点上都要进行如下操作：
 * 修改ZooKeeper的myid的内容
-* ```sudo vi /etc/ZooKeeper/conf/myid```
+* ```sudo vi /etc/zooKeeper/conf/myid```
 * 将三个master节点的myid按照顺序修改为1，2，3。
 * 修改ZooKeeper的zoo.cfg
-* ```sudo vi/etc/ZooKeeper/conf/zoo.cfg```
+* ```sudo vi/etc/zooKeeper/conf/zoo.cfg```
 * 配置内容如下：
 * ```server.1=10.162.2.91:2888:3888```
 * ```server.2=10.162.2.92:2888:3888```
