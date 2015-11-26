@@ -98,11 +98,11 @@ echo 1 | sudo dd of=/var/lib/ZooKeeper/myid```
 * ```server.2=10.162.2.92:2888:3888```
 * ```server.3=10.162.2.93:2888:3888```
 * 修改Mesos的quorum
-* ```sudo vi /etc/Mesos-master/quorum```
+* ```sudo vi /etc/mesos-master/quorum```
 * 将值修改为2。
 * 配置master节点的Mesos 识别ip和和hostname(以在master1上的配置为例）
-* ```echo 10.162.2.91 | sudo tee /etc/Mesos-master/ip ```
-* ```sudo cp /etc/Mesos-master/ip /etc/Mesos-master/hostname```
+* ```echo 10.162.2.91 | sudo tee /etc/mesos-master/ip ```
+* ```sudo cp /etc/mesos-master/ip /etc/mesos-master/hostname```
 * 配置master节点服务启动规则（重启不启动slave服务）
 * ```sudo stop Mesos-slave
 echo manual | sudo tee /etc/init/Mesos-slave.override```
@@ -111,19 +111,19 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 
 ### 1.4.4、配置集群中的的slave节点
 * 配置slave节点的服务启动规则（重启不启动zookeeper和slave服务）
-* ```sudo stop ZooKeeper```
-* ```echo manual | sudo tee /etc/init/ZooKeeper.override```
-* ```echo manual | sudo tee /etc/init/Mesos-master.override```
-* ```sudo stop Mesos-master```
+* ```sudo stop zooKeeper```
+* ```echo manual | sudo tee /etc/init/zooKeeper.override```
+* ```echo manual | sudo tee /etc/init/mesos-master.override```
+* ```sudo stop mesos-master```
 * 配置slave节点的识别ip和hostname（以slave1节点为例）
-* ```echo 192.168.2.94 | sudo tee /etc/Mesos-slave/ip```
-* ```sudo cp /etc/Mesos-slave/ip /etc/Mesos-slave/hostname```
+* ```echo 192.168.2.94 | sudo tee /etc/mesos-slave/ip```
+* ```sudo cp /etc/Mesos-slave/ip /etc/mesos-slave/hostname```
 
 ### 1.4.5、在集群的所有节点上启动相应的服务
 * 启动master节点的服务（zookeeper和mesos-master服务）
 * ```initctl reload-configuration```
-* ```service Zookeeper start```
-* ```service Mesos-master start```
+* ```service zookeeper start```
+* ```service mesos-master start```
 * 启动slave节点上的相应服务（mesos-slave服务）
 * ```sudo start mesos-slave```
 
