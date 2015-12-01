@@ -4,7 +4,17 @@
 
 
 ## 1.1 Mesos简介
-Apache Mesos是由加州大学伯克利分校的AMPLab首先开发的一款开源群集管理软件，支持 Hadoop、ElasticSearch、Spark、Storm 和 Kafka 等应用架构。
+Apache Mesos是由加州大学伯克利分校的AMPLab首先开发的一款开源群集管理软件，支持 Hadoop、ElasticSearch、Spark、Storm 和 Kafka 等应用架构。Mesos特性如下：
+
+- 可扩展到10000个节点
+- 使用 ZooKeeper 实现 Master 和 Slave 的容错
+- 支持 Docker 容器
+- 使用 Linux 容器实现本地任务隔离
+- 基于多资源（内存，CPU、磁盘、端口）调度
+- 提供 Java，Python，C++等多种语言 APIs
+- 通过 Web 界面查看集群状态
+- 新版本将支持更多功能
+
 
 
 
