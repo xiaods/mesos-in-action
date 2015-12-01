@@ -313,6 +313,25 @@ Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分�
 
 ### 1.8.3、 Singa on mesos部署过程
 
+本次部署的过程是在ubuntu14.04上ubuntu用户下完成部署的。
+
+* 更换/bin/sh为/bin/bash
+* ```rm /bin/sh && ln -s /bin/bash /bin/sh```
+* 更新源，这里使用的是网易的源
+* ```vi /etc/apt/sources.list```
+* ```deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse```
+
+
+
 
 
 
