@@ -328,7 +328,33 @@ deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multivers
 deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse
 deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse
 deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse```
+deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse ```
+
+* 安装各种依赖，这些依赖有的已经系统自带了，但为了保证没有遗漏可以都执行一遍
+* ```apt-get update && apt-get -y install g++-4.8 build-essential git vim wget zip```
+* ```apt-get install automake libtool man python-dev python-boto libcurl4-nss-dev```
+* ```apt-get install libsasl2-dev maven libapr1-dev libsvn-dev openssh-server supervisor```
+* 下载安装jdk
+* ```cd /opt && wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie"  http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.tar.gz && cd /opt && tar -zxvf jdk-8u60-linux-x64.tar.gz && rm -rf jdk-8u60-linux-x64.tar.gz```
+* 下载singa安装文件
+* ``` git clone https://github.com/apache/incubator-singa.git```
+* 更新ssh.conf .bashrc  .vimr
+* ```cd incubator-singa/tool/docker/singa/```
+* ```cp ssh.conf /etc/supervisor/conf.d/```
+* ```cp .bashrc /root/.bashrc```
+* ```cp .vimrc /root/.vimrc```
+* 使刚才更新的源生效
+* ```source /root/.bashrc```
+* 下载和安装第三方应用
+* ```cd incubator-singa && ./thirdparty/install.sh all ```
+* 下载并解压protobuf
+* ``` cd thirdparty/ && wget https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz && tar -zxvf protobuf-2.5.0.tar.gz ```
+* 编译并安装protobuf
+* ```cd protobuf-2.5.0 && ./configure && make && make install```
+* 安装zookeeper
+* ```cd ../../ && cp thirdparty/install.sh . && rm -rf thirdparty/* && mv install.sh thirdparty/ && ./thirdparty/install.sh zookeeper && ./autogen.sh && ./configure && make && make install ```
+
+
 
 
 
