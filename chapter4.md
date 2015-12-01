@@ -353,6 +353,10 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```cd protobuf-2.5.0 && ./configure && make && make install```
 * 安装zookeeper
 * ```cd ../../ && cp thirdparty/install.sh . && rm -rf thirdparty/* && mv install.sh thirdparty/ && ./thirdparty/install.sh zookeeper && ./autogen.sh && ./configure && make && make install ```
+* 下载一个机器学习CNN的运行实例
+* ```cd examples/cifar10 && mv Makefile.example Makefile && make download && make create ```
+* 启动ssh服务
+* ```service ssh start```
 * 
 
 
