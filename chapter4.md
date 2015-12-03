@@ -360,6 +360,7 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```cd /opt && source /root/.bashrc && wget -c http://www.eu.apache.org/dist/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz && tar -zxvf hadoop-2.6.0.tar.gz && git clone https://github.com/PivotalRD/libhdfs3.git && cd libhdfs3 && mkdir build && cd build && cmake ../ && make && make instal```
 * 编译安装mesos
 * ```source ~/.bashrc && cd /root/incubator-singa/tool/mesos && make```
+* 将hadoop的配置文件放到hadoop的安装目录下
 * 
 
 
