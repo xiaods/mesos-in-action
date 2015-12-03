@@ -366,7 +366,7 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * 和hadoop的部署一样需要配置免认证登录
 * ```ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys && echo 'StrictHostKeyChecking no' >> ~/.ssh/config```
 * 至此在单一节点的安装部署已经完成，在安装过程中使用了大量的自动化脚本和依赖软件集体安装，所以这一过程要确保网络环境良好，如果发现报错或者下载不了则需要重新的下载和安装。
-* 
+* 通过虚拟化快照的方式迅速扩展到多个节点，并依次启动各节点的服务，本次以两个节点未来，包含了master(namenode)和slave(datanode)
 
 
 
