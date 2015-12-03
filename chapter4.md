@@ -348,6 +348,8 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```cd examples/cifar10 && mv Makefile.example Makefile && make download && make create ```
 * 启动ssh服务
 * ```service ssh start```
+* 更新.bashrc
+* ```cd incubator-singa/tool/docker/mesos/```
 * 
 
 
