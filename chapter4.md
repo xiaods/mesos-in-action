@@ -361,7 +361,10 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * 编译安装mesos
 * ```source ~/.bashrc && cd /root/incubator-singa/tool/mesos && make```
 * 将hadoop的配置文件放到hadoop的安装目录下
-* 
+* ```cd/incubator-singa/tool/docker/mesos```
+* ```cp *.xml /opt/hadoop-2.6.0/etc/hadoop/```
+* 和hadoop的部署一样需要配置免认证登录
+* ```ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys && echo 'StrictHostKeyChecking no' >> ~/.ssh/config```
 
 
 
