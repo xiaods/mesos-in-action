@@ -369,6 +369,12 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```vi slaves```
 * 修改各个节点的hosts，增加namenode和datanode
 ```vi /etc/hosts```
+* 在master节点上启动master
+```mesos-master ```
+* 在slave节点启动slave
+* ```mesos-slave --master=10.10.245.23```
+
+
 
 
 
