@@ -369,8 +369,9 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```vi slaves```
 * 增加datanode
 
-修改各个节点的hosts
+* 修改各个节点的hosts
 ```vi /etc/hosts```
+
 
 
 
