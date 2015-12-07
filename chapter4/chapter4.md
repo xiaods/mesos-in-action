@@ -367,7 +367,6 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * 修改Hadoop的节点配置，增加datanode节点
 * ```cd/opt/hadoop-2.6.0/etc/hadoop```
 * ```vi slaves```
-* 
 * 修改各个节点的hosts，增加namenode和datanode
 ```vi /etc/hosts```
 
