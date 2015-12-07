@@ -373,6 +373,7 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 ```mesos-master ```
 * 在slave节点启动slave
 * ```mesos-slave --master=10.10.245.23```
+* 在
 
 
 
