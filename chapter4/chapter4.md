@@ -373,7 +373,11 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```mesos-slave --master=10.10.245.23```
 * 在master节点上启动hdfs
 * ```hadoop namonode ```
-* 
+* 启动一个训练示例，开始使用signa进行训练
+* ```$ cd ../../
+$ ./bin/zk-service.sh start
+$ ./bin/singa-run.sh -conf examples/cifar10/job.conf```
+
 
 
 
