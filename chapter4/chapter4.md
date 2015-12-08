@@ -382,6 +382,7 @@ $ ./bin/singa-run.sh -conf examples/cifar10/job.conf```
 运行结果如下：
 ![](614B4816-8E2C-488A-9DB8-ABC518E03314.png)
 
+以上就是简单的部署过程，如果要深入的研究singa的使用可以关注NUS的signa开源项目。
 
 
 
