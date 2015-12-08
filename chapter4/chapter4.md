@@ -350,7 +350,7 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * 使用自动安装脚本进行安装
 * ```install.sh /opt/install.sh```
 * ```cd /opt && source ./install.sh```
-* 安装各种依赖软件
+* 安装各种依赖软件![](4AEED888-2FCD-40A9-8B3C-7AE710813E67.png)
 * ```apt-get -y install curl cmake libxml2 libxml2-dev uuid-dev protobuf-compiler libprotobuf-dev libgsasl7-dev libkrb5-dev libboost1.54-all-dev```
 * 下载安装hadoop-2.6
 * ```cd /opt && source /root/.bashrc && wget -c http://www.eu.apache.org/dist/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz && tar -zxvf hadoop-2.6.0.tar.gz && git clone https://github.com/PivotalRD/libhdfs3.git && cd libhdfs3 && mkdir build && cd build && cmake ../ && make && make instal```
