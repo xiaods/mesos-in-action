@@ -379,6 +379,8 @@ deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe
 * ```$ cd ../../
 $ ./bin/zk-service.sh start
 $ ./bin/singa-run.sh -conf examples/cifar10/job.conf```
+
+运行结果如下：
 ![](614B4816-8E2C-488A-9DB8-ABC518E03314.png)
 
 
