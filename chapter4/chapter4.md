@@ -289,13 +289,13 @@ echo manual | sudo tee /etc/init/Mesos-slave.override```
 Singa是由NUS、浙江大学、网易联合进行开发并开源的一个深度机器学习平台，其设计目的是为多种深度学习模型（如CNN、DBN)提供一个有效的、易用的、高扩展的分布式实现平台。在Singa平台上，用户可以像在Hadoop上实现Map/Reducer一样轻易的训练他们所需要的抽象的深度学习模型。Singa的详细信息可以访问https://wiki.apache.org/incubator/SingaProposal。
 
 
-### 1.8.2、 Singa on mesos架构分析
-Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分布式集群资源调度系统，在本节中会着重的分析一下singa on mesos的部署架构。
+### 1.8.2、 Singa on mesos部署架构
+Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分布式集群资源调度系统，如下图所示：
 
 ![](singa on mesos.png)
 （图片来自https://github.com/apache/incubator-singa/tree/master/tool/mesos）
 
-如上图所示，在统一分布式存储层面使用了HDFS，这样有利于整个singa在运行过程中提高文件的读写效率。在singa任务的分布式调度层面使用mesos进行工作任务的调度，任务的分配和服务
+如上图所示，在统一分布式存储层面使用了HDFS，这样有利于整个singa在运行过程中提高文件的读写效率，在分布式资源调度层面使用mesos进行统一的资源调度。
 
 
 ### 1.8.3、 Singa on mesos部署过程
