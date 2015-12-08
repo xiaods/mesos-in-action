@@ -295,7 +295,7 @@ Singa在设计其底层的资源调度系统时选择了Mesos这一优秀的分�
 ![](singa on mesos.png)
 （图片来自https://github.com/apache/incubator-singa/tree/master/tool/mesos）
 
-如上图所示，在统一分布式存储层面使用了HDFS，这样有利于整个singa在运行过程中提高文件的读写效率。在任务的调度过程中
+如上图所示，在统一分布式存储层面使用了HDFS，这样有利于整个singa在运行过程中提高文件的读写效率。在singa任务的分布式调度层面使用mesos进行工作任务的调度，
 
 
 ### 1.8.3、 Singa on mesos部署过程
