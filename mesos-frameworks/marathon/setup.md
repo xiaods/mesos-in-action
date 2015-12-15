@@ -1,4 +1,4 @@
-# 搭建 Marathon 服务
+# 搭建Marathon服务
 
 在编写本书时，Marathon 最新的稳定版本是 0.13.0，所以这里将以 Marathon 0.13.0
 版本为例来搭建 Marathon 服务。
