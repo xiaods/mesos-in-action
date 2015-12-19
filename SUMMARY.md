@@ -30,6 +30,7 @@
       * [Marathon简介](mesos-frameworks/marathon/basics.md)
       * [搭建Marathon服务](mesos-frameworks/marathon/setup.md)
       * [运行Marathon任务](mesos-frameworks/marathon/app.md)
+      * [小结](mesos-frameworks/marathon/summary.md)
    * [Chronos](mesos-frameworks/chronos.md)
    * [Hadoop](mesos-frameworks/hadoop.md)
    * [Cassandra](mesos-frameworks/cassandra.md)
