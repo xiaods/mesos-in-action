@@ -617,7 +617,7 @@ ZooKeeper 暴露的地址，这样，当任何一个 mesos-master
 按照相同的方式，接下来在 B, C 结点上配置和启动
 mesos-slave，这样，一个高可用并且具有多个计算结点的 Mesos 集群就搭建起来了。
 
-## 总结
+## 小结
 
 本节详细介绍了怎样搭建单实例 ZooKeeper 服务，高可用 ZooKeeper 服务；
 单实例 Mesos 集群，高可用 Mesos 集群；以及一些 ZooKeeper 基础知识。
