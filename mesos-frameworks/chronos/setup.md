@@ -142,7 +142,7 @@ Chronos 有许多配置参数可以用来修改其默认行为，这里介绍一
 `--master  <arg>` | local | Mesos 服务地址
 `--mesos_checkpoint` | 否 | 设置是否开启框架的 checkpoint，推荐开启
 `--mesos_framework_name  <arg>` | 空 | 设置本框架的名称，默认值将有 chronos 加版本号组成，例如：chronos-2.4.0
-`--mesos_role  <arg>` | * | 设置框架的 role，role 是 Mesos 的属性，用来将框架归类，从而实现资源的隔离，默认的 role 为 *，即不使用特殊 role，即共享资源的 role
+`--mesos_role  <arg>` | * | 设置框架的 role，role 是 Mesos 的属性，用来将框架归类，从而实现资源的隔离，默认的 role 为 `*`，即不使用特殊 role，即共享资源的 role
 `--mesos_task_cpu  <arg>` | 0.1 | 任务申请的 CPU 量，可以在每个任务中设置
 `--mesos_task_disk  <arg>` | 256 | 任务申请的磁盘量，可以在每个任务中设置，单位为 MB
 `--mesos_task_mem  <arg>` | 128 | 任务申请的内存，可以在每个任务中设置，单位为 MB
@@ -152,10 +152,37 @@ Chronos 有许多配置参数可以用来修改其默认行为，这里介绍一
 `--zk_path  <arg>` | /chronos/state | Chronos 在 ZooKeeper 中使用的存储路径，Chronos 将把所有数据存储在该目录下
 `--zk_timeout  <arg>` | 10000，即 10 秒 | ZooKeeper 操作的超时时间
 
-在了解了上表中常用的 Chronos 参数后，我们知道，上一小节中启动的 Chronos 没有做任何配置，所以它会以本地方式运行，所以实际上没有任何实际用处，接下来我们将对 Chronos 进行一些配置，并且结合上一章介绍的 Mesos 生产环境和 ZooKeeper 生产环境，搭建高可用的，可用于生产环境的 Chronos 服务。
+在了解了上表中常用的 Chronos 参数后，我们知道，上一小节中启动的 Chronos 没有做任何配置，所以它会以本地方式运行，所以实际上没有任何用处，接下来我们将对 Chronos 进行一些配置，并且结合上一章介绍的 Mesos 生产环境和 ZooKeeper 生产环境，搭建高可用，可用于生产环境的 Chronos 服务。
 
 ### 搭建高可用 Chronos 服务
 
+在搭建高可用 Chronos 服务之前，首先改进 Chronos 的配置，使其符合生产环境需求，
+也就是至少需要修改 `--master` 和 `--zk_hosts` 的配置为生产环境。
+
+这里仍然使用在上一章中搭建的 mesos 集群和 ZooKeeper
+服务作为生产环境，所以这里我们将一下面的命令启动
+Chronos。这里以使用命令行方式启动为例，假设我们在 192.168.1.101 机器上启动
+Chronos。
+
+```
+$ ./bin/start-chronos.sh --master zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181 \
+> --zk_hosts 192.168.1.101,192.168.1.102,192.168.1.103
+FIXME: output
+```
+
+上面的 `--master` 和 `--zk_hosts` 都使用了同一组 ZooKeeper
+服务，这并不是必须的。
+
+为了简单，这里我们没有配置其它可选参数，读者可以按照需求自行配置。
+
+在启动了一个 Chronos 实例后，Chronos 就可以提供服务了，Chronos
+在高可用方面实现原理和 Marathon 类似，都使用了 ZooKeeper
+作为持久化存储服务，只要在任意时刻有一个实例在运行即可提供服务。
+
+所以，要搭建高可用的 Chronos 服务，非常简单，在其它机器上以同样的配置，启动多个
+Chronos 即可。
+
+这里假设在 192.168.1.102 上再启动一个 Chronos，这样就实现了高可用。
 
 ## 将 Chronos 运行在 Marathon 上
 

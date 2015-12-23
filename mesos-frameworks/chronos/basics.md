@@ -16,7 +16,7 @@ Chronos 是一个基于 Mesos 的分布式的 Cron 任务处理框架，最初�
   - Mesos Scheduler API，主要负责实现 Mesos 定义的 Scheduler API 接口，以便和
     Mesos 通信，获取资源，提交任务，获得任务状态更新等事件
   - Persistent Store，Chronos 使用 ZooKeeper 作为数据持久化存储后端，
-    所有需要存储的数据都存储在 ZooKeeper 中；所以，除了依赖于 Mesos 外，Chronos 还依赖于       ZooKeeper。
+    所有需要存储的数据都存储在 ZooKeeper 中；所以，除了依赖于 Mesos 外，Chronos 还依赖于 ZooKeeper。
   - ISO8601 模块负责解析 ISO8601 标准定义的重复任务属性
   - DAG，有向无环图实现了对任务间依赖关系的支持，任务间依赖也是 Chronos 的一大亮点，当所有前置任务完成后，后置任务会被自动触发
   - API Server，一个 Web API Server 负责接收处理收到的 API 请求，Chronos 实现了高可用性，在任意时刻，同一个服务中只有一个 Chronos 实例作为 Leader 负责处理请求，其它 Chronos 实例的 API Server 此时会将请求转发给 Leader
