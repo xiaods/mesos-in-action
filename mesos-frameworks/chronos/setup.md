@@ -184,8 +184,70 @@ Chronos 即可。
 
 这里假设在 192.168.1.102 上再启动一个 Chronos，这样就实现了高可用。
 
+但是，由于 Chronos 暴露服务的方式是直接通过 IP 和端口暴露，所以，当 Leader
+故障后，虽然存活的 Chronos 能够自动选举为 Leader，继续服务，
+但是服务地址和端口却改变了。这对于使用方来说并不是透明的，
+因为使用方需要修改访问地址。
+
+为了能够对用户透明，需要为 Chronos 服务提供一个统一的服务地址和端口，
+而后端由多个 Chronos 实例来支撑，这样，当后端的 Chronos
+实例故障之后，用户并不需要做任何修改。
+
+关于实现透明的高可用服务，在上一节的 Marathon 配置中已经介绍过，这里不再重复。
+
 ## 将 Chronos 运行在 Marathon 上
 
+将 Chronos 运行在 Marathon 上将非常有趣。它们二者都是基于 Mesos
+的计算框架，Marathon 是一个长时任务框架，而 Chronos 是一个短时批处理任务框架。
+
+通过将 Chronos 运行在 Marathon 上，能够实现服务实例故障自动转移、恢复，结合
+Marathon 提供的健康检查机制以及 HAProxy 实现的负载均衡机制，能够让我们的 Chronos
+服务做到对用户透明的高可用性服务，并且实现服务实例故障自动转移，恢复，极大降低运维成本。
+
+首先，假设我们使用在上一节中搭建的 Marathon 服务，并且使用本节中介绍的以 Docker
+运行 Chronos 的方式将 Chronos 运行在 Marathon 上。
+
+然后，需要实现 HAProxy 的自动配置，以便在有 Chronos
+容器故障，恢复时，能够自动更新 HAProxy 的配置。
+
+### 启动 Chronos
+
+在 Marathon 一节中，曾介绍过怎样通过 API 创建一个基于 Docker 的 2048
+网页版游戏，这里我们使用同样的方式，启动一个 Chronos 应用，`chronos.json`
+的内容如下：
+
+```
+FIXME: chronos.json
+```
+
+这里，简单解释一下 `chronos.json` 的内容：
+
+  - FIXME:
+  - FIXME:
+
+然后，使用 `curl` 命令提交这个应用到 Marathon。
+
+```
+$ FIXME: curl command
+```
+
+提交完成后，可以看到在 Marathon 上创建了一个 chronos 应用，并且启动了 2
+个实例，现在，这 2 个 Chronos 实例组成了一个 Chronos 服务。
+
+### 自动配置 HAProxy
+
+为了对外提供 Chronos 服务，我们使用 HAProxy 来暴露 Chronos 服务，例如，在服务器
+192.168.1.101 上不是 HAProxy 服务，并且配置上两个 Chronos 的运行地址和端口，
+这样，用户就可以通过访问 HAProxy 服务的地址来访问 Chronos 了。
+
+当运行在 Marathon 上的 Chronos 任务出现故障时，Marathon 会自动启动新的 Chronos
+实例，几乎可以肯定的是，这个新实例运行的地址和端口和原来的不一样，所以需要更新
+HAProxy 的配置，以便请求能够被转发到正确的 Chronos 实例上。
+
+显然，如果需要手工进行这样的配置，显然是不太友好的，所以 Marathon 提供了自动配置
+HAProxy 的方案。
+
+FIXME: https://mesosphere.github.io/marathon/docs/service-discovery-load-balancing.html
 
 ## 小结
 

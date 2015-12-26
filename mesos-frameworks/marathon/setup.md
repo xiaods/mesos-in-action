@@ -101,3 +101,79 @@ Marathon 的参数还可以通过环境变量来配置，这和 Mesos 类似，�
 - `--mesos_role` 可以通过环境变量 `MARATHON_MESOS_ROLE` 来指定
 
 需要注意的是，如果一个参数同时通过环境变量指定，又通过命令行参数指定，那么命令行参数将会覆盖环境变量。
+
+## 服务的高可用性
+
+在上一节中，我们了解了 Marathon 高可用性实现方案，Marathon
+将所有需要持久化的数据都存储在 ZooKeeper 服务中，并且多个实例之间由 ZooKeeper
+来实现 Leader Election。所以，实现高可用性不需要任何配置即可完成。
+
+但是，对于 Marathon 用户来说，Marathon 这种高可用性却不是透明的，因为，当
+Marathon Leader 故障时，新的 Leader 提供的服务地址和以前的 Leader
+服务地址不一样，所以用户需要更改访问的地址。
+
+所以，对用户透明的高可用性就非常有需要了，特别是对于通过 HTTP
+协议来访问的用户来说。
+
+下面将介绍两种实现透明高可用性的方案：
+
+  - 虚拟 IP 方案
+  - 负载均衡方案
+
+### 虚拟 IP 方案
+
+虚拟 IP 方案基于 VRRP (Virtual Router Redundancy Protocol) 协议，VRRP 的工作原理如下：
+
+![FIXME: how vrrp works]()
+
+简单的说，有两个设备同时提供一个虚拟 IP，两个设备采用主备的方式工作，
+任意时间只有一个设备提供虚拟 IP，当主机点故障时，备用结点提供虚拟 IP，
+当主节点恢复时，主节点提供虚拟 IP。所以，主节点总是优先。
+
+Linux 下常见的实现虚拟 IP HA 的软件有：
+
+  - keepalived
+  - ucarp
+  - heartbeat
+
+回顾一下 Marathon HA 的工作原理可以知道，这种主备工作方式的 HA 并不适合
+Marathon，包括后面将要介绍的 Chronos，它具有和 Marathon 相同的 HA 实现方式。
+
+原因是在 Marathon 服务中，所有跟随者实例都需要将请求转发给
+Leader，所以，当 Marathon Leader 运行在 keepalived 或者 ucarp 中的备用结点上时，
+所有的请求都需要经过转发才能到达 Marathon Leader，降低了效率。
+
+举个例子：假设有 A, B 两台服务器，使用 keepalived 实现了 IP HA，并且配置了 A
+服务器作为主结点，B 作为备结点。同时在 A, B 两天服务器上搭建了 Marathon 服务，
+服务启动时，A 结点上的 Marathon 作为 Leader，所以所有通过虚拟 IP
+到达的请求都直接由 Marathon Leader 处理，但是，假设某一时刻服务器 A 故障宕机，
+显然，服务器 B 上的 Marathon 会作为新的 Marathon Leader 并且所有通过虚拟 IP
+到达的请求都将直接到达 B，此时所有的请求也是直接由 Marathon Leader
+处理的，看起来一切工作的非常好。
+
+但是，过了一段时间后，服务器 A 恢复了，重新上线，由于 A 被配置成了虚拟 IP
+的主结点，所以当 A 在线时，所有对虚拟 IP 的访问都将发往 A，但是，此时服务器 A
+上的 Marathon 并非 Leader，所以，Marathon 收到请求后，需要将请求转发给服务器 B
+上的 Marathon Leader，直到下次 B 上的 Marathon 故障，将服务器 A 上的 Marathon
+重新选举为 Leader。
+
+简单的说，只有当虚拟 IP 主结点和 Marathon Leader
+是同一个结点时，才能避免服务转发。
+
+### 负载均衡方案
+
+负载均衡器顾名思义是用来实现各个服务器之间负载均衡的设备，包括软硬件设备，在软件定义以及开源软件大行其道的今天，可选的开源负载均衡软件也不少，最常见的有：
+
+  - LVS(Linux Virtual Server)
+  - HAProxy
+  - Nginx
+
+负载均衡器器由于可以通过心跳来检查后端服务器的健康状况，所以，也能够在实现负载均衡的同时，
+也实现服务的高可用性，负载均衡器能够根据配置的心跳检测策略检查后端服务器，
+并且避免将流量继续发往故障的后端服务器。
+
+使用负载均衡器和使用 IP HA 方式相比，几乎总是有一半的流量会通过 Marathon
+跟随结点转发到 Marathon Leader 结点上，不会太坏，也不会太好。
+
+当然，这里介绍的是最简单的配置情况下，读者可以通过一些编程，实现动态配置，从而避免转发，
+这里不再赘述，留给读者自行研究。
