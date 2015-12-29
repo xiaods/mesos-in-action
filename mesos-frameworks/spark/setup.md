@@ -240,3 +240,101 @@ ZooKeeper 的高可用性实现方式。
 
 ## Spark on Mesos
 
+Spark 最早出现是在 Mesos 的论文里，作为一个运行在 Mesos 之上的框架，
+用来证明 Mesos 是一种可以有效管理集群，且提高集群综合利用率的方案。
+所以，不言而喻，Spark 可以运行在 Mesos 之上。
+
+Spark 可以以两种方式运行在 Mesos 之上：
+
+  - Client 模式
+  - Cluster 模式
+
+在 Client 模式下，Spark 以 mesos scheduler 的方式直接和任务耦合在一起。
+
+而在 Cluster 模式下，Spark scheduler
+不再和任务耦合在一起，任务是从客户端提交的，更符合常见使用场景。
+
+这里只介绍 Cluster 模式。
+
+FIXME: spark 1.5.2 文档中是需要 Mesos 0.21.0，不确定是否和 Mesos 0.25.0
+兼容，可能要重新编译一次。
+
+首先，假设 Mesos 线上服务为
+`zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181`。
+
+### 启动 Spark Scheduler
+
+假设在 192.168.1.102 上启动 Spark Scheduler，它可以通过 Spark 二进制发行包中的
+`sbin/start-mesos-dispatcher.sh` 脚本来启动，命令如下：
+
+```
+$ ./sbin/start-mesos-dispatcher.sh mesos://zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181/mesos
+```
+
+`start-mesos-dispatcher.sh` 脚本接受一个参数，指明 mesos
+集群的地址，这里的格式为 `mesos://<path>`，其中 `mesos://` 为地址前缀，`<path>`
+为 mesos 集群地址，这里可以是单个 mesos master 地址也可以是 mesos 集群在
+ZooKeeper 中的地址，这里我们使用了在上一章中搭建了 mesos 生产集群。
+
+启动了 Spark Scheduler 之后，可以从 Mesos master web 用户页面看到其已经注册了，
+如下图所示：
+
+![FIXME: spark scheduler]()
+
+现在，用户可以通过 Spark 客户端向 Spark Scheduler 提交任务了，只需要指明 Spark
+Scheduler 的服务地址即可，这里为：`mesos://192.168.1.102:7077`。
+
+### 运行模式
+
+Spark 在 Mesos 上可以有两种运行模式：
+
+  - `fine-grained`
+  - `coarse-grained`
+
+fine-grained 为默认模式，在该模式下，每个 Spark 提交在 Mesos
+上都会注册一个框架，而该次提交内部的每个任务则会通过 Mesos 来调度，
+调度每个任务都需要获取资源、调度任务、执行、完成任务释放资源。
+
+这种调度方式的优点是 Spark 各个提交中之间动态共享资源，并且和其它 Mesos
+框架也是动态共享资源，缺点是单次任务都需要经过完整的 Mesos 调度周期，调度较慢；
+所以，不太适合用于低延时的任务，例如，交互式查询等。
+
+coarse-grained 则是另一种粒度更粗的方式，这种方式只会在有资源的 Mesos
+计算结点上启动 Worker，而后续任务的调度则由 Spark Scheduler 直接将任务分发给
+Worker，从而避免完整的 Mesos 调度周期。所以，coarse-grained 方式调度更快，
+但是会长期占用资源。
+
+运行模式可以通过 SparkConf 的健 `spark.mesos.coarse` 来配置，值为
+`true|false`。需要注意的是：`coarse-grained` 模式默认会使用所有 Mesos 分配的
+Offer，所以为了避免占用过多的资源，总是应该设置 SparkConf 的 `spark.cores.max`
+为一个合理值。
+
+### 使用 Docker
+
+Spark 支持启动 Docker 容器来运行 Spark 任务，但是要求 Mesos 版本等于或高于
+0.21.0。如果要使用 Docker 容器来执行 Spark 任务，需要再 Docker 镜像中配置好
+Spark 执行环境。可以通过 SparkConf 的 `spark.mesos.executor.docker.image`
+来配置要使用的镜像。
+
+### Spark on Mesos 配置
+
+Spark 具有非常高的可配置性，所以也有非常多的配置项，这里不再介绍 Spark
+通用的配置项，读者可以参考官方文档或者其它 Spark 书籍。
+
+这里将介绍特定于 Spark on Mesos 的配置，如下表所示：
+
+配置项 | 默认值 | 含义
+------ | ------ | -----
+`spark.mesos.coarse` | false | 是否使用 `coarse-grained` 模式运行
+`spark.mesos.extra.cores` | 0 | 只在 `coarse-grained` 模式下使用，表示使用额外的多少核CPU 来启动 worker，但是所有 worker 的 CPU 之和不能超过 `spark.cores.max`
+`spark.mesos.mesosExecutor.cores` | 1.0 | 只在 `fine-grained` 模式下使用，表示 Spark Executor 额外使用的 CPU 核
+`spark.mesos.executor.docker.image` | 空 | 启动 Spark Executor 使用的 Docker 镜像
+`spark.mesos.executor.docker.volumes` | 空 | 启动 Spark Executor 容器时挂载的卷
+`spark.mesos.executor.docker.portmaps` | 空 | 启动 Spark Executor 容器时映射的端口
+`spark.mesos.executor.home` | Spark Driver 中设置的 SPARK_HOME | 当没有设置 `spark.executor.uri` 时，Spark 需要从该值中找到 Executor 目录并启动 Executor
+`spark.mesos.executor.memoryOverhead` | `spark.executor.memory` 的十分之一，最小为 384MB | 每个 Executor 额外的内存，为了保证不占用 task 的内存
+`spark.mesos.uris` | 空 | uris 是 Mesos 提供的初始化运行环境的功能，在启动任务之前，会将 uris 指定的资源下载到任务启动目录中
+`spark.mesos.principal` | 空 | Mesos 认证需要的 principal
+`spark.mesos.secret` | 空 | Mesos 认证需要的 secret
+`spark.mesos.role` | * | Spark Scheduler 使用的角色，角色是 Mesos 用来分配计算资源的一种方法
+`spark.mesos.constraints` | 空 | 根据 Mesos 计算节点的标签来设置过滤规则，任务将只被调度到符合条件的计算节点上
