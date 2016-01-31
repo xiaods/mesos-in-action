@@ -249,10 +249,10 @@ Spark 可以以两种方式运行在 Mesos 之上：
   - Client 模式
   - Cluster 模式
 
-在 Client 模式下，Spark 以 mesos scheduler 的方式直接和任务耦合在一起。
+在 Client 模式下，Spark 以 mesos scheduler 的方式直接和任务耦合在一起。直接运行在提交任务的本地节点上。这种方式比较适合提交任务的节点和 Mesos 集群的计算节点相邻，或者位于同一个子网中，以便 spark driver 和 executor 之间能够保证高速通信。
 
 而在 Cluster 模式下，Spark scheduler
-不再和任务耦合在一起，任务是从客户端提交的，更符合常见使用场景。
+不再和任务耦合在一起，任务是从客户端提交的，spark scheduler(driver) 运行在 Mesos 集群中。
 
 这里只介绍 Cluster 模式。
 
@@ -311,8 +311,8 @@ Offer，所以为了避免占用过多的资源，总是应该设置 SparkConf �
 
 ### 使用 Docker
 
-Spark 支持启动 Docker 容器来运行 Spark 任务，但是要求 Mesos 版本等于或高于
-0.21.0。如果要使用 Docker 容器来执行 Spark 任务，需要再 Docker 镜像中配置好
+Spark 支持启动 Docker 容器来运行 Spark 任务，这要求 Mesos 版本等于或高于
+0.21.0，因为 Mesos 在 0.21.0 中引入了对 Docker 的支持。如果要使用 Docker 容器来执行 Spark 任务，需要再 Docker 镜像中配置好
 Spark 执行环境。可以通过 SparkConf 的 `spark.mesos.executor.docker.image`
 来配置要使用的镜像。
 
