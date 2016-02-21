@@ -60,26 +60,24 @@ Mesos架构图是这样的：
 ### 1.1.3 Meoss的应用场景
 
 * 容器编排
-Mesos本身是一个分布式资源调度管理系统，而且是一个比较开放通用的资源调度管理系统。其北向提供了开放性的FrameWork框架平台，其南向提供了Ex执行器
-
-
-
+    
+Mesos本身是一个分布式资源调度管理系统，而且是一个比较开放通用的资源调度管理系统。其北向提供了开放性的Framework框架平台，允许其他应用框架的友好接入（如spark、hadoop等），其南向定义了Executor执行器机制，允许容器、虚拟机等作为执行器进行任务的处理等工作。容器技术随着Docker的出现，目前越来越受到热捧，关于如何更好更快的将容器技术应用到生产实践中全世界都在进行广泛的实践和探索。容器技术不可以质疑的是最佳的执行者，但其缺少一个上层的编排调度系统。应用框架+Mesos+容器的架构当前被大量的讨论，也有一些企业在对这一架构进行了实践，总体上来说是一个比较稳定可靠合理的架构。因为这个架构下，不管对于应用框架还是对于执行器来说都是统一通用的，这个样似乎更加符合DCOS的设想。
 
 
 * 提升资源利用率
 
+提升资源利用率这个词语一定会和虚拟化或云计算一起出现，的确目前在各个层面都在追逐提升资源利用率，因为在大规模服务器的数据中心中，资源利用率的提升代表着更少的资源投入。对于使用超过50台服务器的公司而言，一个通常的使用Mesos的动机就是提升资源利用率，并且减少运维成本。目前已经有许多这样的公司，比如各种公有云和私有云服务的提供商。在Ebay的案例中，它们曾经在Mesos上运行Jenkins这样可以减少虚拟机的使用。Mesosphere也发布了相关的文章对于HubSpot(运行在AWS上)的案例研究,文章中介绍了HubSpot是如何使用几十台大型的服务器来替代了几百台小型的服务器，使得硬件的利用率更高。
 
 
 
 
 
-* 优先级资源调度和资源抢占
 
-
+* 批处理服务和普通处理服务共存
 * 
-批处理服务和普通处理服务共存
 
 
+所谓的批处理服务与普通服务共存可以在一个共享的Mesos集群中同时运行批处理任务以及其他的普通服务，这将对资源利用率的提升起到关键作用，同时这也是mesos一直所追求目标：统一的DCOS。如在一个Mesos集群中可以运行如M&R、Spark等批处理服务也可以运行如jenkins等普通服务。这样就不用在一个数据中心划分不同的服务运行区域，进行资源的隔离和精确匹配。
 
 
 
@@ -132,14 +130,71 @@ Mesos本身是一个分布式资源调度管理系统，而且是一个比较开
 
 
 
-### 1.5.1 升级Mesos Master和Slave方法
+### 1.5.1 升级流程
+•	 按照官所升级版的要求编译和安装所有依赖模块，以保证更新后的版本不存在依赖包的问题。
+
+•	在Msster节点安装新版本的源码包，并重启master节点。
+
+•	在slave节点安装新版本的源码包，并重启slave节点。
+
+•	通过连接本地库/jar等来更新调度器
+
+•	重启调度器.
+
+•	如果有必要也可以通过连接本地库/jar来更新执行器（如docker的版本）.
+
+
+
+
+
+### 1.5.2注意事项
+
+0.24.x 升级到 0.25.x
+
+注意：在0.25.x版本中一些配置文件不需要包含json后缀，不过在0.25版本配置文件是否包含json后缀同样是有效的，包含json后缀的配置文件形式会在后续的版本中逐步的被取消。
+.
+Master节点:
+
+•	/state.json 变成 /state
+
+•	/tasks.json 变成/tasks
+
+在slave节点:
+
+•	/state.json 变成 /state
+•	/monitor/statistics.json 变成 /monitor/statistics
+master和slave节点有变化的配置文件:
+•	/files/browse.json 变成 /files/browse
+•	/files/debug.json 变成 /files/debug
+•	/files/download.json 变成 /files/download
+•	/files/read.json 变成 /files/read
+注意：在0.25.x版本中，C++，Java,Python的调度包也已经进行了更新，特别地，这些调度包的驱动可以通过生成一个suppressOffers()去直接停止receiving offers进程。
+0.23.x 升级到0.24.x
+注意：在0.24.x版本，master节点在zookeeper中发布信息是通过JSON文件来进行，不在通过protobuf。
+0.22.x 升级到0.23.x
+注意事项：
+•	在master和slave节点上，配置文件stats.json已经被更新成metrics/snapshot。
+•	配置文件/master/shutdown已经被弃用
+•	为了是decorator模块可以移动元数据（环境变量或者标签），在0.24.x版本中改变了一些decorator hooks返回值的意义，详细请见更新文档。
+•	Slave节点的ping超时时间现在可以在master节点进行配置，可以通过--slave_ping_timeout 和 --max_slave_ping_timeouts进行配置。
+•	在0.23.x版本中新增了一个调度driverAPI：acceptOffers，这是launchTasks API的更完善版本。这个driverAPI的作用是允许调度器去接受一个提议并指定一个应用运行列表去进行资源的调度。目前支持的应用包括：LAUNCH (launching tasks), RESERVE (making dynamic reservations), UNRESERVE (releasing dynamic reservations), CREATE (creating persistent volumes) and DESTROY。
+•	protobuf源已经扩展成可以包含更多的metadata以便支持存储持久化、动态伸缩、资源超售。这样两个资源对象拥有不同的metadata时，你就不用必须把他们合并。
+0.21.x 升级到0.22.x
+•	在这个版本中，slave检查点标签已经被移除，因为所有的slave节点都会启用这一功能，但是在Frameworks在利用checkpoint登记他们自己的任务时，还需要开启checkpointing.
+•	在master和slave节点上，stats.json已经被弃用，需要使用metrics/snapshot。
+•	C++/Java/Python调度包已经被更新，尤其是调度driver里包含了一个附加参数可以指定是否去使用模糊的驱动确认。
+•	验证API为支持第三方的验证机制在这个版本中有了一个轻微的变化，AuthenticationStartMessage.data中的变量类型从string类型变成bytes类型并没有对C++或者over-the-wire表示法造成影响，所以这个一轻微的变化只影响了如jave Python等这些语言包，因为在这些语言中UTF-8 sting和byte数组使用的是不同的类型。
+•	所有的mesos参数可以使用file://将他们从文件中读取出来进行传递。包括白名单证书、所有JSON返回参数标签，尽管支持只传送一个绝对路径而不是一个file://，但是这种方式已经被弃用了，如果继续使用就会产生警告信息。
+升级 0.20.x 到 0.21.x
+关闭slave节点的检验信息已经被弃用，slave节点的检查点标签也已经被弃用，并在下一个版本中会被移除。
+
 
 
 
 
 ## 1.6 总结
 
-
+mesos具备当前最流行的两层资源调度机制和最开放最稳定的部署框架，mesos社区也是当前最火热的社区之一，目前已经迭代了27个版本，即0.27版本已经发布。在社区和企业的全力探索和实践下，mesos正在向着统一的云数据中心操作系统这一伟大目标前进，我们可以乐观的预想或许不久之后mesos能够像openstack那样被全世界全面的接受，成为每个数据中心所必需的优秀资源调度系统的代名词。
 
 
 
