@@ -149,10 +149,10 @@ Mesos本身是一个分布式资源调度管理系统，而且是一个比较开
 
 ### 1.5.2注意事项
 
-0.24.x 升级到 0.25.x
+**0.24.x 升级到 0.25.x**
 
 注意：在0.25.x版本中一些配置文件不需要包含json后缀，不过在0.25版本配置文件是否包含json后缀同样是有效的，包含json后缀的配置文件形式会在后续的版本中逐步的被取消。
-.
+
 Master节点:
 
 •	/state.json 变成 /state
@@ -162,38 +162,62 @@ Master节点:
 在slave节点:
 
 •	/state.json 变成 /state
+
 •	/monitor/statistics.json 变成 /monitor/statistics
+
 master和slave节点有变化的配置文件:
+
 •	/files/browse.json 变成 /files/browse
+
 •	/files/debug.json 变成 /files/debug
+
 •	/files/download.json 变成 /files/download
+
 •	/files/read.json 变成 /files/read
+
 注意：在0.25.x版本中，C++，Java,Python的调度包也已经进行了更新，特别地，这些调度包的驱动可以通过生成一个suppressOffers()去直接停止receiving offers进程。
-0.23.x 升级到0.24.x
+
+**0.23.x 升级到0.24.x**
+
 注意：在0.24.x版本，master节点在zookeeper中发布信息是通过JSON文件来进行，不在通过protobuf。
-0.22.x 升级到0.23.x
-注意事项：
+
+**0.22.x 升级到0.23.x**
+
+注意：
+
 •	在master和slave节点上，配置文件stats.json已经被更新成metrics/snapshot。
+
 •	配置文件/master/shutdown已经被弃用
-•	为了是decorator模块可以移动元数据（环境变量或者标签），在0.24.x版本中改变了一些decorator hooks返回值的意义，详细请见更新文档。
+
+•	为了在decorator模块可以移动元数据（环境变量或者标签），在0.24.x版本中改变了一些decoratorhooks返回值的意义，详细请见更新文档。
+
 •	Slave节点的ping超时时间现在可以在master节点进行配置，可以通过--slave_ping_timeout 和 --max_slave_ping_timeouts进行配置。
+
 •	在0.23.x版本中新增了一个调度driverAPI：acceptOffers，这是launchTasks API的更完善版本。这个driverAPI的作用是允许调度器去接受一个提议并指定一个应用运行列表去进行资源的调度。目前支持的应用包括：LAUNCH (launching tasks), RESERVE (making dynamic reservations), UNRESERVE (releasing dynamic reservations), CREATE (creating persistent volumes) and DESTROY。
+
 •	protobuf源已经扩展成可以包含更多的metadata以便支持存储持久化、动态伸缩、资源超售。这样两个资源对象拥有不同的metadata时，你就不用必须把他们合并。
-0.21.x 升级到0.22.x
+
+**0.21.x 升级到0.22.x**
+
 •	在这个版本中，slave检查点标签已经被移除，因为所有的slave节点都会启用这一功能，但是在Frameworks在利用checkpoint登记他们自己的任务时，还需要开启checkpointing.
+
 •	在master和slave节点上，stats.json已经被弃用，需要使用metrics/snapshot。
+
 •	C++/Java/Python调度包已经被更新，尤其是调度driver里包含了一个附加参数可以指定是否去使用模糊的驱动确认。
-•	验证API为支持第三方的验证机制在这个版本中有了一个轻微的变化，AuthenticationStartMessage.data中的变量类型从string类型变成bytes类型并没有对C++或者over-the-wire表示法造成影响，所以这个一轻微的变化只影响了如jave Python等这些语言包，因为在这些语言中UTF-8 sting和byte数组使用的是不同的类型。
+
+•	验证API为支持第三方的验证机制在这个版本中有了一个轻微的变化AuthenticationStartMessage.data中的变量类型从string类型变成bytes类型并没有对C++或者over-the-wire表示法造成影响，所以这个一轻微的变化只影响了如jave Python等这些语言包，因为在这些语言中UTF-8 sting和byte数组使用的是不同的类型。
+
 •	所有的mesos参数可以使用file://将他们从文件中读取出来进行传递。包括白名单证书、所有JSON返回参数标签，尽管支持只传送一个绝对路径而不是一个file://，但是这种方式已经被弃用了，如果继续使用就会产生警告信息。
-升级 0.20.x 到 0.21.x
-关闭slave节点的检验信息已经被弃用，slave节点的检查点标签也已经被弃用，并在下一个版本中会被移除。
+
+**升级 0.20.x 到 0.21.x**
+
+   关闭slave节点的检验信息已经被弃用，slave节点的检查点标签也已经被弃用，并在下一个版本中会被移除。
 
 
 
 
 
 ## 1.6 总结
-
 mesos具备当前最流行的两层资源调度机制和最开放最稳定的部署框架，mesos社区也是当前最火热的社区之一，目前已经迭代了27个版本，即0.27版本已经发布。在社区和企业的全力探索和实践下，mesos正在向着统一的云数据中心操作系统这一伟大目标前进，我们可以乐观的预想或许不久之后mesos能够像openstack那样被全世界全面的接受，成为每个数据中心所必需的优秀资源调度系统的代名词。
 
 
