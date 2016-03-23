@@ -16,7 +16,8 @@ Apache Mesos是由加州大学伯克利分校的AMPLab首先开发的一款开�
 - 新版本将支持更多功能
 
 Mesos架构图是这样的：
-![Mesos](http://mesos.apache.org/assets/img/documentation/architecture3.jpg "Title")
+![](http://mesos.apache.org/assets/img/documentation/architecture3.jpg)
+
 
 
 * Mesos本身包含两个组件:Master Daemon和Slave Daemon。
