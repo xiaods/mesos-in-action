@@ -19,7 +19,6 @@ Mesos架构图是这样的：
 ![](http://mesos.apache.org/assets/img/documentation/architecture3.jpg)
 
 
-
 * Mesos本身包含两个组件:Master Daemon和Slave Daemon。
     * Master Daemon
         * 管理所有的 Slave Daemon。
