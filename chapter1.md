@@ -12,11 +12,11 @@ Mesos，一个 Apache 开源项目，致力于构建数据中心级别的集群�
 
 * 可弹性扩展到10,000个节点 
 * 使用 ZooKeeper 实现 Master 和 Slave 的容错
-支持 Docker 容器
-使用 Linux 容器实现本地任务隔离
-基于多资源（内存，CPU、磁盘、端口）调度
-提供 Java，Python，C++等多种语言 APIs
-通过 Web 界面查看集群状态
+* 支持 Docker 容器
+* 使用 Linux 容器实现本地任务隔离
+* 基于多资源（内存，CPU、磁盘、端口）调度
+* 提供 Java，Python，C++等多种语言 APIs
+* 通过 Web 界面查看集群状态
 
 
 Mesos架构图是这样的：
