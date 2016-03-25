@@ -21,7 +21,7 @@ Mesos，一个 Apache 开源项目，致力于构建数据中心级别的集群�
 Apache Mesos架构图如下：
 ![](http://mesos.apache.org/assets/img/documentation/architecture3.jpg)
 
-
+ 通过以上架构图，我们可以了解到：
 * Mesos本身包含两个组件:Master Daemon和Slave Daemon。
     * Master Daemon
         * 管理所有的 Slave Daemon。
