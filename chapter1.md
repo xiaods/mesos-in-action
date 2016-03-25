@@ -41,7 +41,7 @@ Apache Mesos架构图如下：
         * 用于启动框架内部的 Task
         * 不同的调度器使用不同的 Executor
 
-* Mesos 集群为了避免单点故障，所以使用 Zookeeper 进行集群交互。
+* Mesos 集群为了避免单点故障，所以使用 Zookeeper 提供高容错的副本机制。
 
 
 ### 1.1.1 Mesos的运行方式
