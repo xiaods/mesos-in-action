@@ -16,7 +16,7 @@ Mesos，一个 Apache 开源项目，致力于构建数据中心级别的集群�
 * 使用 Linux 容器实现本地任务隔离
 * 基于多资源（内存，CPU、磁盘、端口）调度
 * 提供 Java，Python，C++等多种语言 APIs
-* 通过 Web 界面查看集群状态
+* 提供 Web UI 界面查看集群状态
 
 Apache Mesos架构图如下：
 ![](http://mesos.apache.org/assets/img/documentation/architecture3.jpg)
