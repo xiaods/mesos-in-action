@@ -11,7 +11,7 @@ Mesos，一个 Apache 开源项目，致力于构建数据中心级别的集群�
  Apache Mesos是由美国伯克利大学(UCB)的AMPLab研发并贡献到 Apache 基金会的一款开源群集管理系统，支持 Hadoop、ElasticSearch、Spark、Storm 和 Kafka 等应用架构。Mesos特性如下：
 
 * 可弹性扩展到10,000个节点 
-* 使用 ZooKeeper 实现 Master 和 Slave 的多容错副本
+* 使用ZooKeeper 实现 Master 和 Slave 的多容错副本技术
 * 支持 Docker 容器技术
 * 支持原生的 Linux 容器技术隔离任务
 * 基于多资源调度，包括内存，CPU、磁盘、端口
