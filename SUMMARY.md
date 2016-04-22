@@ -7,13 +7,7 @@
 
 
 
-* [7 Mesos搭建持续集成系统实战](chapter7.md)
-   * [7.1 Mesos 搭建持续集成系统概述](chapter7/summary.md)
-   * [7.2 持续集成概念介绍](chapter7/ci.md)
-   * [7.3 Jenkins 开源软件介绍](chapter7/jenkins.md)
-   * [7.4 持续集成系统搭建](chapter7/jenkins-on-mesos.md)
-   * [7.5 持续集成系统的维护心得](chapter7/challenges.md)
-   * [7.6 参考](chapter7/refers.md)
+
 * [Mesos基础](mesos/README.md)
    * [Mesos简介](mesos/introduce-to-mesos.md)
    * [搭建一个Mesos集群](mesos/build-a-mesos-cluster.md)
@@ -49,5 +43,12 @@
    * [Mesos搭建大数据平台Hadoop和深度机器学习平台Singa实战](chapter4/README.md)
    * [Mesos搭建分布式生物信息算法计算系统实战](chapter5.md)
    * [Mesos搭建视频压缩批处理系统实战](chapter6.md)
+   * [7 Mesos搭建持续集成系统实战](chapter7.md)
+     * [7.1 Mesos 搭建持续集成系统概述](chapter7/summary.md)
+     * [7.2 持续集成概念介绍](chapter7/ci.md)
+     * [7.3 Jenkins 开源软件介绍](chapter7/jenkins.md)
+     * [7.4 持续集成系统搭建](chapter7/jenkins-on-mesos.md)
+     * [7.5 持续集成系统的维护心得](chapter7/challenges.md)
+     * [7.6 参考](chapter7/refers.md)
          
 
