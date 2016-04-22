@@ -48,5 +48,6 @@
       * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)
    * [Mesos搭建大数据平台Hadoop和深度机器学习平台Singa实战](chapter4/README.md)
    * [Mesos搭建分布式生物信息算法计算系统实战](chapter5.md)
+   * 
          
 
