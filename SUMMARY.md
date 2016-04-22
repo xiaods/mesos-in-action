@@ -25,7 +25,7 @@
       * [运行Spark任务](mesos-frameworks/spark/job.md)
       * [小结](mesos-frameworks/spark/summary.md)
    * [总结](mesos-frameworks/summary.md)
- * Mesos 实战案例
+* Mesos 实战案例
    * [Mesos搭建日志处理系统实战](chapter2.md)
    * [Mesos搭建企业级容器云实战](chapter3.md)
       * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
