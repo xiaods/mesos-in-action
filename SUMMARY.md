@@ -40,10 +40,11 @@
  * Mesos 实战案例
    * [Mesos搭建日志处理系统实战](chapter2.md)
    * [Mesos搭建企业级容器云实战](chapter3.md)
-     * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
-     * [docker基础知识介绍](chapter3/docker.md)
-     * [Marathon Framework 介绍](chapter3/marathon.md)
-     * [容器云平台基础概述](chapter3/think_about.md)
-     * [容器云搭建](chapter3/set_up.md)
-     * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)      
+      * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
+      * [docker基础知识介绍](chapter3/docker.md)
+      * [Marathon Framework 介绍](chapter3/marathon.md)
+      * [容器云平台基础概述](chapter3/think_about.md)
+      * [容器云搭建](chapter3/set_up.md)
+      * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)
+         
 
