@@ -2,14 +2,8 @@
 
 * [前言](README.md)
 * [Mesos概述](chapter1.md)
-* [Mesos搭建日志处理系统实战](chapter2.md)
-* [Mesos搭建企业级容器云实战](chapter3.md)
-   * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
-   * [docker基础知识介绍](chapter3/docker.md)
-   * [Marathon Framework 介绍](chapter3/marathon.md)
-   * [容器云平台基础概述](chapter3/think_about.md)
-   * [容器云搭建](chapter3/set_up.md)
-   * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)
+
+
 * [Mesos搭建大数据平台Hadoop和深度机器学习平台Singa实战](chapter4/README.md)
 * [Mesos搭建分布式生物信息算法计算系统实战](chapter5.md)
 * [Mesos搭建视频压缩批处理系统实战](chapter6.md)
@@ -44,5 +38,12 @@
       * [小结](mesos-frameworks/spark/summary.md)
    * [总结](mesos-frameworks/summary.md)
  * Mesos 实战案例
-   *    
+   * [Mesos搭建日志处理系统实战](chapter2.md)
+   * [Mesos搭建企业级容器云实战](chapter3.md)
+     * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
+     * [docker基础知识介绍](chapter3/docker.md)
+     * [Marathon Framework 介绍](chapter3/marathon.md)
+     * [容器云平台基础概述](chapter3/think_about.md)
+     * [容器云搭建](chapter3/set_up.md)
+     * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)      
 
