@@ -5,7 +5,7 @@
 
 
 
-* [Mesos搭建分布式生物信息算法计算系统实战](chapter5.md)
+
 * [Mesos搭建视频压缩批处理系统实战](chapter6.md)
 * [7 Mesos搭建持续集成系统实战](chapter7.md)
    * [7.1 Mesos 搭建持续集成系统概述](chapter7/summary.md)
@@ -47,5 +47,6 @@
       * [容器云搭建](chapter3/set_up.md)
       * [关于容器云平台的其他一些杂谈](chapter3/zatan.md)
    * [Mesos搭建大数据平台Hadoop和深度机器学习平台Singa实战](chapter4/README.md)
+   * [Mesos搭建分布式生物信息算法计算系统实战](chapter5.md)
          
 
