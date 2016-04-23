@@ -1,8 +1,8 @@
 # Summary
 
 * [前言](README.md)
-* [Mesos概述](chapter1.md)
 * [Mesos基础](mesos/README.md)
+   * [Mesos概述](chapter1.md)
    * [Mesos简介](mesos/introduce-to-mesos.md)
    * [搭建一个Mesos集群](mesos/build-a-mesos-cluster.md)
    * [Mesos工作原理浅析](mesos/how-mesos-works.md)
