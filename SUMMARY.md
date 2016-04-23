@@ -1,13 +1,13 @@
 # Summary
 
 * [前言](README.md)
-* [Mesos基础](mesos/README.md)
+* [Mesos基础](mesos/README.md)篇
    * [Mesos概述](chapter1.md)
    * [Mesos简介](mesos/introduce-to-mesos.md)
    * [搭建一个Mesos集群](mesos/build-a-mesos-cluster.md)
    * [Mesos工作原理浅析](mesos/how-mesos-works.md)
    * [总结](mesos/summary.md)
-* [Mesos框架](mesos-frameworks/README.md)
+* [Mesos框架](mesos-frameworks/README.md)篇
    * [Mesos框架概览](mesos-frameworks/overview.md)
    * [Marathon](mesos-frameworks/marathon/README.md)
       * [Marathon简介](mesos-frameworks/marathon/basics.md)
@@ -25,7 +25,7 @@
       * [运行Spark任务](mesos-frameworks/spark/job.md)
       * [小结](mesos-frameworks/spark/summary.md)
    * [总结](mesos-frameworks/summary.md)
-* Mesos 实战案例
+* Mesos 实战篇
    * [Mesos搭建日志处理系统实战](chapter2.md)
    * [Mesos搭建企业级容器云实战](chapter3.md)
       * [Mesos搭建企业级容器云项目概述](chapter3/README.md)
