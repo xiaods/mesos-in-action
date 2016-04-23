@@ -7,7 +7,7 @@
    * [搭建一个Mesos集群](mesos/build-a-mesos-cluster.md)
    * [Mesos工作原理浅析](mesos/how-mesos-works.md)
    * [总结](mesos/summary.md)
-* [Mesos框架篇](mesos-frameworks/README.md)篇
+* [Mesos框架篇](mesos-frameworks/README.md)
    * [Mesos框架概览](mesos-frameworks/overview.md)
    * [Marathon](mesos-frameworks/marathon/README.md)
       * [Marathon简介](mesos-frameworks/marathon/basics.md)
