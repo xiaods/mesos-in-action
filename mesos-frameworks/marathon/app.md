@@ -15,58 +15,72 @@ Marathon Web 顾名思义就是 Marathon 的 Web 界面，通过 Marathon Web �
 
 ![marathon web](assets/marathon-web-ui-home.png)
 
-点击 `FIXME` 创建一个新的 App, 如下图所示：
+点击左上角的 **Create** 按钮创建一个新的 App, 如下图所示：
 
-![FIXME: marathon new app](assets/marathon-new-app.png)
+![marathon new app](assets/marathon-new-app-1.png)
 
-这里有许多输入项，但是，`Hello Marathon` 只需要输入如下几项即可：
+在新建页面，可以配置很多应用的选项，主要包括以下几部分：
 
-  - `FIXME`
-  - `FIXME`
+  - 基本信息，容器资源配置等
+  - Docker 容器配置，如果使用了 Docker 来封装应用的话
+  - 环境变量，会被传递给应用
+  - 标签，方便过滤，归类等
+  - 健康检查
+  - 其它可选配置
 
-输入后，点击 `FIXME` 完成 App 的创建，现在，在 Marathon Web 上，可以看到刚才创建的 `Hello Marathon` 已经处于 `Running` 状态了，如果用户操作足够快，应该还能看到在 `Running` 之前，还有一个 `Staging` 状态；我们知道，Marathon 的任务是发送到 Mesos 集群中运行的，相应地，Mesos 会实时反馈任务的状态给 Marathon。
+为了创建 `hello-marathon`，我们只需要输入几个必须的配置即可，如下图所示：
+
+![marathon create hello marathon](assets/marathon-hello-marathon-1.png)
+
+输入完成后，点击 **+Create** 完成 App 的创建，现在，在 Marathon Web 上，可以看到刚才创建的 `hello-marathon` 已经处于 `Running` 状态了，如果用户操作足够快，应该还能看到在 `Running` 之前，还有一个 `Deploying` 状态；其对应于 Mesos 中的 `Staging` 状态，表示正在启动任务。
 
 Mesos 的任务具有以下几个状态：
 
-  - staging，表示任务已经收到，正在准备启动
-  - running，任务已经启动
-  - failed，任务失败
-  - lost，任务丢失
-  - killed，被杀死
+  - Staging，表示任务已经收到，正在准备启动
+  - Running，任务已经启动
+  - Failed，任务失败
+  - Lost，任务丢失
+  - Killed，被杀死
 
-在 Web 界面，点击 `hello-marathon` 可以看到这个 App 的详情，在 `Tasks` 卡片页可以看到当前 App 的实例；在 `Configuration` 卡片页可以看到任务配置的详情，历史版本等信息。
+在 Marathon 界面，点击 `hello-marathon` 可以看到这个 App 的详情，在 `Tasks` 卡片页可以看到当前 App 的实例；在 `Configuration` 卡片页可以看到任务配置的详情，历史版本等信息，如下图所示：
+
+![marathon app detail](assets/marathon-hello-marathon-detail.png)
 
 另外，在上方还有几个控制按钮：
 
-  - Suspend, 暂停 App
-  - Scale, 调整 App 运行实例数量，当设置为 0 时，相当于 Suspend
-  - Restart App, 重启 App
-  - Destroy App, 删除 App
+  - Scale Application, 调整 App 运行实例数量
+  - Restart，重启 App 所有实例
+  - Suspend, 挂起 App，相当于杀死所有正在运行的实例，但是保留 App 的配置
+  - Destroy App, 彻底删除 App
 
-那么，怎样看到 `hello-marathon` 的输出呢？`hello-marathon` 任务执行了如下任务：
+从 Tasks 中，可以看到，`hello-marathon` 启动了一个任务，运行在 10.23.85.234 上，那么，怎样看到 `hello-marathon` 的输出呢？`hello-marathon` 任务执行了如下任务：
 
 ```
-while [ true ] ; do echo 'Hello Marathon' ; sleep 5 ; done
+while true; do echo "$(date): hello marathon"; sleep 1; done
 ```
 
-任务的效果是每隔 5 秒钟，输出 `Hello Marathon` 字符串，所以我们应该能够在任务进程的 `stdout` 看到输出。
+任务的效果是每隔 1 秒钟，输出 `hello marathon` 字符串，所以我们应该能够在任务进程的 `stdout` 看到输出。
 
-通过 Marathon Web 页面，可以看到这个 App 的唯一一个运行实例运行在 `192.168.1.101` 上，现在我们打开 Mesos 集群页面，在 `Slaves` 页面，找到这个计算节点，然后进入结点页面，找到 `hello-marathon` 这个任务，如下图所示：
+现在我们打开 Mesos 集群页面，在 `Slaves` 页面，找到这个计算节点，然后进入结点页面，找到 `hello-marathon` 这个任务，如下图所示：
 
-![hello marathon task](assets/hello-marathon-task.png)
+![hello marathon task](assets/mesos-slave-active-tasks.png)
 
-点击任务后面的 `Sandbox` 连接，可以看到当前任务运行的目录，这里有两个文件：
+点击任务后面的 `Sandbox` 链接，可以看到当前任务运行的目录，这里有两个文件：
 
   - stdout, 任务的 stdout 输出会被重定向到这个文件
   - stderr, 任务的 stderr 输出会被重定向到这个文件
 
-所以，打开 stdout 文件的内容，就可以看到 `Hello Marathon` 输出了，如下图所示：
+所以，打开 stdout 文件的内容，就可以看到 `hello-marathon` 输出了，如下图所示：
 
-![hello marathon stdout](assets/hello-marathon-stdout.png)
+![hello marathon stdout](assets/marathon-hello-marathon-stdout.png)
 
 并且，保持这个文件打开，文件内容会自动更新，实时查看到任务的 stdout，非常棒！
 
-好了，现在已经通过 Marathon Web 界面创建了一个 App，并且这个 App 只有一个实例在运行，那么，试试运行两个实例呢，只需要点击在 Marathon Web 界面上点击 `Scale`，然后输入数字 `2` 即可，可以看到，很快就会有两个 `hello-marathon` 实例在运行了。同样，可以通过 `Suspend` 来暂停 App，这里的暂停不是让已经在运行的两个实例进程暂停，而是整个 App 意义上的暂停，即停止所有正在运行的实例，所以任务会被杀死；但是，可以很方便的恢复运行，`Destroy App` 不仅会杀死所有正在运行的实例，还会将 App 配置一起删除。
+好了，现在已经通过 Marathon Web 界面创建了一个 App，并且这个 App 只有一个实例在运行，那么，试试运行两个实例呢，只需要点击在 Marathon Web 界面上点击 `Scale Application`，然后输入数字 `2` 即可，可以看到，很快就会有两个 `hello-marathon` 实例在运行了，如下图所示：
+
+![marathon scale application](assets/marathon-scale-application.png)
+
+同样，可以通过 `Suspend` 来暂停 App，这里的暂停不是让已经在运行的两个实例进程暂停，而是整个 App 意义上的暂停，即停止所有正在运行的实例，所以任务会被杀死；但是，可以很方便的恢复运行，`Destroy` 不仅会杀死所有正在运行的实例，还会将 App 配置一起删除。
 
 ## Hello Docker-2048
 
@@ -74,7 +88,38 @@ while [ true ] ; do echo 'Hello Marathon' ; sleep 5 ; done
 
 Docker 一面世，就掀起了一场云计算革命，Docker 能够将任务运行在隔离的环境中，各自任务都将自己的依赖环境全部打包到 Docker 镜像中，所以不再对底层的计算结点强依赖；相反，只需要底层计算结点支持运行 Docker 即可。
 
-Mesos 和 Marathon 也原生对 Docker 进行了支持，所以，用户可以很方便的将 Docker 任务通过 Marathon 调度到 Mesos 集群中执行。这里将创建一个 基于 Docker 的 Marathon App，由于 Marathon Web 界面还不支持创建基于 Docker 的 App，所以这里使用 Marathon API 来创建 `docker-2048`。
+Mesos 和 Marathon 也原生对 Docker 进行了支持，所以，用户可以很方便的将 Docker 任务通过 Marathon 调度到 Mesos 集群中执行。这里将创建一个 基于 Docker 的 Marathon App：docker-2048。
+
+同样，在 Marathon WEB 界面中，点击 **Create** 按钮来创建新的 App，这里输入如下图所示参数：
+
+![marathon new 2048](assets/marathon-new-docker-2048.png)
+
+虽然这里还有很多其它配置项，但是只需要输入上图中的几项即可，非常简单，和 `hello-marathon` 相比，这里有以下几点不同：
+
+  - 没有输入 **Command** 参数
+  - 输入了一个 **Docker Image**，表示将启动这个 Docker 镜像
+  - 选择了使用 Bridged 模式的网络，默认为无
+  - 一个容器端口参数 80
+
+以上参数表示：在启动这个应用时，从 Docker 镜像启动，并且使用 Bridged 网络模式将容器内部的 80 端口随机映射到主机上。
+
+输入完成后，点击 **+Create** 按钮，创建应用，稍等一段时间后，可以看到，任务已经启动了，如下图所示：
+
+![marathon docker 2048 running](assets/marathon-docker-2048-running.png)
+
+打开 `docker-2048` 应用详情页面，找到 Task 所在的主机，如下图所示：
+
+![marathon docker 2048 task](assets/marathon-docker-2048-task.png)
+
+点击任务下面的主机端口号，将在新的浏览器页面中打开该地址，如下图所示：
+
+![marathon docker 2048](assets/marathon-docker-2048.png)
+
+可以看到，一个基于 Web 的 2048 游戏已经运行起来了，酷！
+
+**注意：考虑到国内特殊情况，如果不能访问 alexwhen/docker-2048 镜像，那么任务将不能启动**
+
+## 使用 API 来创建 App
 
 Marathon 提供了比 Web 界面功能更强大的 RESTful API，相应地，Marathon Web 界面实际上也通过 Marathon API 来管理 App。
 
@@ -82,11 +127,12 @@ Marathon API 采用 JSON 格式来封装数据，如下为 `docker-2048` 的 JSO
 
 ```
 {
-    "id": "docker-2048", 
+    "id": "docker-2048-created-by-api", 
     "container": {
         "type": "DOCKER",
         "docker": {
-            "image": "FIXME/2048",
+            "image": "alexwhen/docker-2048",
+            "network": "BRIDGE",
             "portMappings": [
                 { "containerPort": 80, "hostPort": 0 }
             ]
@@ -123,7 +169,7 @@ Marathon API 中关于 App 的定义还有许多参数，这里只介绍了最�
 所以，只需要将 `docker-2048.json` 使用 POST 方法提交到 Marathon 服务的 /v2/apps 即可。这里我们将使用 `curl` 作为客户端来提交 `docker-2048.json`，如下所示：
 
 ```
-$ curl -H "Content-type: application/json" -d @docker-2048.json -X POST http://192.168.1.101:8080/v2/apps
+$ curl -H "Content-type: application/json" -d @docker-2048.json -X POST http://10.23.85.233:8080/v2/apps
 ```
 
 `curl` 是一个在 Linux 环境下广泛使用的 HTTP 客户端，支持 JSON 格式的数据，上面的命令中，使用了 3 个选项：
@@ -132,17 +178,9 @@ $ curl -H "Content-type: application/json" -d @docker-2048.json -X POST http://1
   - `-d`, 数据，`@` 符号表示使用该文件的内容
   - `-X`, 指定使用的方法，常用的 HTTP 方法还有 GET，POST，DELETE 等
 
-提交完成后，可以看到 Marathon Web 界面上新建了一个叫做 `docker-2048` 的 App，和 `hello-marathon` 不同的是，这里可以看到 `docker-2048` 需要等待一段时间才能进入到 `Running` 状态，这是因为使用了 Docker 作为任务的载体，在 Mesos 计算结点首次运行这个任务时，需要下载镜像，所以启动时间取决于下载镜像需要花的时间。
+提交完成后，可以看到 Marathon Web 界面上新建了一个叫做 `docker-2048-created-by-api` 的 App，如下图所示：
 
-当任务进入 `Running` 状态后，可以通过 `Tasks` 卡片页看到当前实例所在的计算节点以及端口，如下图所示：
-
-![FIMXE: docker-2048 task](assets/docker-2048-task.png)
-
-这个端口就是我们在 `docker-2048.json` 中 `portMappings` 中指定的端口映射的端口，由于指定的 hostPort 为 0，所以这里随机分配了一个可用的端口。
-
-现在，我们就可以通过浏览器访问 2048 游戏了，将浏览器指向：`http://192.168.1.102:32001`，如下图所示：
-
-![FIXME: docker-2048 game](assets/docker-2048-game.png)
+![docker 2048 created by api](assets/marathon-docker-2048-created-by-api.png)
 
 ## Marathon 任务配置
 
@@ -169,11 +207,12 @@ Marathon 还提供了可以配置的策略，当检查到任务不健康时，�
 
 ```
 {
-    "id": "docker-2048", 
+    "id": "docker-2048-created-by-api-v2", 
     "container": {
         "type": "DOCKER",
         "docker": {
-            "image": "FIXME/2048",
+            "image": "alexwhen/docker-2048",
+            "network": "BRIDGE",
             "portMappings": [
                 { "containerPort": 80, "hostPort": 0 }
             ]
@@ -208,14 +247,14 @@ Marathon 还提供了可以配置的策略，当检查到任务不健康时，�
 在更新了 `docker-2048-v2.json` 后，我们可以通过 `curl` 来提交更新后的 App，如下所示：
 
 ```
-$ curl -H "Content-type: application/json" -d @docker-2048-v2.json -X PUT http://192.168.1.101:8080/v2/apps/docker-2048
+$ curl -H "Content-type: application/json" -d @docker-2048-v2.json -X PUT http://10.23.85.233:8080/v2/apps/docker-2048-created-by-api
 ```
 
-更新已有 App 使用的是 PUT 方法，并且需要在 url 中指定原有 App 的 id，这里为 `docker-2048`。
+更新已有 App 使用的是 PUT 方法，并且需要在 url 中指定原有 App 的 id，这里为 `docker-2048-created-by-api`。
 
-更新完成后，打开 Marathon Web 界面，可以看到 docker-2048 的 `FIXME: health` 状态处显示了一条绿色的进度条，如下图所示：
+更新完成后，打开 Marathon Web 界面，可以看到 docker-2048-created-by-api 的 **Running Instances** 状态处显示了一条绿色的进度条，如下图所示：
 
-![docker-2048 health check](assets/docker-2048-health-check.png)
+![docker-2048 health check](assets/marathon-docker-2048-health-check.png)
 
 绿色表示该 App 所有运行实例都正常。
 
@@ -237,15 +276,16 @@ $ curl -H "Content-type: application/json" -d @docker-2048-v2.json -X PUT http:/
   - 平均分布：尽量在启动实例的结点上均匀分布实例
   - 唯一分布：在一个计算节点上只能启动一个运行实例
 
-这里，我们为 `docker-2048` 添加一个基于主机名的限制条件，使其只能运行在 `192.168.1.102` 上，修改后的 `docker-2048-v3.json` 内容如下：
+这里，我们为 `docker-2048` 添加一个基于主机名的限制条件，使其只能运行在 `10.23.85.234` 上，修改后的 `docker-2048-v3.json` 内容如下：
 
 ```
 {
-    "id": "docker-2048", 
+    "id": "docker-2048-created-by-api",
     "container": {
         "type": "DOCKER",
         "docker": {
-            "image": "FIXME/2048",
+            "image": "alexwhen/docker-2048",
+            "network": "BRIDGE",
             "portMappings": [
                 { "containerPort": 80, "hostPort": 0 }
             ]
@@ -265,14 +305,18 @@ $ curl -H "Content-type: application/json" -d @docker-2048-v2.json -X PUT http:/
             "maxConsecutiveFailures": 3
         }
     ],
-    "constraints": [["hostname": "192.168.1.102"]]
+    "constraints": [["hostname", "LIKE", "10.23.85.234"]]
 }
 ```
 
 然后，使用 `curl` 命令提交修改后的 `docker-2048-v3.json` 到 Maraton，更新已经存在的 `docker-2048` App。
 
 ```
-$ curl -H "Content-type: application/json" -d @docker-2048-v3.json -X PUT http://192.168.1.101:8080/v2/apps/docker-2048
+$ curl -H "Content-type: application/json" -d @docker-2048-v3.json -X PUT http://10.23.85.233:8080/v2/apps/docker-2048-created-by-api
 ```
 
-App 更新后，可以看到 App 的一个实例在 `192.168.1.102` 上运行了，限制，可以测试将 App 运行实例数设置为 4，可以看到，随后又在 `192.168.1.102` 上启动了 3 个运行实例，却没有在其它结点上启动任何实例。读者甚至可以停止掉 `192.168.1.102` 上的 mesos-slave 进程来验证，看看 marathon 会不会在其它结点上启动 `docker-2048` 的运行实例。
+App 更新后，可以看到 App 的一个实例在 `10.23.85.234` 上运行了，限制，可以测试将 App 运行实例数设置为 4，可以看到，随后又在 `10.23.85.234` 上启动了 3 个运行实例，却没有在其它结点上启动任何实例。
+
+![marathon constraints](assets/marathon-constraints.png)
+
+读者甚至可以停止掉 `10.23.85.234` 上的 mesos-slave 进程来验证，看看 marathon 会不会在其它结点上启动 `docker-2048` 的运行实例。
