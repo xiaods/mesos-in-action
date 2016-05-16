@@ -436,8 +436,6 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/mesos-master.se
 Created symlink from /etc/systemd/system/multi-user.target.wants/mesos-slave.service to /usr/lib/systemd/system/mesos-slave.service.
 ```
 
-第一行有一个警告，是因为 mesos rpm 包是经过签名的，而本机并没有导入对应的数字签名，这里直接忽略。
-
 安装完成后，可以看到，在 /etc/systemd/system/multi-user.target.wants/ 目录中创建了两个符号链接，分别指向 /usr/lib/systemd/system/mesos-master.service 和 mesos-slave.service。
 
 细心的读者可能已经从配置 SSH 服务一节看到，这里的输出和 `systemctl enable sshd.service` 非常类似，是的，安装完 mesos RPM 包之后，自动设置了 mesos-master 和 mesos-slave 为开机启动。
