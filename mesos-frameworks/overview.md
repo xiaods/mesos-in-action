@@ -4,7 +4,7 @@
 Mesos 生态迅速得到了其它已有分布式计算框架的支持，下图是 Mesosphere
 社区文档中发布的一张框架元素周期表，大概概括了目前能够完美运行在 Mesos 之上的计算框架。
 
-![FIXME: mesos frameworks](assets/mesos-frameworks.png)
+![FIXME: mesos frameworks](assets/mesos-frameworks-periodic-table.png)
 
 Mesosphere 官方宣称有超过 40 个计算框架支持 Mesos。
 

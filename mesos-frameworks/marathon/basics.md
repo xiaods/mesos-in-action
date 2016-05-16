@@ -1,8 +1,8 @@
-# Marathon简介
+# Marathon 简介
 
 Marathon 是 Mesosphere 专门为 Mesos 开发的长时任务处理框架，并且在 GitHub
 上开源，利用 Marathon 以及一些其它开源软件，加上一些本地开发，
-结合当前流行的容器技术 Docker, 就可以搭建一个基于 Mesos 的
+结合当前流行的容器解决方案 Docker, 就可以搭建一个基于 Mesos 的
 PaaS(Platform as a Service) 平台。
 
 当然，Docker 并不是必须的，但是由于 Docker 能够很好的解决构建、打包、
@@ -87,7 +87,7 @@ Marathon 也实现了类似的机制，叫做健康检查，能够自动检查�
 Marathon 提供了实用的 Web UI，能够方便用户管理长时任务，实现任务的增、删、查、改操作。
 下图是一个 Marathon Web UI 截图。
 
-![FIXME: marathon web ui](assets/marathon-web-ui.png)
+![FIXME: marathon web ui](assets/marathon-web-ui-home.png)
 
 ## RESTful API
 

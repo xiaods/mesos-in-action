@@ -1,4 +1,4 @@
-# 运行Marathon任务
+# 运行 Marathon 任务
 
 在搭建了 Marathon 框架后，本节将介绍怎样提交一个任务到 Marathon，通常，我们将
 Marathon 任务称作为 App，Application 的缩写。
@@ -11,9 +11,9 @@ Marathon 任务称作为 App，Application 的缩写。
 
 Marathon Web 顾名思义就是 Marathon 的 Web 界面，通过 Marathon Web 界面，可以了解很多有用的信息，例如：有多少 App 正在运行，各个 App 的实例列表，运行状态等等。不仅如此，还可以通过 Web 界面实现一些对 App 的控制，例如：调整实例数，暂停 App，删除 App，创建 App 等。
 
-用浏览器打开 Marathon Web，如下图所示：
+用浏览器打开已经启动的 Marathon 服务（http://10.23.85.233:8080），如下图所示：
 
-![FIXME: marathon web](assets/marathon-web.png)
+![marathon web](assets/marathon-web-ui-home.png)
 
 点击 `FIXME` 创建一个新的 App, 如下图所示：
 
