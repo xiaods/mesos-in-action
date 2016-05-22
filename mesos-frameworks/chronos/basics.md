@@ -5,6 +5,16 @@ Chronos 是一个基于 Mesos 的分布式的 Cron 任务处理框架，最初�
 只要用户有批处理任务需求即可，特别是原生支持 Docker 以后，Chronos
 任务的运行环境将不再受到 Mesos 计算结点的限制。
 
+## Chronos 架构
+
+Chronos 在架构上和 Marathon 非常相似，只是二者面向的业务类型不同，Chronos 主要面向批处理任务，定时重复执行的任务，而 Marathon 面向长时运行任务。
+
+下图是 Chronos 官方的一个示例架构图：
+
+![chronos architecture](assets/chronos-architecture.png)
+
+其中矩形框内是 Chronos 架构，而框外部是其它服务。所以，Chronos 本身是一个运行在 Mesos 之上的框架。
+
 ## Chronos 工作原理
 
 下图展示了 Chronos 内部功能模块：
@@ -45,7 +55,7 @@ Chronos 作为一个分布式的 Cron 批处理任务计算框架，除了支持
 
 Chronos 的 Web 用户界面如下图所示：
 
-![FIXME: chronos web ui](assets/chronos-web-ui.png)
+![chronos web ui](assets/chronos-homepage.png)
 
 在这个 Web 用户界面，用户可以完成大部分操作，包括对任务的增删查改，
 搜索，查看状态，运行历史等等。

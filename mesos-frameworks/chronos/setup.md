@@ -12,7 +12,11 @@
 
 下图是一个高可用性的 Chronos 服务在生产环境中运行的示例：
 
-![FIXME: chronos in production](assets/chronos-in-production.png)
+![FIXME: chronos in production](assets/chronos-ha.png)
+
+首先，上图中部署了 3 个 Chronos 实例，但是在任意时刻，最多只有一个实例作为 leader 来真正的处理请求，其它 Chronos 则会将收到的请求转发到 leader 实例。
+
+而为了实现 Chronos 服务故障对用户不可见，在 Chronos 前端搭建了一个负载均衡器，同时也作为一个反向代理，这样，当 Chronos leader 故障，切换 leader 后，用户不需要任何修改。
 
 Chronos 的高可用性非常简单，在任意时刻只需要有一个 Chronos 实例在运行即可提供服务，所以，由两个实例组成的 Chronos 服务即可提供高可用服务。
 
@@ -32,10 +36,16 @@ Chronos 的高可用性非常简单，在任意时刻只需要有一个 Chronos 
 
 ```
 $ tar xzf chronos-2.4.0_mesos-0.24.tar.gz
-$ cd chronos-2.4.0_mesos-0.24
 ```
 
-解压完成后，修改 `pom.xml` 文件中的第 34 行
+然后，修改目录的名字为 chronos-2.4.0_mesos-0.25
+
+```
+$ mv chronos-2.4.0_mesos-0.2{4,5}
+$ cd chronos-2.4.0_mesos-0.25
+```
+
+修改 `pom.xml` 文件中的第 34 行
 
 ```
 <mesos-utils.version>0.24.0</mesos-utils.version>
@@ -56,16 +66,33 @@ Chronos 使用 Maven 来编译，所以首先需要安装配置好 Maven 以及 
 设置好 Maven 和 JDK 之后，运行 mvn 命令编译项目，如下：
 
 ```
-$ mvn clean package
+$ mvn clean package -Dmaven.test.skip=true
 ```
 
-上面的命令表示执行两个 mvn task: clean 和 package，前者会清除之前构建的文件，后者会重新执行一次编译。
+上面的命令表示执行两个 mvn task:
+  - clean，清除之前构建的文件
+  - package，重新执行一次编译并打包
 
-编译完成后，会在当前目录生成一个 target 目录，并且在这里可以找到构建好的 Chronos jar 包。
+命令中的 `-Dmaven.test.skip=true` 表示忽略构建测试用例，这样能够加尽快完成打包；由于我们是在使用 release 版本而非参与开发，所以可以忽略构建测试用例。
+
+编译完成后，会在当前目录生成一个 target 目录，并且在这里可以找到构建好的 Chronos jar 包，如下所示：
+
+```
+$ ls -l target
+total 38728
+drwxr-xr-x 2 chengwei chengwei     4096 May 19 15:54 antrun
+-rw-r--r-- 1 chengwei chengwei 36836527 May 19 15:56 chronos-2.4.0.jar
+drwxr-xr-x 4 chengwei chengwei     4096 May 19 15:55 classes
+-rw-r--r-- 1 chengwei chengwei        1 May 19 15:55 classes.-837014839.timestamp
+drwxr-xr-x 2 chengwei chengwei     4096 May 19 15:56 maven-archiver
+-rw-r--r-- 1 chengwei chengwei  2797728 May 19 15:56 original-chronos-2.4.0.jar
+```
+
+chronos-2.4.0.jar 既是我们需要使用的 chronos jar 文件。
 
 #### 编译 Chronos Docker 镜像
 
-另一种编译 Chronos 的方式，是将 Chronos 直接编译成可启动的 Docker 镜像，在 chronos-0.24.0_mesos-0.24 目录中，可以找到一个 `Dockerfile` 文件，直接在本目录下运行 `docker build` 命令即可直接构建出 Chronos 的镜像，例如：
+另一种编译 Chronos 的方式，是将 Chronos 直接编译成可启动的 Docker 镜像，在 chronos-0.24.0_mesos-0.25 目录中，可以找到一个 `Dockerfile` 文件，直接在本目录下运行 `docker build` 命令即可直接构建出 Chronos 的镜像，例如：
 
 ```
 $ docker build -t chronos:0.24.0_mesos-0.25 .
@@ -75,7 +102,10 @@ $ docker build -t chronos:0.24.0_mesos-0.25 .
 
 ```
 $ docker images
-FIXME: output
+REPOSITORY                                                                TAG                               IMAGE ID            CREATED             SIZ
+E
+chronos                                                                   0.24.0_mesos-0.25                 30f102b4345b        17 hours ago        1.2
+03 GB
 ```
 
 不管以何种方式编译 Chronos，在完成之后，就可以启动 Chronos 了。
@@ -84,28 +114,57 @@ FIXME: output
 
 #### 本地运行 Chronos
 
-在编译好 Chronos 之后，就可以启动 Chronos 服务了，执行 chronos-0.24.0_mesos-0.24 目录下的 `bin/start-chronos.sh` 即可，例如：
+在编译好 Chronos 之后，就可以启动 Chronos 服务了，执行 chronos-0.24.0_mesos-0.25 目录下的 `bin/start-chronos.sh` 即可，首先查看帮助文档，如下：
 
 ```
-$ ./bin/start-chronos.sh
-FIXME: output
+[root@10 chronos-2.4.0_mesos-0.25]# ./bin/start-chronos.bash  --help
+Chronos home set to /root/chronos-2.4.0_mesos-0.25
+Using jar file: /root/chronos-2.4.0_mesos-0.25/target/chronos-2.4.0.jar[0]
+[2016-05-22 14:49:50,468] INFO --------------------- (org.apache.mesos.chronos.scheduler.Main$:26)
+[2016-05-22 14:49:50,469] INFO Initializing chronos. (org.apache.mesos.chronos.scheduler.Main$:27)
+[2016-05-22 14:49:50,471] INFO --------------------- (org.apache.mesos.chronos.scheduler.Main$:28)
+      --assets_path  <arg>                        Set a local file system path to
+                                                  load assets from, instead of
+                                                  loading them from the packaged
+                                                  jar.
+      --cassandra_consistency  <arg>              Consistency to use for Cassandra
+                                                  (default = ANY)
+  -c, --cassandra_contact_points  <arg>           Comma separated list of contact
+                                                  points for Cassandra
+      --cassandra_keyspace  <arg>                 Keyspace to use for Cassandra
+                                                  (default = metrics)
+      --cassandra_port  <arg>                     Port for Cassandra
+                                                  (default = 9042)
+... 省略若干行 ...                                      
 ```
 
-启动后，Chronos 会默认监听在 8080 端口接收服务请求，可以通过 `netstat` 命令查看：
+Chronos 有很多可以配置的选项，但是为了启动一个 Chronos 服务，只需要配置少数几个必须的项即可：
+
+  - `--master`，配置 mesos 集群地址
+  - `--zk_hosts`，配置 ZooKeeper 服务地址
+
+从前面 Chronos 介绍中我们知道，Chronos 依赖于 mesos 集群以及 ZooKeeper 服务，所以这两个参数是必须的。
+
+这里以前面搭建的 mesos 集群和 ZooKeeper 服务为例来启动 Chronos 服务，如下：
 
 ```
-$ FIXME: command line and output
+# [root@10 chronos-2.4.0_mesos-0.25]# ./bin/start-chronos.bash  --master zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos --zk_hosts zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181
 ```
 
-在继续之前，我们先看看以 Docker 方式怎样启动 Chronos 服务。
+启动后，Chronos 会默认监听在 8080 端口接收服务请求，使用浏览器打开本地的 8080 端口地址，例如：`http://10.23.85.233:8080`，可以看到 Chronos Web 用户界面，如下图所示：
+
+![chronos home page](assets/chronos-homepage.png)
+
+同时，在 Mesos master WEB 界面上也可以看到新注册的 Chronos 框架，如下图所示：
+
+![chronos registered](assets/chronos-registered.png)
 
 #### 以 Docker 的方式
 
-如果用 Docker 的方式启动 Chronos 服务，非常简单，使用 `docker run` 命令即可，例如：
+除了直接在主机上启动 Chronos 外，还可以将 Chronos 运行在 Docker 中，使用 `docker run` 命令来启动在前面构建的 Chronos 镜像，例如：
 
 ```
-$ docker run -p8080:8080 --name=chronos chronos:0.24.0_mesos-0.25
-FIXME: output
+$ docker run -p 8080:8080 --name=chronos chronos:0.24.0_mesos-0.25 --master zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos --zk_hosts zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181
 ```
 
 这里使用了两个 `docker run` 的参数：
@@ -114,14 +173,6 @@ FIXME: output
   - `--name`, 制定容器名称，这里为 chronos
 
 Chronos 默认会监听 8080 端口，这里我们将其映射到主机端口 8080，所以在启动 Chronos 容器之前，首先需要确保主机的 8080 端口没有被占用，否则将失败。
-
-#### 验证 Chronos 服务
-
-在以任何一种方式启动了 Chronos 服务之后，使用浏览器打开本地的 8080 端口地址，例如：`http://127.0.0.1:8080`，可以看到 Chronos Web 用户界面，如下图所示：
-
-![FIXME: chronos web ui](assets/chronos-web-ui.png)
-
-Chronos 的使用将在下节较为详细的介绍，这里暂且略过，下面继续介绍怎样配置 Chronos 运行参数。
 
 ### Chronos 配置参数
 
@@ -156,25 +207,6 @@ Chronos 有许多配置参数可以用来修改其默认行为，这里介绍一
 
 ### 搭建高可用 Chronos 服务
 
-在搭建高可用 Chronos 服务之前，首先改进 Chronos 的配置，使其符合生产环境需求，
-也就是至少需要修改 `--master` 和 `--zk_hosts` 的配置为生产环境。
-
-这里仍然使用在上一章中搭建的 mesos 集群和 ZooKeeper
-服务作为生产环境，所以这里我们将一下面的命令启动
-Chronos。这里以使用命令行方式启动为例，假设我们在 192.168.1.101 机器上启动
-Chronos。
-
-```
-$ ./bin/start-chronos.sh --master zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181 \
-> --zk_hosts 192.168.1.101,192.168.1.102,192.168.1.103
-FIXME: output
-```
-
-上面的 `--master` 和 `--zk_hosts` 都使用了同一组 ZooKeeper
-服务，这并不是必须的。
-
-为了简单，这里我们没有配置其它可选参数，读者可以按照需求自行配置。
-
 在启动了一个 Chronos 实例后，Chronos 就可以提供服务了，Chronos
 在高可用方面实现原理和 Marathon 类似，都使用了 ZooKeeper
 作为持久化存储服务，只要在任意时刻有一个实例在运行即可提供服务。
@@ -182,12 +214,12 @@ FIXME: output
 所以，要搭建高可用的 Chronos 服务，非常简单，在其它机器上以同样的配置，启动多个
 Chronos 即可。
 
-这里假设在 192.168.1.102 上再启动一个 Chronos，这样就实现了高可用。
+这里假设在 10.23.85.234 上再启动一个 Chronos，这样就实现了高可用。
 
 但是，由于 Chronos 暴露服务的方式是直接通过 IP 和端口暴露，所以，当 Leader
 故障后，虽然存活的 Chronos 能够自动选举为 Leader，继续服务，
 但是服务地址和端口却改变了。这对于使用方来说并不是透明的，
-因为使用方需要修改访问地址。
+因为用户需要修改访问地址才能继续访问 Chronos。
 
 为了能够对用户透明，需要为 Chronos 服务提供一个统一的服务地址和端口，
 而后端由多个 Chronos 实例来支撑，这样，当后端的 Chronos
@@ -201,53 +233,68 @@ Chronos 即可。
 的计算框架，Marathon 是一个长时任务框架，而 Chronos 是一个短时批处理任务框架。
 
 通过将 Chronos 运行在 Marathon 上，能够实现服务实例故障自动转移、恢复，结合
-Marathon 提供的健康检查机制以及 HAProxy 实现的负载均衡机制，能够让我们的 Chronos
+Marathon 提供的健康检查机制以及服务发现机制，能够让我们的 Chronos
 服务做到对用户透明的高可用性服务，并且实现服务实例故障自动转移，恢复，极大降低运维成本。
 
 首先，假设我们使用在上一节中搭建的 Marathon 服务，并且使用本节中介绍的以 Docker
 运行 Chronos 的方式将 Chronos 运行在 Marathon 上。
 
-然后，需要实现 HAProxy 的自动配置，以便在有 Chronos
-容器故障，恢复时，能够自动更新 HAProxy 的配置。
-
 ### 启动 Chronos
 
-在 Marathon 一节中，曾介绍过怎样通过 API 创建一个基于 Docker 的 2048
-网页版游戏，这里我们使用同样的方式，启动一个 Chronos 应用，`chronos.json`
-的内容如下：
+在 Marathon 一节中，曾介绍过怎样创建一个基于 Docker 的 2048
+网页版游戏，这里我们使用同样的方式，启动一个 Chronos 应用，由于启动 Chronos 镜像需要传递额外的参数 `--master` 和 `--zk_hosts`，而 Marathon 的 WEB 界面目前还不支持，所以这里介绍怎样用命令行来创建。
+
+首先，准备一个 chronos-on-marathon.json 文件，内容如下：
 
 ```
-FIXME: chronos.json
+{
+    "id": "chronos",
+    "container": {
+        "docker": {
+            "image": "docker-registry.qiyi.virtual/yangchengwei/chronos:0.24.0_mesos-0.25",
+            "network": "BRIDGE",
+            "portMappings": [{ "containerPort": 8080, "hostPort": 0, "protocol": "tcp" }]
+        },
+        "type": "DOCKER"
+    },
+    "args": [
+        "--master", "zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos",
+        "--zk_hosts", "zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181"
+    ],
+    "cpus": 1.0,
+    "mem": 1024.0,
+    "instances": 2
+}
 ```
 
-这里，简单解释一下 `chronos.json` 的内容：
-
-  - FIXME:
-  - FIXME:
-
-然后，使用 `curl` 命令提交这个应用到 Marathon。
+然后使用 curl 命令来提交，如下：
 
 ```
-$ FIXME: curl command
+$ curl -H "Content-type: application/json" -d @chronos-on-marathon.json -X POST http://10.23.85.233:8080/v2/apps                                                                                                                             {"id":"/chronos","cmd":null,"args":["--master","zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos","--zk_hosts","zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181"],"user":null,"env":{},"instances":2,"cpus":1,"mem":1024,"disk":0,"executor":"","constraints":[],"uris":[],"storeUrls":[],"ports":[0],"requirePorts":false,"backoffSeconds":1,"backoffFactor":1.15,"maxLaunchDelaySeconds":3600,"container":{"type":"DOCKER","volumes":[],"docker":{"image":"docker-registry.qiyi.virtual/yangchengwei/chronos:0.24.0_mesos-0.25","network":"BRIDGE","privileged":false,"parameters":[],"forcePullImage":false}},"healthChecks":[],"dependencies":[],"upgradeStrategy":{"minimumHealthCapacity":1,"maximumOverCapacity":1},"labels":{},"acceptedResourceRoles":null,"version":"2016-05-22T08:27:11.469Z","tasksStaged":0,"tasksRunning":0,"tasksHealthy":0,"tasksUnhealthy":0,"deployments":[{"id":"26552208-6ab7-4dbe-8c98-758e4adfa8cb"}],"tasks":[]}%
 ```
 
-提交完成后，可以看到在 Marathon 上创建了一个 chronos 应用，并且启动了 2
-个实例，现在，这 2 个 Chronos 实例组成了一个 Chronos 服务。
+提交完成后，可以看到有 2 个任务处于 Staged 状态，如下图所示：
 
-### 自动配置 HAProxy
+![chronos staged](assets/chronos-on-marathon-staged.png)
 
-为了对外提供 Chronos 服务，我们使用 HAProxy 来暴露 Chronos 服务，例如，在服务器
-192.168.1.101 上不是 HAProxy 服务，并且配置上两个 Chronos 的运行地址和端口，
-这样，用户就可以通过访问 HAProxy 服务的地址来访问 Chronos 了。
+这是因为 Mesos 计算节点需要下载 Chronos 镜像到本地，之后才能启动容器，所以根据下载时间的长短，可能需要等几分钟到几十分钟。
 
-当运行在 Marathon 上的 Chronos 任务出现故障时，Marathon 会自动启动新的 Chronos
-实例，几乎可以肯定的是，这个新实例运行的地址和端口和原来的不一样，所以需要更新
-HAProxy 的配置，以便请求能够被转发到正确的 Chronos 实例上。
+**注意：这里假设使用了共有的 docker hub 服务，所以 mesos 集群的计算节点需要能够从 docker hub 服务上下载镜像，否则将不能启动，另一种较复杂的方式是读者可以搭建私有的 docker-registry 服务来存储镜像**
 
-显然，如果需要手工进行这样的配置，显然是不太友好的，所以 Marathon 提供了自动配置
-HAProxy 的方案。
+当任务处于运行状态后，使用浏览器打开任意一个 Chronos 实例，可以看到 Chronos 服务已经在正常运行了。
 
-FIXME: https://mesosphere.github.io/marathon/docs/service-discovery-load-balancing.html
+### 服务发现和负载均衡
+
+我们知道，当运行在 Marathon 上的 Chronos 任务出现故障时，Marathon 会自动启动新的 Chronos
+实例，几乎可以肯定的是，这个新实例运行的地址和端口和原来的不一样。所以，
+在真实的生产环境中，为了对外提供对用户透明的高可用 Chronos 服务，需要在 Chronos 实例前端添加一层负载均衡器，同时也充当反向代理的作用。
+
+对于 Marathon 来说，marathon 提供了两种服务发现和负载均衡的方式：
+
+  - mesos-dns
+  - marathon-lb
+
+二者的配置稍显复杂，这里留给感兴趣的读者自行研究。
 
 ## 小结
 

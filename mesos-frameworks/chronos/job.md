@@ -15,65 +15,58 @@ Chronos 同时提供了 RESTful API 和 Web 用户界面来管理任务，这里
 
 Chronos Web 用户界面的主页如下图所示：
 
-![FIXME: chronos web ui]()
+![chronos web ui](assets/chronos-homepage.png)
 
 通过 Web 用户界面可以提交任务，查看任务状态，历史运行情况等，还可以搜索任务。
 下面提交一个任务输出 "Hello Chronos!"。如下图所示：
 
-![FIXME: hello chronos]()
+![hello chronos](assets/chronos-create-hello.png)
 
 这里我们提交的是一个即时任务，所以任务一旦提交就会被立即调度，如果 Mesos
 集群有资源，那么任务将立即启动，否则将在 Chronos 调度队列中等待。
 
 很快，可以发现任务已经完成了，如下图所示：
 
-![FIXME: hello chronos finished]()
+![hello chronos finished](assets/chronos-hello-chronos-finished.png)
+
+从 Chronos web UI 也可以看到任务的状态，如下图所示：
+
+![hello chronos finished 1](assets/chronos-hello-finished-1.png)
 
 但是，任务的输出从哪里查看呢？可以从 Mesos Web 用户界面找到这个任务，并且进入
 `Sandbox` 中，查看 `stdout` 文件，即可找到。如下图所示：
 
-![FIXME: hello chronos output]()
+![hello chronos output](assets/chronos-hello-chronos-output.png)
 
 可见，Mesos 启动了 shell 执行器来执行 Chronos 任务的命令，由于这里只执行了一条
 `echo` 命令，所以可以在 Web 用户界面上输入，但是，如果任务要执行的是一个脚本呢？
-再从 Chronos Web 用户界面输入显然不合适。
+再从 Chronos Web 用户界面输入显然不合适：
 
-下面介绍怎样运行一个脚本，内容如下：
+  - 每次输入比较麻烦，容易输入错误等
+  - Web UI 使用起来比较低效
+
+下面来看看怎样使用 Chronos API 来管理任务。
+
+## RESTful API
+
+创建一个叫 `hello-chronos.sh` 的脚本，内容如下：
 
 ```
-#!/bin/bash
-
+#!/bin/sh
 set -e
-
 echo "Hello Chronos!"
 echo "This is a complicated script"
 sleep 10
-echo "Mission complite"
+echo "Mission complete"
 ```
 
-将文件保存为 `hello-chronos.sh` 并且放到一个在 Mesos 计算节点上可以访问的地方，
+并且将这个文件放到一个在 Mesos 计算节点上可以访问的地方，
 例如：HDFS, HTTP 服务器，甚至计算结点上。这里将这个脚本部署在了所有计算结点上，
-存放在 `/usr/local/mesos/chronos/hello-chronos.sh`。
-
-现在，在 Chronos Web 界面上创建一个新任务，内容如下：
+存放在 `/usr/local/mesos/chronos/hello-chronos.sh`，并且赋予可执行权限：
 
 ```
-![FIXME: chronos new job]()
+# chmod +x /usr/local/mesos/chronos/hello-chronos.sh
 ```
-
-和上一个任务不同的是：
-
-  - command 中指定的是 `./hello-chronos.sh`
-  - uri 中指定了 `/usr/local/mesos/chronos/hello-chronos.sh`
-
-在 Mesos 中，如果指定了 uri，那么 mesos 计算结点在启动任务之前，会首先下载 uri
-中指定的资源，并且将其放在任务的 Sandbox 中。所以，这里会将
-`/usr/local/mesos/chronos/hello-chronos.sh` 文件复制到任务的 Sandbox 中，
-在 command 中则指定了直接执行这个 shell 脚本。
-
-同样，我们可以从 Mesos Web 用户界面查看到这个任务运行的情况，如下图所示：
-
-![FIXME: chronos shell output]()
 
 在这里，读者可能在好奇为什么不把脚本放在例如：HDFS 或者 HTTP 服务器上，
 而是将其部署在 Mesos 计算节点上。在实际生产环境中，为了加快任务启动速度，
@@ -82,19 +75,26 @@ echo "Mission complite"
 
 另外，对于短时任务来说，启动速度更加重要，因为短时任务运行的时间一般不长。
 
-## RESTful API
-
 对于批处理任务来说，通过 API 提交的方式更加高效实用，Chronos 提供了完善的
 RESTful API，这里将介绍怎样实用 API 来提交任务，完整的 API 读者可以参考 Chronos
 官方文档。
 
-还是以提交 `hello-chronos.sh` 为例，命令如下：
+以提交 `hello-chronos.sh` 为例，创建一个 hello-chronos.json，内容如下：
 
 ```
-$ curl -H 'Content-Type: application/json' -X POST \
-> -d '{"schedule": "", "name": "hello-chronos", "command": "./hello-chronos.sh",
-> "uris": ['/usr/local/mesos/chronos/hello-chronos.sh']}' http://192.168.1.101:8080/scheduler/iso8601
-FIXME: output
+{
+    "name": "hello-chronos-script",
+    "command": "./hello-chronos.sh",
+    "uris": [
+        "/usr/local/mesos/chronos/hello-chronos.sh"
+    ]
+}
+```
+
+然后，使用 curl 命令提交这个任务：
+
+```
+$ curl -H 'Content-Type: application/json' -X POST -d @hello-chronos.json http://10.23.85.233:8080/scheduler/iso8601
 ```
 
 这里使用了 `curl` 作为 HTTP 客户端提交任务，各个参数的意义如下：
@@ -105,25 +105,32 @@ FIXME: output
 
 最后指定的是 Chronos 服务地址及其 API 地址。
 
-提交完成后，前往 Chronos Web 用户界面，可以看到刚才提交的任务已经完成了，
-这是因为上面的命令提交的是一个即时任务。在 Chronos 中，空的 `schedule`
-值表示即时任务。
+提交完成后，前往 Chronos Web 用户界面，可以看到刚才提交的任务已经完成了，如下图所示：
 
-现在，对上面的命令稍作修改，提交一个重复执行的定时任务。
+![hello chronos script](assets/hello-chronos-script.png)
+
+这是因为上面的命令提交的是一个即时任务。在 Chronos 中，省略 `schedule`
+表示即时任务，即提交后立即执行。
+
+现在，对上面的 hello-chronos.json 稍作修改，变成一个重复执行的定时任务。
 
 ```
-$ curl -H 'Content-Type: application/json' -X POST \
-> -d '{"schedule": "R3/2015-12-26T12:00:00.000Z/PT5M", "name": "hello-chronos-v2", "command": "./hello-chronos.sh",
-> "uris": ['/usr/local/mesos/chronos/hello-chronos.sh']}' http://192.168.1.101:8080/scheduler/iso8601
-FIXME: output
+{
+    "schedule": "R3/2016-05-23T09:30:00.000Z/PT5M",
+    "name": "hello-chronos-script-cron",
+    "command": "./hello-chronos.sh",
+    "uris": [
+        "/usr/local/mesos/chronos/hello-chronos.sh"
+    ]
+}
 ```
 
 上面的命令，相较于上一次的提交有两个改变：
 
-1. `name` 为 `hello-chronos-v2`，这是因为 Chronos 任务中的 name 必须唯一
-2. `schedule` 为 `R3/2015-12-26T12:00:00.000Z/PT5M`，R3 表示任务要执行 3
-   次，2015-12-26T12:00:00.000Z 表示在 UTC 时间 2015 年 12 月 26 日 12
-   点整开始第一次执行，也就是北京时间的 20 点，PT5M 表示重复执行的间隔为 5
+1. `name` 为 `hello-chronos-script-cron`，这是因为 Chronos 任务中的 name 必须唯一
+2. `schedule` 为 `R3/2016-05-23T09:30:00.000Z/PT5M`，R3 表示任务要执行 3
+   次，2016-05-23T09:30:00.000Z 表示在 UTC 时间 2016 年 05 月 23 日 09
+   点 30 分开始第一次执行，也就是北京时间的 17 点 30 分，PT5M 表示重复执行的间隔为 5
    分钟
 
 ## 基于 Docker 的任务
@@ -144,33 +151,40 @@ Chronos 和 Mesos 都原生支持 Docker 任务，所以这里将提交一个 Do
 并且设置为启动命令，构建镜像的 Dockerfile 如下所示：
 
 ```
-FROM FIXME:alpine
+FROM alpine
 MAINTAINER Chengwei Yang <me@chengweiyang.cn>
 
 ADD hello-chronos.sh /
+RUN chmod +x /hello-chronos.sh
 
-CMD ['/bin/sh', '-c', '/hello-chronos.sh']
+CMD ["/hello-chronos.sh"]
 ```
 
-将 `hello-chronos.sh` 和 Dockerfile 都保存在同一个目录中，例如：
+将 `hello-chronos.sh` 和 Dockerfile 都保存在同一个目录中，如下所示：
 
 ```
 $ tree .
-FIXME: output
+.
+├── Dockerfile
+└── hello-chronos.sh
+
+0 directories, 2 files
 ```
 
 然后构建 Docker 镜像，如下所示：
 
 ```
-$ docker build -t chengweiv5/hello-chronos:v1 .
-$ docker push chengweiv5/hello-chronos:v1
+$ docker build -t mesos-in-action/hello-chronos:v1 .
+$ docker push mesos-in-action/hello-chronos:v1
 ```
 
-将 Docker 镜像上传到 Docker Hub 之后，就可以提交任务了。如下：
+将 Docker 镜像上传到 Docker Hub 之后，就可以提交任务了。创建一个 hello-chronos-docker.json 文件，内容如下：
 
 ```
 FIXME: docker task
 ```
+
+然后，使用 curl 命令提交这个任务，命令行和前面的一样。
 
 任务提交后，当任务被初次调度到计算结点时，计算结点需要下载 Docker
 镜像，这需要花一定的时间，视网络情况而定。由于 Docker Hub
