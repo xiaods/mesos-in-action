@@ -181,10 +181,23 @@ $ docker push mesos-in-action/hello-chronos:v1
 将 Docker 镜像上传到 Docker Hub 之后，就可以提交任务了。创建一个 hello-chronos-docker.json 文件，内容如下：
 
 ```
-FIXME: docker task
+{
+  "name": "hello-chronos-docker",
+  "container": {
+    "type": "DOCKER",
+    "image": "mesos-in-action/hello-chronos:v1"
+  },
+  "cpus": "0.5",
+  "mem": "512",
+  "command": ""
+}
 ```
 
-然后，使用 curl 命令提交这个任务，命令行和前面的一样。
+然后，使用 curl 命令提交这个任务，命令行和前面的一样：
+
+```
+$ curl -H 'Content-Type: application/json' -X POST -d @hello-chronos-docker.json http://10.23.85.233:8080/scheduler/iso8601
+```
 
 任务提交后，当任务被初次调度到计算结点时，计算结点需要下载 Docker
 镜像，这需要花一定的时间，视网络情况而定。由于 Docker Hub
