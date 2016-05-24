@@ -28,15 +28,6 @@ Spark 下载页面提供了多种下载选择：
   - 针对各个特性 Hadoop 版本的可执行文件，例如：Hadoop 2.6 及更新版本
 
 这里下载 `Pre-built for Hadoop 2.6 and later`，下载的文件名为：`spark-1.5.2-bin-hadoop2.6.tgz`，
-假设下载到本地的 ~/Downloads 目录下，下载完成后，解压。
-
-```
-$ cd ~/Downloads
-$ tar xzf spark-1.5.2-bin-hadoop2.6.tgz
-$ cd spark-1.5.2-bin-hadoop2.6
-$ ls
-FIXME: output
-```
 
 为了启动集群，需要将 Spark 部署到各个结点中，Spark 集群中只有一个控制结点，
 其余均为计算结点。
@@ -45,17 +36,27 @@ FIXME: output
 控制结点，运行 Spark master 进程，而 B 和 C 将作为计算节点，运行 Spark worker
 进程。
 
-将下载好的 spark-1.5.2-bin-hadoop2.6.tgz 复制到 3 台服务器的 /home/spark
+将下载好的 spark-1.5.2-bin-hadoop2.6.tgz 复制到 3 台服务器的 /opt/spark
 目录下，并且解压。
+
+```
+# mkdir -p /opt/spark
+# cd /opt/spark
+# tar xzf spark-1.5.2-bin-hadoop2.6.tgz
+# cd spark-1.5.2-bin-hadoop2.6
+# ls
+bin  CHANGES.txt  conf  data  ec2  examples  lib  LICENSE  licenses  NOTICE  python  R  README.md  RELEASE  sbin
+```
+
 
 ### Spark master
 
 在服务器 A 上启动 Spark master 进程，如下：
 
 ```
-$ cd /home/spark/spark-1.5.2-bin-hadoop2.6
-$ ./sbin/start-master.sh
-FIXME: output
+# cd /opt/spark/spark-1.5.2-bin-hadoop2.6
+# ./sbin/start-master.sh
+starting org.apache.spark.deploy.master.Master, logging to /opt/spark/spark-1.5.2-bin-hadoop2.6/sbin/../logs/spark-root-org.apache.spark.deploy.master.Master-1-10.23.85.233.out
 ```
 
 Spark master 进程默认会监听本地地址的以下端口：
@@ -64,27 +65,39 @@ Spark master 进程默认会监听本地地址的以下端口：
   - `7077`, Spark master 服务端口，worker 进程将和 master
     进程通过此端口建立连接
 
+注意：如果读者在这台机器上启动了 Marathon 或者 Chronos 占用了 8080 端口，需要在启动前使用环境变量修改端口号
+
+```
+# EXPORT SPARK_MASTER_WEBUI_PORT=8081
+# ./sbin/start-master.sh
+```
+
+同样，也可以使用环境变量 `SPARK_MASTER_PORT` 修改默认的监听端口 7077。
+
 现在，打开浏览器，指向本地地址的 8080 端口，将可以看到 Spark
 集群的运行情况，如下图所示：
 
-![FIXME: spark master]()
+![FIXME: spark master](assets/spark-homepage.png)
 
 从 Spark master web 用户界面，可以看到以下几方面的信息：
 
-  - FIXME
-  - FIXME
+  - 基本信息：URL，REST URL，Alive Workers 等
+  - Works：当前的 work
+  - Running Applications：正在运行的应用
+  - Completed Applications：已经完成的应用
 
 可以看到，目前集群中还没有任何可用的计算结点，所以也不能执行任何任务。
 现在，让我们向集群中添加两个计算结点。
 
 ### Spark worker
 
-分别在服务器 B 和 C 上执行下面的操作来启动 Spark worker 进程。
+Spark worker 结点充当 Spark 的计算节点，负责和 Spark 控制节点通信并且运行任务。
+在启动了 Spark 控制节点后，现在分别在服务器 B 和 C 上执行下面的操作来启动 Spark worker 进程。
 
 ```
-$ cd /home/spark/spark-1.5.2-bin-hadoop2.6
-$ ./sbin/start-slave.sh spark://192.168.1.101:7077
-FIXME: output
+$ cd /opt/spark/spark-1.5.2-bin-hadoop2.6
+$ ./sbin/start-slave.sh spark://10.23.85.233:7077
+starting org.apache.spark.deploy.worker.Worker, logging to /opt/spark/spark-1.5.2-bin-hadoop2.6/sbin/../logs/spark-root-org.apache.spark.deploy.worker.Worker-1-10.23.85.235.out
 ```
 
 `start-slave.sh` 接收一个必需的参数，指定 Spark master 运行的地址。Spark worker
@@ -96,12 +109,18 @@ FIXME: output
 Spark worker 默认会监听在本地地址的 8081 端口，提供 web 用户界面，所以，
 用浏览器打开 B 结点的 8081 地址，如下图所示：
 
-![FIXME: spark worker]()
+![spark worker](assets/spark-worker-homepage.png)
 
 从 Spark worker web 用户界面，可以了解到以下几方面信息：
 
-  - FIXME
-  - FIXME
+  - 基本信息：ID，Master URL，核数，内存大小
+  - Running Executors：正在运行的 Executors
+
+由于这里没有运行任何任务，Running Executors 中为空。
+
+另外，再次打开 Spark master 页面，可以看到刚才添加的 2 个 Spark worker，如下图所示：
+
+![spark worker registered](assets/spark-worker-registered.png)
 
 ### 启动参数配置
 
@@ -115,7 +134,7 @@ start-master.sh 和 start-slave.sh 接受以下公共参数。
 
 参数 | 默认值 | 含义
 -----| ------ | ----
-`-h HOST, --host HOST` | 本地所有地址 | 监听的地址，例如：127.0.0.1, 192.168.1.101
+`-h HOST, --host HOST` | 本地所有地址 | 监听的地址，例如：10.23.85.233
 `-i HOST, --ip HOST` | 本地所有地址 | 不再建议使用，建议使用 `-h 或者 --host`
 `-p PORT, --port PORT` | 对于 master 来说是 7077，slave 为随机端口 | master 或 slave 和对方通信的端口
 `--webui-port PORT` | 对于 master 来说是 8080, slave 是 8081 | master 或 slave web 用户界面监听的端口
@@ -139,7 +158,7 @@ start-master.sh 和 start-slave.sh 接受以下公共参数。
 只需要在启动 `start-slave.sh` 时指定即可，例如：
 
 ```
-$ ./sbin/start-slave.sh --cores 7 --memory 14G spark://192.168.1.101:7077
+$ ./sbin/start-slave.sh --cores 7 --memory 14G spark://10.23.85.233:7077
 ```
 
 ### 集群辅助脚本
@@ -193,14 +212,14 @@ Spark worker 的高可用性通过将运行在其上的任务转移到其它结�
 中设置。例如：
 
 ```
-$ cd /home/spark/spark-1.5.2-bin-hadoop2.6
+$ cd /opt/spark/spark-1.5.2-bin-hadoop2.6
 $ cp conf/spark-env.sh.template conf/spark-env.sh
 ```
 
 默认这个文件中没有开启任何配置，所以在这个文件中添加如下一行来配置上面的参数。
 
 ```
-SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181
+SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181
 ```
 
 注意，需要修改所有 Spark 控制结点上的配置。同时，由于现在启动了多个 Spark
@@ -215,7 +234,7 @@ master。如下：
 如果我们在服务器 A 和 B 上启动了 Spark master，那么可以以下面的方式启动 worker
 
 ```
-./sbin/start-slave.sh spark://192.168.1.101:7077,192.168.1.102:7077
+./sbin/start-slave.sh spark://10.23.85.233:7077,10.23.85.234:7077
 ```
 
 #### 基于本地文件
@@ -260,15 +279,15 @@ FIXME: spark 1.5.2 文档中是需要 Mesos 0.21.0，不确定是否和 Mesos 0.
 兼容，可能要重新编译一次。
 
 首先，假设 Mesos 线上服务为
-`zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181`。
+`zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos`。
 
 ### 启动 Spark Scheduler
 
-假设在 192.168.1.102 上启动 Spark Scheduler，它可以通过 Spark 二进制发行包中的
+假设在 10.23.85.234 上启动 Spark Scheduler，它可以通过 Spark 二进制发行包中的
 `sbin/start-mesos-dispatcher.sh` 脚本来启动，命令如下：
 
 ```
-$ ./sbin/start-mesos-dispatcher.sh mesos://zk://192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181/mesos
+$ ./sbin/start-mesos-dispatcher.sh mesos://zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos
 ```
 
 `start-mesos-dispatcher.sh` 脚本接受一个参数，指明 mesos
@@ -282,7 +301,7 @@ ZooKeeper 中的地址，这里我们使用了在上一章中搭建了 mesos 生
 ![FIXME: spark scheduler]()
 
 现在，用户可以通过 Spark 客户端向 Spark Scheduler 提交任务了，只需要指明 Spark
-Scheduler 的服务地址即可，这里为：`mesos://192.168.1.102:7077`。
+Scheduler 的服务地址即可，这里为：`mesos://10.23.85.234:7077`。
 
 ### 运行模式
 
