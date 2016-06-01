@@ -259,6 +259,8 @@ ZooKeeper 的高可用性实现方式。
 
 ## Spark on Mesos
 
+上面介绍了 Spark 以独立的方式搭建集群，Spark 还可以和 Mesos 结合，运行在 Mesos 集群之上。
+
 Spark 最早出现是在 Mesos 的论文里，作为一个运行在 Mesos 之上的框架，
 用来证明 Mesos 是一种可以有效管理集群，且提高集群综合利用率的方案。
 所以，不言而喻，Spark 可以运行在 Mesos 之上。
@@ -275,22 +277,21 @@ Spark 可以以两种方式运行在 Mesos 之上：
 
 这里只介绍 Cluster 模式。
 
-FIXME: spark 1.5.2 文档中是需要 Mesos 0.21.0，不确定是否和 Mesos 0.25.0
-兼容，可能要重新编译一次。
-
-首先，假设 Mesos 线上服务为
-`zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos`。
-
 ### 启动 Spark Scheduler
 
-假设在 10.23.85.234 上启动 Spark Scheduler，它可以通过 Spark 二进制发行包中的
-`sbin/start-mesos-dispatcher.sh` 脚本来启动，命令如下：
+假设 Mesos 线上服务为
+`zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos`。
+
+将 spark-1.5.2-bin-hadoop2.6.tgz 复制到 10.23.85.234 结点上，
+然后启动 Spark Scheduler，命令如下：
 
 ```
-$ ./sbin/start-mesos-dispatcher.sh mesos://zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos
+$ tar xzf spark-1.5.2-bin-hadoop2.6.tgz
+$ cd spark-1.5.2-bin-hadoop2.6
+$ ./sbin/start-mesos-dispatcher.sh --master mesos://zk://10.23.85.233:2181,10.23.85.234:2181,10.23.85.235:2181/mesos
 ```
 
-`start-mesos-dispatcher.sh` 脚本接受一个参数，指明 mesos
+`start-mesos-dispatcher.sh` 脚本接受一个参数 `--master`，指明 mesos
 集群的地址，这里的格式为 `mesos://<path>`，其中 `mesos://` 为地址前缀，`<path>`
 为 mesos 集群地址，这里可以是单个 mesos master 地址也可以是 mesos 集群在
 ZooKeeper 中的地址，这里我们使用了在上一章中搭建了 mesos 生产集群。
@@ -298,7 +299,11 @@ ZooKeeper 中的地址，这里我们使用了在上一章中搭建了 mesos 生
 启动了 Spark Scheduler 之后，可以从 Mesos master web 用户页面看到其已经注册了，
 如下图所示：
 
-![FIXME: spark scheduler]()
+![spark scheduler](assets/spark-framework-registered.png)
+
+用浏览器打开 `http://10.23.85.234:8081`，可以看到如下 spark 页面：
+
+![spark driver mesos](assets/spark-driver-mesos.png)
 
 现在，用户可以通过 Spark 客户端向 Spark Scheduler 提交任务了，只需要指明 Spark
 Scheduler 的服务地址即可，这里为：`mesos://10.23.85.234:7077`。

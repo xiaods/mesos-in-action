@@ -4,17 +4,17 @@
 
 本节将介绍怎样提交 Spark 任务，以及怎样将 Spark 任务运行在 Docker 中。
 
-Spark 提供了多种编程语言绑定，包括：Java, Scala, Python, R 等。介于目前 Java 在大数据领域的绝对优势，这里介绍怎样提交 Java 任务，另外，由于 Scala 也是一种 JVM 语言，提交 Scala 任务和提交 Java 任务的方式是相同的。
+Spark 提供了多种编程语言绑定，包括：Java, Scala, Python, R 等。介于目前 Java 在大数据领域的绝对优势，这里介绍怎样提交 Java 任务，另外，由于 Scala 也是一种 JVM 语言，提交 Scala 任务和提交 Java 任务的方式类似。
 
 ## spark-submit
 
-Spark 提供了一个工具用来提交任务到 Spark 服务中，即：spark-submit。spark-submit 支持许多参数来定制提交任务的行为，包括一些必要的参数和可选的参数。
+Spark 提供了一个工具用来提交任务到 Spark 服务中，即：spark-submit，在 `bin` 目录下。spark-submit 支持许多参数来定制提交任务的行为，包括一些必要的参数和可选的参数。
 
 `spark-submit --help` 能够打印出 spark-submit 的帮助文档，下面介绍一些常用的参数。
 
 参数 | 含义
 ------ | -----
-`--master MASTER_URL` | 指定 spark 服务地址，例如：mesos://192.168.1.102:7077
+`--master MASTER_URL` | 指定 spark 服务地址，例如：mesos://10.23.85.234:7077
 `--deploy-mode DEPLOY_MODE` | 指定提交任务的方式，合法值为 client 或者 cluster，默认为 client
 `--class CLASS_NAME` | 指定将要被运行的 Java/Scala class 名称
 `--name NAME` | 任务的名称
@@ -44,10 +44,10 @@ Spark 提供了一个工具用来提交任务到 Spark 服务中，即：spark-s
   - `--master`
   - `--class`
 
-以提交 SparkPi 这个示例应用为例，在 192.168.1.103 上 /home/spark/spark-1.5.2-bin-hadoop2.6/bin 目录中，执行下面的命令。
+以提交 SparkPi 这个示例应用为例，在 10.23.85.235 上 /home/spark/spark-1.5.2-bin-hadoop2.6/bin 目录中，执行下面的命令。
 
 ```
-$ ./spark-submit --master mesos://192.168.1.102:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
+$ ./spark-submit --master mesos://10.23.85.234:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
 FIXME: output
 ```
 
@@ -58,14 +58,14 @@ spark-submit 默认会以 client 的方式提交任务，所以 spark driver 会
 如果修改上面的命令，添加 `--deploy-mode cluster` 参数，那么任务将会以 cluster 的方式运行，如下所示：
 
 ```
-$ ./spark-submit --master mesos://192.168.1.102:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" --deploy-mode cluster ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
+$ ./spark-submit --master mesos://10.23.85.234:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" --deploy-mode cluster ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
 FIXME: output
 ```
 
 通常来说，对于运行在 Mesos 上的 Spark 任务，我们都可以指定 executor 能够使用的资源上限，避免 spark 任务占用过多的资源，例如：
 
 ```
-$ ./spark-submit --master mesos://192.168.1.102:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" --deploy-mode cluster --total-executor-cores 10 ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
+$ ./spark-submit --master mesos://10.23.85.234:7077 --class org.apache.spark.examples.SparkPi --name "Spark PI example" --deploy-mode cluster --total-executor-cores 10 ../lib/spark-examples-1.5.2-hadoop2.6.0.jar 100
 FIXME: output
 ```
 
